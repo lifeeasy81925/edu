@@ -1,9 +1,0 @@
-login.php
-
-register.php         
-
-register_finish.php
-
-connect.9.php
-
-
