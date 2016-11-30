@@ -1,0 +1,30 @@
+<{php}>
+  global $xoopsDB,$xoopsTpl;
+
+  $my_menu=get_theme_menu_items(0);
+  $xoopsTpl->assign('menu_var',$my_menu);
+
+  //取得選單選項
+  function get_theme_menu_items($id=""){
+    global $xoopsDB,$xoopsTpl;
+    $sql="select menuid,itemname,itemurl,target,icon from ".$xoopsDB->prefix("tad_themes_menu")." where of_level='{$id}' and status='1' order by position";
+    $result = $xoopsDB->query($sql);
+    $have_popup=false;
+    if($result){
+      while(list($menuid,$itemname,$itemurl,$target,$icon)=$xoopsDB->fetchRow($result)){
+        if($target=="popup"){
+          $have_popup=true;
+        }
+        $my_menu[$menuid]['id']=$menuid;
+        $my_menu[$menuid]['title']=$itemname;
+        $my_menu[$menuid]['url']=$itemurl;
+        $my_menu[$menuid]['target']=$target;
+        $my_menu[$menuid]['icon']=$icon;
+        $my_menu[$menuid]['submenu']=get_theme_menu_items($menuid);
+      }
+    }
+
+    $xoopsTpl->assign('have_popup',$have_popup);
+    return $my_menu;
+  }
+<{/php}>

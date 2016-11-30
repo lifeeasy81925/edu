@@ -1,0 +1,454 @@
+<?php
+//  ------------------------------------------------------------------------ //
+// 本模組由 tad 製作
+// 製作日期：2008-06-25
+// $Id: function.php,v 1.1 2008/05/14 01:22:08 tad Exp $
+// ------------------------------------------------------------------------- //
+
+/*-----------引入檔案區--------------*/
+include "../../../include/cp_header.php";
+include "../function.php";
+include_once XOOPS_ROOT_PATH."/Frameworks/art/functions.php";
+include_once XOOPS_ROOT_PATH."/Frameworks/art/functions.admin.php";
+
+/*-----------function區--------------*/
+//tad_form_main編輯表單
+function tad_form_main_form($ofsn=""){
+	global $xoopsDB;
+	include_once(XOOPS_ROOT_PATH."/class/xoopsformloader.php");
+
+	//抓取預設值
+	if(!empty($ofsn)){
+		$DBV=get_tad_form_main($ofsn);
+	}else{
+		$DBV=array();
+	}
+
+	//預設值設定
+
+	$ofsn=(!isset($DBV['ofsn']))?"":$DBV['ofsn'];
+	$title=(!isset($DBV['title']))?"":$DBV['title'];
+	$start_date=(!isset($DBV['start_date']))?"":$DBV['start_date'];
+	$end_date=(!isset($DBV['end_date']))?"":$DBV['end_date'];
+	$content=(!isset($DBV['content']))?"":$DBV['content'];
+	$uid=(!isset($DBV['uid']))?"":$DBV['uid'];
+	$post_date=(!isset($DBV['post_date']))?"":$DBV['post_date'];
+	$enable=(!isset($DBV['enable']))?"":$DBV['enable'];
+	$sign_group=(!isset($DBV['sign_group']))?"":explode(",",$DBV['sign_group']);
+	$kind=(!isset($DBV['kind']))?"":$DBV['kind'];
+
+	$SelectGroup_name = new XoopsFormSelectGroup("", "sign_group", false,$sign_group, 5, true);
+	$SelectGroup_name->addOption("", _MA_TADFORM_ANONYMOUS, false);
+	$sign_group = $SelectGroup_name->render();
+
+	include(XOOPS_ROOT_PATH."/modules/tad_form/class/fckeditor/fckeditor.php") ;
+	$oFCKeditor = new FCKeditor('content') ;
+	$oFCKeditor->BasePath	= XOOPS_URL."/modules/tad_form/class/fckeditor/" ;
+	$oFCKeditor->Config['AutoDetectLanguage']=false;
+	$oFCKeditor->Config['DefaultLanguage']		= 'zh' ;
+	$oFCKeditor->ToolbarSet ='my';
+	$oFCKeditor->Width = '600' ;
+	$oFCKeditor->Height = '150' ;
+	$oFCKeditor->Value =$content;
+	$editor=$oFCKeditor->CreateHtml() ;
+
+
+	$op=(empty($ofsn))?"insert_tad_form_main":"update_tad_form_main";
+	
+	$next=(empty($ofsn))?"<input type='checkbox' name='edit_option' value='1' checked>"._MA_TADFORM_EDIT_OPTION:"";
+
+	$kind_menu=kind_menu($kind);
+	
+	//$op="replace_tad_form_main";
+	$main="
+	<link type='text/css' rel='stylesheet' href='".XOOPS_URL."/modules/tad_form/class/formValidator/style/validator.css'>
+	<script src='".XOOPS_URL."/modules/tad_form/class/formValidator/jquery_last.js' type='text/javascript'></script>
+	<script src='".XOOPS_URL."/modules/tad_form/class/formValidator/formValidator.js' type='text/javascript' charset='UTF-8'></script>
+	<script src='".XOOPS_URL."/modules/tad_form/class/formValidator/formValidatorRegex.js' type='text/javascript' charset='UTF-8'></script>
+	<script src='".XOOPS_URL."/modules/tad_form/class/formValidator/DateTimeMask.js' language='javascript' type='text/javascript'></script>
+	<script type='text/javascript'>
+	$(document).ready(function(){
+	$.formValidator.initConfig({formid:'myForm',onerror:function(msg){alert(msg)}});
+
+
+
+	//「start_date」欄位檢查
+	$('#start_date').focus(function(){
+		WdatePicker({
+			skin:'whyGreen',
+			oncleared:function(){\$(this).blur();},
+			onpicked:function(){\$(this).blur();}
+		})
+	});
+
+	//「end_date」欄位檢查
+	$('#end_date').focus(function(){
+		WdatePicker({
+			skin:'whyGreen',
+			oncleared:function(){\$(this).blur();},
+			onpicked:function(){\$(this).blur();}
+		})
+	});
+	});
+	</script>
+	<script defer='defer' src='".XOOPS_URL."/modules/tad_form/class/formValidator/datepicker/WdatePicker.js' type='text/javascript'></script>
+  <form action='{$_SERVER['PHP_SELF']}' method='post' id='myForm' enctype='multipart/form-data'>
+  <table class='form_tbl'>
+	<tr><td class='title' nowrap>"._MA_TADFORM_TITLE."</td>
+	<td class='col' colspan=3><input type='text' name='title' size='30' value='{$title}' style='width:100%;'></td></tr>
+	<tr><td class='title' nowrap>"._MA_TADFORM_KIND."</td><td class='col'><select name='kind'>{$kind_menu}</select></td><td class='title' nowrap rowspan=3>"._MA_TADFORM_SIGN_GROUP."</td>
+	<td class='col' rowspan=3>{$sign_group}</td></tr>
+	<tr>
+	<td class='title' nowrap>"._MA_TADFORM_START_DATE."</td>
+	<td class='col'><input type='text' name='start_date' id='start_date' value='$start_date'></td></tr>
+	<tr><td class='title' nowrap>"._MA_TADFORM_END_DATE."</td>
+	<td class='col'><input type='text' name='end_date' id='end_date' value='$end_date'></td></tr>
+	
+	<tr><td class='title' nowrap>"._MA_TADFORM_CONTENT."</td>
+	<td class='col' colspan=3>$editor</td></tr>
+
+  <tr><td class='bar' colspan='4'>
+	<input type='hidden' name='enable' value='{$enable}'>
+	<input type='hidden' name='ofsn' value='{$ofsn}'>
+  <input type='hidden' name='op' value='{$op}'>
+  
+  $next
+  <input type='submit' value='"._MA_SAVE."'></td></tr>
+  </table>
+  </form>";
+
+	$main=div_3d(_MA_INPUT_FORM,$main);
+
+	return $main;
+}
+
+
+//表單用途
+function kind_menu($db_kind=""){
+	$kind_array['application']=_MA_TADFORM_KIND1;
+	$kind_array['examination']=_MA_TADFORM_KIND2;
+	$opt="<option value=''>"._MA_TADFORM_KIND0."</option>";
+	foreach($kind_array as $kind=>$kind_txt){
+		$selected=($db_kind==$kind)?"selected":"";
+		$opt.="<option value='$kind' $selected>$kind_txt</option>";
+	}
+	return $opt;
+}
+
+//新增資料到tad_form_main中
+function insert_tad_form_main(){
+	global $xoopsDB,$xoopsUser;
+	$uid=$xoopsUser->getVar('uid');
+	$sign_group=(in_array("",$_POST['sign_group']))?"":implode(",",$_POST['sign_group']);
+	//$now=date("Y-m-d H:i:s" , xoops_getUserTimestamp(time()));
+	
+	$sql = "insert into ".$xoopsDB->prefix("tad_form_main")." (`title`,`start_date`,`end_date`,`content`,`uid`,`post_date`,`enable`,`sign_group`,`kind`) values('{$_POST['title']}','{$_POST['start_date']}','{$_POST['end_date']}','{$_POST['content']}','{$uid}',now(),'{$_POST['enable']}','{$sign_group}','{$_POST['kind']}')";
+	$xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
+	//取得最後新增資料的流水編號
+	$ofsn=$xoopsDB->getInsertId();
+	return $ofsn;
+}
+
+//更新tad_form_main某一筆資料
+function update_tad_form_main($ofsn=""){
+	global $xoopsDB;
+	$sign_group=(in_array("",$_POST['sign_group']))?"":implode(",",$_POST['sign_group']);
+	//$now=date("Y-m-d H:i:s" , xoops_getUserTimestamp(time()));
+	$sql = "update ".$xoopsDB->prefix("tad_form_main")." set  `title` = '{$_POST['title']}', `start_date` = '{$_POST['start_date']}', `end_date` = '{$_POST['end_date']}', `content` = '{$_POST['content']}', `post_date` = now(), `enable` = '{$_POST['enable']}', `sign_group` = '{$sign_group}', `kind` = '{$_POST['kind']}' where ofsn='$ofsn'";
+	$xoopsDB->queryF($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
+	return $ofsn;
+}
+
+
+
+
+/*************************************欄位部份****************************************/
+
+
+
+
+//tad_form_col編輯表單
+function tad_form_col_form($the_ofsn="",$csn="",$mode=""){
+	global $xoopsDB;
+	include_once(XOOPS_ROOT_PATH."/class/xoopsformloader.php");
+
+	//抓取預設值
+	if(!empty($csn)){
+		$DBV=get_tad_form_col($csn);
+	}else{
+		$DBV=array();
+	}
+
+	$form=get_tad_form_main($the_ofsn);
+
+	//預設值設定
+
+	$csn=(!isset($DBV['csn']))?"":$DBV['csn'];
+	$ofsn=(!isset($DBV['ofsn']))?$the_ofsn:$DBV['ofsn'];
+	$title=(!isset($DBV['title']))?"":$DBV['title'];
+	$descript=(!isset($DBV['descript']))?"":$DBV['descript'];
+	$kind=(!isset($DBV['kind']))?"":$DBV['kind'];
+	$size=(!isset($DBV['size']))?"":$DBV['size'];
+	$val=(!isset($DBV['val']))?"":$DBV['val'];
+	$chk=(!isset($DBV['chk']))?"":$DBV['chk'];
+	$func=(!isset($DBV['func']))?"":$DBV['func'];
+	$sort=(!isset($DBV['sort']))?get_max_sort($the_ofsn):$DBV['sort'];
+
+	$op=(empty($csn))?"insert_tad_form_col":"update_tad_form_col";
+	//$op="replace_tad_form_col";
+	
+	$end_txt=(!empty($mode))?"<input type='hidden' name='mode' value='$mode'>":"<input type='checkbox' name='end' value='1'>"._MA_TADFORM_COL_END."";
+	
+	$main="
+  <form action='{$_SERVER['PHP_SELF']}' method='post' id='myForm' enctype='multipart/form-data'>
+  <table class='form_tbl'>
+
+	<input type='hidden' name='csn' value='{$csn}'>
+	<input type='hidden' name='ofsn' value='{$ofsn}'>
+	<tr><td class='title' nowrap>"._MA_TADFORM_COL_TITLE."</td>
+	<td class='col' colspan=3><input type='text' name='title' size='70' value='{$title}'></td></tr>
+	<tr><td class='title' nowrap>"._MA_TADFORM_COL_DESCRIPT."</td>
+	<td class='col' colspan=3><textarea name='descript' cols='50' rows=4>{$descript}</textarea></td></tr>
+	<tr><td class='title' nowrap>"._MA_TADFORM_COL_KIND."</td>
+	<td class='col'><select name='kind' size=1>
+		<option value='text' ".chk($kind,'text','1','selected').">"._MA_TADFORM_COL_TEXT."</option>
+		<option value='radio' ".chk($kind,'radio','0','selected').">"._MA_TADFORM_COL_RADIO."</option>
+		<option value='checkbox' ".chk($kind,'checkbox','0','selected').">"._MA_TADFORM_COL_CHECKBOX."</option>
+		<option value='select' ".chk($kind,'select','0','selected').">"._MA_TADFORM_COL_SELECT."</option>
+		<option value='textarea' ".chk($kind,'textarea','0','selected').">"._MA_TADFORM_COL_TEXTAREA."</option>
+		<option value='fck' ".chk($kind,'fck','0','selected').">"._MA_TADFORM_COL_FCK."</option>
+	</select></td>
+	<td class='title' nowrap>"._MA_TADFORM_COL_VAL."</td>
+	<td class='col'><input type='text' name='val' size='10' value='{$val}'>
+	</tr>
+	
+	
+	<tr><td class='title' nowrap>"._MA_TADFORM_COL_SIZE."</td>
+	<td class='col'><input type='text' name='size' size='40' value='{$size}'></td></td>
+
+	<td class='title' nowrap>"._MA_TADFORM_COL_CHK."</td>
+	<td class='col'>
+	<input type='radio' name='chk' value='1' ".chk($chk,'1').">"._MA_TADFORM_YES."
+	<input type='radio' name='chk' value='0' ".chk($chk,'0').">"._MA_TADFORM_NO."</td></tr>
+	
+	<tr><td class='title' nowrap>"._MA_TADFORM_COL_SORT."</td>
+	<td class='col'><input type='text' name='sort' size='4' value='{$sort}'></td>
+	<td class='title' nowrap>"._MA_TADFORM_COL_FUNC."</td>
+	<td class='col'><select name='func' size=1>
+		<option value='' ".chk($func,'','1','selected').">"._MA_TADFORM_COL_NO_FUN."</option>
+		<option value='sum' ".chk($func,'sum','0','selected').">"._MA_TADFORM_COL_SUM."</option>
+		<option value='avg' ".chk($func,'avg','0','selected').">"._MA_TADFORM_COL_AVG."</option>
+		<option value='count' ".chk($func,'count','0','selected').">"._MA_TADFORM_COL_COUNT."</option>
+	</select></td></tr>
+	
+  <tr><td class='bar' colspan='4'>
+  <input type='hidden' name='op' value='{$op}'>
+  $end_txt
+  
+  <input type='submit' value='"._MA_SAVE."'></td></tr>
+  <tr><td  colspan='4'>"._MA_TADFORM_COL_NOTE."</td></tr>
+  </table>
+  </form>";
+
+	$main=div_3d($form['title']._MA_INPUT_COL_FORM,$main);
+
+	return $main;
+}
+
+
+//自動取得排序
+function get_max_sort($ofsn=""){
+	global $xoopsDB;
+	$sql = "select max(sort) from ".$xoopsDB->prefix("tad_form_col")." where ofsn={$ofsn}";
+	$result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error()."<br>$sql");
+	list($sort)=$xoopsDB->fetchRow($result);
+	return ++$sort;
+
+}
+
+//新增資料到tad_form_col中
+function insert_tad_form_col(){
+	global $xoopsDB;
+	$sql = "insert into ".$xoopsDB->prefix("tad_form_col")." (`ofsn`,`title`,`descript`,`kind`,`size`,`val`,`chk`,`func`,`sort`) values('{$_POST['ofsn']}','{$_POST['title']}','{$_POST['descript']}','{$_POST['kind']}','{$_POST['size']}','{$_POST['val']}','{$_POST['chk']}','{$_POST['func']}','{$_POST['sort']}')";
+	$xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
+	//取得最後新增資料的流水編號
+	$csn=$xoopsDB->getInsertId();
+	return $csn;
+}
+
+
+//以流水號取得某筆tad_form_col資料
+function get_tad_form_col($csn=""){
+	global $xoopsDB;
+	if(empty($csn))return;
+	$sql = "select * from ".$xoopsDB->prefix("tad_form_col")." where csn='$csn'";
+	$result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
+	$data=$xoopsDB->fetchArray($result);
+	return $data;
+}
+
+//更新tad_form_col某一筆資料
+function update_tad_form_col($csn=""){
+	global $xoopsDB;
+	$sql = "update ".$xoopsDB->prefix("tad_form_col")." set  `ofsn` = '{$_POST['ofsn']}', `title` = '{$_POST['title']}', `descript` = '{$_POST['descript']}', `kind` = '{$_POST['kind']}', `size` = '{$_POST['size']}', `val` = '{$_POST['val']}', `chk` = '{$_POST['chk']}', `func` = '{$_POST['func']}', `sort` = '{$_POST['sort']}' where csn='$csn'";
+	$xoopsDB->queryF($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
+	return $csn;
+}
+
+//刪除tad_form_col某筆資料資料
+function delete_tad_form_col($csn=""){
+	global $xoopsDB;
+	$sql = "delete from ".$xoopsDB->prefix("tad_form_col")." where csn='$csn'";
+	$xoopsDB->queryF($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
+}
+
+//編輯題目
+function edit_all_opt($ofsn=""){
+	global $xoopsDB,$col_type;
+
+	$sql = "select csn,title,descript,kind,size,val,chk,func,sort from ".$xoopsDB->prefix("tad_form_col")." where ofsn='{$ofsn}' order by sort";
+	$result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
+	$i=1;
+	$main="
+
+	<script>
+	function delete_tad_col_func(csn){
+		var sure = window.confirm('"._BP_DEL_CHK."');
+		if (!sure)	return;
+		location.href=\"{$_SERVER['PHP_SELF']}?op=delete_tad_form_col&ofsn=$ofsn&csn=\" + csn;
+	}
+	</script>
+	<form action='{$_SERVER['PHP_SELF']}' method='post' id='myForm' enctype='multipart/form-data'>
+	<table id='tbl'>
+	<tr>
+	<th>"._MA_TADFORM_COL_SORT."</th>
+	<th>"._MA_TADFORM_COL_TITLE." ("._MA_TADFORM_COL_DESCRIPT.")</th>
+	<th>"._MA_TADFORM_COL_KIND."</th>
+	<th>"._MA_TADFORM_COL_SIZE."</th>
+	<th>"._MA_TADFORM_COL_VAL."</th>
+	<th>"._MA_TADFORM_COL_CHK."</th>
+	<th>"._MA_TADFORM_COL_FUNC."</th>
+	<th>"._BP_FUNCTION."</th>
+	</tr>";
+	while(list($csn,$title,$descript,$kind,$size,$val,$chk,$func,$sort)=$xoopsDB->fetchRow($result)){
+	  $descript=(empty($descript))?"":"({$descript})";
+	  $main.="<tr>
+		<td><input type='text' name='sort[$csn]' value='{$sort}' size=3></td>
+		<td><span class='question'><b>$title</b></span><br><span class='note'>{$descript}</span></td>
+		<td>{$col_type[$kind]}</td>
+		<td>".str_replace(";","<br>",$size)."</td>
+		<td>$val</td>
+		<td>$chk</td>
+		<td>$func</td>
+		<td><a href='add.php?op=edit_opt&ofsn=$ofsn&csn=$csn&mode=modify' style='color:#0066CC;'>"._BP_EDIT."</a> |
+		<a href=\"javascript:delete_tad_col_func($csn);\" style='color:red;'>"._BP_DEL."</a>
+		
+		</td>
+		</tr>";
+	}
+	$main.="</table>
+
+	<input type='hidden' name='ofsn' value='$ofsn'>
+	<input type='hidden' name='op' value='update_sort'>
+	<input type='button' value='"._MA_TADFORM_ADD_COL."' onClick=\"window.location.href='add.php?op=edit_opt&ofsn={$ofsn}'\" style='font-size:16px;padding:4px;float:right;'>
+	<input type='submit' value='"._MA_SAVE."' style='font-size:16px;padding:4px;'>
+	</form>
+	";
+	
+	$main=div_3d("",$main,"corners");
+	return $main;
+}
+
+//更新排序
+function update_sort(){
+	global $xoopsDB;
+	foreach($_POST['sort'] as $csn=>$sort){
+		$sql = "update ".$xoopsDB->prefix("tad_form_col")." set sort='{$sort}' where csn='{$csn}'";
+		$result = $xoopsDB->queryF($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
+	}
+}
+/*-----------執行動作判斷區----------*/
+$op = (!isset($_REQUEST['op']))? "main":$_REQUEST['op'];
+
+switch($op){
+
+	case "update_sort":
+	update_sort();
+	header("location: {$_SERVER['PHP_SELF']}?op=edit_all_opt&ofsn={$_POST['ofsn']}");
+	break;
+
+	//新增資料
+	case "insert_tad_form_main":
+	$ofsn=insert_tad_form_main();
+	header("location: {$_SERVER['PHP_SELF']}?op=edit_opt&ofsn=$ofsn");
+	break;
+	
+	//更新資料
+	case "update_tad_form_main";
+	$ofsn=update_tad_form_main($_POST['ofsn']);
+	if($_POST['edit_option']=='1'){
+		header("location: {$_SERVER['PHP_SELF']}?op=edit_opt&ofsn=$ofsn");
+	}else{
+		header("location: index.php");
+	}
+	break;
+
+	//輸入表格
+	case "edit_opt";
+	$main=tad_form_col_form($_GET['ofsn'],$_GET['csn'],$_GET['mode']);
+	break;
+
+
+	//刪除欄位
+	case "delete_tad_form_col";
+	delete_tad_form_col($_GET['csn']);
+	header("location: {$_SERVER['PHP_SELF']}?op=edit_all_opt&ofsn={$_GET['ofsn']}");
+	break;
+
+
+	//編輯所有題目
+	case "edit_all_opt";
+	$main=edit_all_opt($_GET['ofsn']);
+	break;
+
+	//更新資料
+	case "update_tad_form_col";
+	update_tad_form_col($_POST['csn']);
+	if($_POST['end']=='1'){
+		header("location: index.php");
+	}elseif($_POST['mode']=='update'){
+	  header("location: ../index.php?op=sign&ofsn={$_POST['ofsn']}");
+	}elseif($_POST['mode']=='modify'){
+	  header("location: add.php?op=edit_all_opt&ofsn={$_POST['ofsn']}");
+	}else{
+    header("location: {$_SERVER['PHP_SELF']}?op=edit_opt&ofsn={$_POST['ofsn']}");
+	}
+	break;
+
+
+	//新增欄位資料
+	case "insert_tad_form_col":
+	insert_tad_form_col();
+	if($_POST['end']=='1'){
+	  set_form_status($_POST['ofsn'],1);
+		header("location: index.php");
+	}else{
+    header("location: {$_SERVER['PHP_SELF']}?op=edit_opt&ofsn={$_POST['ofsn']}");
+	}
+	break;
+	
+
+	//預設動作
+	default:
+	$main=tad_form_main_form($_GET['ofsn']);
+	break;
+}
+
+/*-----------秀出結果區--------------*/
+xoops_cp_header();
+echo "<link rel='stylesheet' type='text/css' media='screen' href='../module.css' />";
+loadModuleAdminMenu(1);
+echo $main;
+xoops_cp_footer();
+
+?>

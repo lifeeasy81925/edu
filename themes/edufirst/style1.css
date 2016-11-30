@@ -1,0 +1,122 @@
+/* --- 項目符號與標題---  */
+h1 {font-size:1.4em;}
+h2 {font-size:1.3em;}
+h3 {font-size:1.2em;}
+h4 {font-size:1.1em;}
+h5 {font-size:1em;}
+ul { margin: 2px; padding: 2px; list-style: disc inside; text-align: left;}
+ol { margin: 2px; padding: 2px; list-style: decimal inside; text-align: left;}
+li { margin-left: 2px; color: #2A75C5;}
+
+
+/* --- 使用者選單---  */
+#usermenu { font-size : .9em;}
+#usermenu a {
+  display: block;
+  border-bottom: 1px dotted gray;
+  margin: 6px 2px;
+  text-decoration: none;
+  color: rgb(0,51,102);}
+#usermenu a:hover {
+  background-position: 0px;
+  background-repeat: no-repeat;
+  color: rgb(255,0,51);
+}
+#usermenu a.menuTop {}
+#usermenu a.highlight {background-color: #fcc;}
+
+
+/* --- 主選單---  */
+#mainmenu   { font-size : .9em;}
+#mainmenu a { 
+display: block;
+  text-decoration: none;
+  color: rgb(0,51,102);
+  }
+#mainmenu a:hover {
+  background-position: 0px;
+  background-repeat: no-repeat;
+  color: rgb(255,0,51);
+}
+#mainmenu a.menuTop  {padding-left: 5px; padding-top: 2px;border-top: 1px solid #FFFFFF; border-right: 1px solid #FFFFFF; border-bottom: 1px dotted gray; border-left: 1px solid #FFFFFF;}    
+#mainmenu a.menuMain {padding-left: 5px; padding-top: 5px;border-right: 1px solid #FFFFFF; border-bottom: 1px dotted gray; border-left: 1px solid #FFFFFF;}
+#mainmenu a.menuSub {padding-left: 11px; padding-top: 3px;border-right: 1px solid #FFFFFF; border-bottom: 1px dotted gray; border-left: 1px solid #FFFFFF;}
+/*#mainmenu a.maincurrent {background-color:transparent; color:#ff9900;} .*/ 
+
+
+
+/* --- 表格框線---  */
+caption {font-weight: bold;}
+th, thead {background-color: #2A75C5; padding : 2px; color: #fff; vertical-align : middle;}
+.outer {border: 1px solid #c0c0c0;}
+.head {background-color: #c2cdd6; padding: 5px; font-weight: bold;}
+.even {background-color: #dee3e7; padding: 5px;}
+.odd {background-color: #E9E9E9; padding: 5px;}
+.foot {background-color: #c2cdd6; padding: 5px; font-weight: bold;}
+tr.even td {background-color: #dee3e7; padding: 5px;}
+tr.odd td {background-color: #E9E9E9; padding: 5px;}
+tr.foot td {background-color: #c2cdd6; padding: 5px; color:inherit; font-weight: bold;}
+
+
+
+#leftcolumn {
+background-color: #FFFFFF;
+width: 175px;
+border-right: 1px solid #ccc;
+font-size:1em;
+}
+#leftcolumn th {background-color: #2A75C5; color: #fff; vertical-align: middle;}
+#leftcolumn .blockTitle {
+border-bottom: 1px dotted gray;
+color: #009900;
+font-weight: bold;
+padding: 5px 3px 2px 2px;
+text-align: left;
+text-shadow: #999999 1px 1px 0px;
+}
+#leftcolumn .blockContent {padding: 3px; line-height: 1.2em;}
+
+
+#centercolumn {width: 620px;font-size: 1em; padding: 0 0 0 1px;}
+#centercolumn th {background-color: #2A75C5; color: #fff; vertical-align: middle;}
+#centerCcolumn, #bottomCcolumn {padding: 0 3px 1px 3px;}
+#centerCcolumn .blockTitle, #bottomCcolumn .blockTitle {padding: 3px; color: #2A75C5; font-weight: bold; margin-top: 0; margin-right: 0;  margin-left: 0; font-size:1.1em;}
+#centerCcolumn .blockContent, #bottomCcolumn .blockContent {border-left: 1px solid #ccc; border-right: 1px solid #ccc; border-bottom: 1px solid #ddd; padding: 3px; margin-right: 0;  margin-left: 0; margin-bottom: 2px; line-height: 1.2em;}
+#centerLcolumn, #bottomLcolumn, #centerRcolumn, #bottomRcolumn {
+        width: 50%; padding: 0 3px 0 0;
+}
+#centerLcolumn .blockTitle, #bottomLcolumn .blockTitle, #centerRcolumn .blockTitle, #bottomRcolumn .blockTitle {
+        padding: 3px; color: #2A75C5; font-weight: bold; margin-top: 0;
+}
+#centerLcolumn .blockContent, #centerRcolumn .blockContent, #bottomLcolumn .blockContent, #bottomRcolumn .blockContent {
+        border-left: 1px solid #ccc; border-right: 1px solid #ccc; border-bottom: 1px solid #ddd; padding: 3px; margin-left: 2px; margin-right: 3px; margin-bottom: 2px; line-height: 1.2em;
+}
+
+/* --- 內容 ---  */
+#content {text-align: left; padding: 8px;}
+
+#content a { 
+display: inline;
+  text-decoration: none;
+  color: rgb(0,51,102);
+  }
+ 
+#content a:hover {
+  background-position: 0px;
+  background-repeat: no-repeat;
+  color: rgb(255,0,51);
+}
+#rightcolumn {background-color: #FFFFFF;width: 175px; border-left: 1px solid #ccc; font-size:1em;}
+#rightcolumn th {background-color: #2A75C5; color: #fff; vertical-align: middle;}
+#rightcolumn .blockTitle {
+border-bottom: 1px dotted gray;
+border-left: 8px solid gray;
+color: #009900;
+font-weight: bold;
+padding: 2px 3px 2px 2px;
+text-align: left;
+}
+#rightcolumn .blockContent {padding: 3px; line-height: 1.2em;}
+
+
+

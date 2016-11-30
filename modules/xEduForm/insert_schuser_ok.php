@@ -1,0 +1,150 @@
+<?php
+include "../../mainfile.php";
+include "../../header.php";
+session_start(); 
+$username = $xoopsUser->getVar('uname');
+  global $xoopsDB;
+  $sql = "select * from " . $xoopsDB->prefix('city') . " where `cityid` = '$username'";
+  $result_city = $xoopsDB -> query($sql) or die($sql);
+
+$id = $_POST['id'];
+$cityname = $_POST['cityname'];
+$schoolname = $_POST['schoolname'];
+$class = $_POST['class'];
+echo $id."-";
+echo $cityname."-";
+echo $schoolname."-";
+echo $class;
+
+//新增資料
+if($class == '1' ){
+	$str1="insert into 100element_allowance (account) values('$id')";
+		mysql_query($str1);
+	$str2="insert into 100element_allowance1 (account) values('$id')";
+		mysql_query($str2);
+    $str3="insert into 100element_allowance2 (account) values('$id')";
+		mysql_query($str3);
+	$str4="insert into 100element_allowance3 (account) values('$id')";
+		mysql_query($str4);
+    $str5="insert into 100element_allowance4 (account) values('$id')";
+		mysql_query($str5);
+	$str6="insert into 100element_allowance5 (account) values('$id')";
+		mysql_query($str6);
+    $str7="insert into 100element_allowance6 (account) values('$id')";
+		mysql_query($str7);
+	$str8="insert into 100element_allowance7 (account) values('$id')";
+		mysql_query($str8);
+	$str9="insert into 100element_allowance8 (account) values('$id')";
+		mysql_query($str9);
+	$str10="insert into 100element_basedata (account,school,city) values('$id','$schoolname','$cityname')";
+		mysql_query($str10);
+	$str11="insert into 100element_examine_a1 (account) values('$id')";
+		mysql_query($str11);
+	$str12="insert into 100element_examine_a2 (account) values('$id')";
+		mysql_query($str12);
+	$str13="insert into 100element_examine_a3 (account) values('$id')";
+		mysql_query($str13);
+	$str14="insert into 100element_examine_a4 (account) values('$id')";
+		mysql_query($str14);
+	$str15="insert into 100element_examine_a5 (account) values('$id')";
+		mysql_query($str15);
+	$str16="insert into 100element_examine_a6 (account) values('$id')";
+		mysql_query($str16);
+	$str17="insert into 100element_examine_a7 (account) values('$id')";
+		mysql_query($str17);
+	$str18="insert into 100element_examine_a8 (account) values('$id')";
+		mysql_query($str18);
+	$str19="insert into 100element_examine_education (account,school) values('$id','$schoolname')";
+		mysql_query($str19);
+	$str20="insert into 100element_examine_money (account,school) values('$id','$schoolname')";
+		mysql_query($str20);
+	$str21="insert into 100element_money (account,school) values('$id','$schoolname')";
+		mysql_query($str21);
+	$str22="insert into 100element_point (account) values('$id')";
+		mysql_query($str22);
+	$str23="insert into 100element_point6 (account) values('$id')";
+		mysql_query($str23);
+	$str24="insert into 100element_point345 (account) values('$id')";
+		mysql_query($str24);
+	$str25="insert into 100element_point12 (account) values('$id')";
+		mysql_query($str25);
+	$str26="insert into 100element_upload_name (account) values('$id')";
+		mysql_query($str26);
+	$str27="insert into 100suggestion (id,school_name) values('$id','$schoolname')";
+		mysql_query($str27);	
+	$str28="insert into edu_school (account,city,school,class) values('$id','$cityname','$schoolname','1')";
+		mysql_query($str28);
+	$str29="insert into school_checkdate (account,start_date,end_date,open) values('$id','2011-10-11','2011-11-17','1')";
+	//	mysql_query($str29);
+  }
+  else{
+  	$str1="insert into 100junior_allowance (account) values('$id')";
+		mysql_query($str1);
+	$str2="insert into 100junior_allowance1 (account) values('$id')";
+		mysql_query($str2);
+    $str3="insert into 100junior_allowance2 (account) values('$id')";
+		mysql_query($str3);
+	$str4="insert into 100junior_allowance3 (account) values('$id')";
+		mysql_query($str4);
+    $str5="insert into 100junior_allowance4 (account) values('$id')";
+		mysql_query($str5);
+	$str6="insert into 100junior_allowance5 (account) values('$id')";
+		mysql_query($str6);
+    $str7="insert into 100junior_allowance6 (account) values('$id')";
+		mysql_query($str7);
+	$str8="insert into 100junior_allowance7 (account) values('$id')";
+		mysql_query($str8);
+	$str9="insert into 100junior_allowance8 (account) values('$id')";
+		mysql_query($str9);
+	$str10="insert into 100junior_basedata (account,school,city) values('$id','$schoolname','$cityname')";
+		mysql_query($str10);
+	$str11="insert into 100junior_examine_a1 (account) values('$id')";
+		mysql_query($str11);
+	$str12="insert into 100junior_examine_a2 (account) values('$id')";
+		mysql_query($str12);
+	$str13="insert into 100junior_examine_a3 (account) values('$id')";
+		mysql_query($str13);
+	$str14="insert into 100junior_examine_a4 (account) values('$id')";
+		mysql_query($str14);
+	$str15="insert into 100junior_examine_a5 (account) values('$id')";
+		mysql_query($str15);
+	$str16="insert into 100junior_examine_a6 (account) values('$id')";
+		mysql_query($str16);
+	$str17="insert into 100junior_examine_a7 (account) values('$id')";
+		mysql_query($str17);
+	$str18="insert into 100junior_examine_a8 (account) values('$id')";
+		mysql_query($str18);
+	$str19="insert into 100junior_examine_education (account,school) values('$id','$schoolname')";
+		mysql_query($str19);
+	$str20="insert into 100junior_examine_money (account,school) values('$id','$schoolname')";
+		mysql_query($str20);
+	$str21="insert into 100junior_money (account,school) values('$id','$schoolname')";
+		mysql_query($str21);
+	$str22="insert into 100junior_point (account) values('$id')";
+		mysql_query($str22);
+	$str23="insert into 100junior_point6 (account) values('$id')";
+		mysql_query($str23);
+	$str24="insert into 100junior_point345 (account) values('$id')";
+		mysql_query($str24);
+	$str25="insert into 100junior_point12 (account) values('$id')";
+		mysql_query($str25);
+	$str26="insert into 100junior_upload_name (account) values('$id')";
+		mysql_query($str26);
+	$str27="insert into 100suggestion (id,school_name) values('$id','$schoolname')";
+		mysql_query($str27);	
+	$str28="insert into edu_school (account,city,school,class) values('$id','$cityname','$schoolname','1')";
+		mysql_query($str28);
+	$str29="insert into school_checkdate (account,start_date,end_date,open) values('$id','2011-10-11','2011-11-17','1')";
+	//	mysql_query($str29);
+  }
+
+	if(mysql_query($str29)){
+	echo '寫入成功!';
+    echo '<meta http-equiv=REFRESH CONTENT=3;url=insert_schuser.php>';
+}
+else{
+	echo '新增失敗!';
+    echo '<meta http-equiv=REFRESH CONTENT=3;url=insert_schuser.php>';
+}
+include "../../footer.php";
+?>

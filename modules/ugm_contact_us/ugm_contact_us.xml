@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<Module>
+  <ModulePrefs title="__UP_title__"
+  directory_title="ugm_contact_us"
+  description="ugm_contact_us"
+  author="ugm" author_email="tawan158@gmail.com"
+  author_link="http://www.ugm.com.tw"
+  width="728" 
+  height="700" 
+  scrolling="false"
+  category="tool"> 
+  </ModulePrefs>
+  <UserPref name="title" display_name="title" default_value="ugm_contact_us"/> 
+  <UserPref name="iframeURL" display_name="iframeURL" default_value="http://網址/modules/ugm_contact_us/ugm_contact_us.php"/>  
+  <UserPref name="scrolling" display_name="scrolling" default_value="yes" datatype="enum">
+    <EnumValue value="yes" />
+    <EnumValue value="no" />
+  </UserPref>
+  <Content type="html">
+   <![CDATA[
+      <iframe height="100%" width="100%" scrolling="__UP_scrolling__" src="__UP_iframeURL__">
+   ]]>
+  </Content> 
+</Module>

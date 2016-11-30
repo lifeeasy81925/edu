@@ -1,0 +1,65 @@
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svnroot/xoops/!svn/ver/3508/XoopsModules/tad_form/trunk/class/fckeditor/editor/plugins/ImageManager/Classes
+END
+ImageEditor.php
+K 25
+svn:wc:ra_dav:version-url
+V 124
+/svnroot/xoops/!svn/ver/3508/XoopsModules/tad_form/trunk/class/fckeditor/editor/plugins/ImageManager/Classes/ImageEditor.php
+END
+GD.php
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/svnroot/xoops/!svn/ver/3508/XoopsModules/tad_form/trunk/class/fckeditor/editor/plugins/ImageManager/Classes/GD.php
+END
+Transform.php
+K 25
+svn:wc:ra_dav:version-url
+V 122
+/svnroot/xoops/!svn/ver/3508/XoopsModules/tad_form/trunk/class/fckeditor/editor/plugins/ImageManager/Classes/Transform.php
+END
+ImageManager.php
+K 25
+svn:wc:ra_dav:version-url
+V 125
+/svnroot/xoops/!svn/ver/3508/XoopsModules/tad_form/trunk/class/fckeditor/editor/plugins/ImageManager/Classes/ImageManager.php
+END
+Files.php
+K 25
+svn:wc:ra_dav:version-url
+V 118
+/svnroot/xoops/!svn/ver/3508/XoopsModules/tad_form/trunk/class/fckeditor/editor/plugins/ImageManager/Classes/Files.php
+END
+Thumbnail.php
+K 25
+svn:wc:ra_dav:version-url
+V 122
+/svnroot/xoops/!svn/ver/3508/XoopsModules/tad_form/trunk/class/fckeditor/editor/plugins/ImageManager/Classes/Thumbnail.php
+END
+package.xml
+K 25
+svn:wc:ra_dav:version-url
+V 120
+/svnroot/xoops/!svn/ver/3508/XoopsModules/tad_form/trunk/class/fckeditor/editor/plugins/ImageManager/Classes/package.xml
+END
+IM.php
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/svnroot/xoops/!svn/ver/3508/XoopsModules/tad_form/trunk/class/fckeditor/editor/plugins/ImageManager/Classes/IM.php
+END
+NetPBM.php
+K 25
+svn:wc:ra_dav:version-url
+V 119
+/svnroot/xoops/!svn/ver/3508/XoopsModules/tad_form/trunk/class/fckeditor/editor/plugins/ImageManager/Classes/NetPBM.php
+END
+api.watermark.php
+K 25
+svn:wc:ra_dav:version-url
+V 126
+/svnroot/xoops/!svn/ver/3508/XoopsModules/tad_form/trunk/class/fckeditor/editor/plugins/ImageManager/Classes/api.watermark.php
+END
