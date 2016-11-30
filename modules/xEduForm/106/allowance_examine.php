@@ -245,14 +245,14 @@
 	{
 		for(i = 1; i <= 6; i++)
 		{
-			var tb_a = document.getElementById("tb_a" + i);
+			var = document.getElementById("tb_a" + i);
 
 			if(tb_a != null)
 			{
 				if(i == idx)
-					tb_a.style.display = "";
+					tb_a.style.display = "";	//顯示該審核項目的縣市
 				else
-					tb_a.style.display = "none";
+					tb_a.style.display = "none";	//隱藏該審核項目的縣市
 			}
 		}
 	}
