@@ -235,27 +235,27 @@
 		$student = $row['student'];
 
 		//總金額
-		$a1_money = ($row['a1_money'] == '')?'--':$row['a1_money']; //NULL則填入0
-		$a2_money = ($row['a2_money'] == '')?'--':$row['a2_money'];
-		$a3_money = ($row['a3_money'] == '')?'--':$row['a3_money'];
-		$a4_money = ($row['a4_money'] == '')?'--':$row['a4_money'];
-		$a5_money = ($row['a5_money'] == '')?'--':$row['a5_money'];
-		$a6_money = ($row['a6_money'] == '')?'--':$row['a6_money'];
+		$a1_money = ($row['a1_money'] == '')?0:$row['a1_money']; //NULL則填入0
+		$a2_money = ($row['a2_money'] == '')?0:$row['a2_money'];
+		$a3_money = ($row['a3_money'] == '')?0:$row['a3_money'];
+		$a4_money = ($row['a4_money'] == '')?0:$row['a4_money'];
+		$a5_money = ($row['a5_money'] == '')?0:$row['a5_money'];
+		$a6_money = ($row['a6_money'] == '')?0:$row['a6_money'];
 
-		$a2_money_ny1 = ($row['a2_money_ny1'] == '')?'--':$row['a2_money_ny1'];
-		$a2_money_ny2 = ($row['a2_money_ny2'] == '')?'--':$row['a2_money_ny2'];
-		$a4_money_ny1 = ($row['a4_money_ny1'] == '')?'--':$row['a4_money_ny1'];
-		$a4_money_ny2 = ($row['a4_money_ny2'] == '')?'--':$row['a4_money_ny2'];
+		$a2_money_ny1 = ($row['a2_money_ny1'] == '')?0:$row['a2_money_ny1'];
+		$a2_money_ny2 = ($row['a2_money_ny2'] == '')?0:$row['a2_money_ny2'];
+		$a4_money_ny1 = ($row['a4_money_ny1'] == '')?0:$row['a4_money_ny1'];
+		$a4_money_ny2 = ($row['a4_money_ny2'] == '')?0:$row['a4_money_ny2'];
 
-		$a2_city_money_ny1 = ($row['a2_city_money_ny1'] == '')?'--':$row['a2_city_money_ny1'];
-		$a2_city_money_ny2 = ($row['a2_city_money_ny2'] == '')?'--':$row['a2_city_money_ny2'];
-		$a4_city_money_ny1 = ($row['a4_city_money_ny1'] == '')?'--':$row['a4_city_money_ny1'];
-		$a4_city_money_ny2 = ($row['a4_city_money_ny2'] == '')?'--':$row['a4_city_money_ny2'];
+		$a2_city_money_ny1 = ($row['a2_city_money_ny1'] == '')?0:$row['a2_city_money_ny1'];
+		$a2_city_money_ny2 = ($row['a2_city_money_ny2'] == '')?0:$row['a2_city_money_ny2'];
+		$a4_city_money_ny1 = ($row['a4_city_money_ny1'] == '')?0:$row['a4_city_money_ny1'];
+		$a4_city_money_ny2 = ($row['a4_city_money_ny2'] == '')?0:$row['a4_city_money_ny2'];
 
-		$a2_edu_money_ny1 = ($row['a2_edu_money_ny1'] == '')?'--':$row['a2_edu_money_ny1'];
-		$a2_edu_money_ny2 = ($row['a2_edu_money_ny2'] == '')?'--':$row['a2_edu_money_ny2'];
-		$a4_edu_money_ny1 = ($row['a4_edu_money_ny1'] == '')?'--':$row['a4_edu_money_ny1'];
-		$a4_edu_money_ny2 = ($row['a4_edu_money_ny2'] == '')?'--':$row['a4_edu_money_ny2'];
+		$a2_edu_money_ny1 = ($row['a2_edu_money_ny1'] == '')?0:$row['a2_edu_money_ny1'];
+		$a2_edu_money_ny2 = ($row['a2_edu_money_ny2'] == '')?0:$row['a2_edu_money_ny2'];
+		$a4_edu_money_ny1 = ($row['a4_edu_money_ny1'] == '')?0:$row['a4_edu_money_ny1'];
+		$a4_edu_money_ny2 = ($row['a4_edu_money_ny2'] == '')?0:$row['a4_edu_money_ny2'];
 
 		//縣市審核意見
 		$a1_city_desc = $row['a1_city_desc'];
@@ -294,180 +294,180 @@
 		$a6_edu_desc = $row['a6_edu_desc'];
 
 		//補一
-		$a1_s_p1_money = ($row['a1_s_p1_money'] == '')?'--':$row['a1_s_p1_money'];
-		$a1_s_p2_money = ($row['a1_s_p2_money'] == '')?'--':$row['a1_s_p2_money'];
+		$a1_s_p1_money = ($row['a1_s_p1_money'] == '')?0:$row['a1_s_p1_money'];
+		$a1_s_p2_money = ($row['a1_s_p2_money'] == '')?0:$row['a1_s_p2_money'];
 
-		$a1_city_p1_money = ($row['a1_city_p1_money'] == '')?'--':$row['a1_city_p1_money'];
-		$a1_city_p2_money = ($row['a1_city_p2_money'] == '')?'--':$row['a1_city_p2_money'];
+		$a1_city_p1_money = ($row['a1_city_p1_money'] == '')?0:$row['a1_city_p1_money'];
+		$a1_city_p2_money = ($row['a1_city_p2_money'] == '')?0:$row['a1_city_p2_money'];
 
-		$a1_edu_p1_money = ($row['a1_edu_p1_money'] == '')?'--':$row['a1_edu_p1_money'];
-		$a1_edu_p2_money = ($row['a1_edu_p2_money'] == '')?'--':$row['a1_edu_p2_money'];
+		$a1_edu_p1_money = ($row['a1_edu_p1_money'] == '')?0:$row['a1_edu_p1_money'];
+		$a1_edu_p2_money = ($row['a1_edu_p2_money'] == '')?0:$row['a1_edu_p2_money'];
 
 		//補二
 		$a2_p1_name = $row['a2_p1_name'];
 		$a2_p2_name = $row['a2_p2_name'];
-		$a2_s_p1_money = ($row['a2_s_p1_money'] == '')?'--':$row['a2_s_p1_money']; //NULL則填入0
-		$a2_s_p1_current_money = ($row['a2_s_p1_current_money'] == '')?'--':$row['a2_s_p1_current_money'];
-		$a2_s_p1_capital_money = ($row['a2_s_p1_capital_money'] == '')?'--':$row['a2_s_p1_capital_money'];
-		$a2_s_p2_money = ($row['a2_s_p2_money'] == '')?'--':$row['a2_s_p2_money'];
-		$a2_s_p2_current_money = ($row['a2_s_p2_current_money'] == '')?'--':$row['a2_s_p2_current_money'];
-		$a2_s_p2_capital_money = ($row['a2_s_p2_capital_money'] == '')?'--':$row['a2_s_p2_capital_money'];
+		$a2_s_p1_money = ($row['a2_s_p1_money'] == '')?0:$row['a2_s_p1_money']; //NULL則填入0
+		$a2_s_p1_current_money = ($row['a2_s_p1_current_money'] == '')?0:$row['a2_s_p1_current_money'];
+		$a2_s_p1_capital_money = ($row['a2_s_p1_capital_money'] == '')?0:$row['a2_s_p1_capital_money'];
+		$a2_s_p2_money = ($row['a2_s_p2_money'] == '')?0:$row['a2_s_p2_money'];
+		$a2_s_p2_current_money = ($row['a2_s_p2_current_money'] == '')?0:$row['a2_s_p2_current_money'];
+		$a2_s_p2_capital_money = ($row['a2_s_p2_capital_money'] == '')?0:$row['a2_s_p2_capital_money'];
 
-		$a2_s_p1_money_ny1 = ($row['a2_s_p1_money_ny1'] == '')?'--':$row['a2_s_p1_money_ny1']; //NULL則填入0
-		$a2_s_p1_current_money_ny1 = ($row['a2_s_p1_current_money_ny1'] == '')?'--':$row['a2_s_p1_current_money_ny1'];
-		$a2_s_p1_capital_money_ny1 = ($row['a2_s_p1_capital_money_ny1'] == '')?'--':$row['a2_s_p1_capital_money_ny1'];
-		$a2_s_p2_money_ny1 = ($row['a2_s_p2_money_ny1'] == '')?'--':$row['a2_s_p2_money_ny1'];
-		$a2_s_p2_current_money_ny1 = ($row['a2_s_p2_current_money_ny1'] == '')?'--':$row['a2_s_p2_current_money_ny1'];
-		$a2_s_p2_capital_money_ny1 = ($row['a2_s_p2_capital_money_ny1'] == '')?'--':$row['a2_s_p2_capital_money_ny1'];
+		$a2_s_p1_money_ny1 = ($row['a2_s_p1_money_ny1'] == '')?0:$row['a2_s_p1_money_ny1']; //NULL則填入0
+		$a2_s_p1_current_money_ny1 = ($row['a2_s_p1_current_money_ny1'] == '')?0:$row['a2_s_p1_current_money_ny1'];
+		$a2_s_p1_capital_money_ny1 = ($row['a2_s_p1_capital_money_ny1'] == '')?0:$row['a2_s_p1_capital_money_ny1'];
+		$a2_s_p2_money_ny1 = ($row['a2_s_p2_money_ny1'] == '')?0:$row['a2_s_p2_money_ny1'];
+		$a2_s_p2_current_money_ny1 = ($row['a2_s_p2_current_money_ny1'] == '')?0:$row['a2_s_p2_current_money_ny1'];
+		$a2_s_p2_capital_money_ny1 = ($row['a2_s_p2_capital_money_ny1'] == '')?0:$row['a2_s_p2_capital_money_ny1'];
 
-		$a2_s_p1_money_ny2 = ($row['a2_s_p1_money_ny2'] == '')?'--':$row['a2_s_p1_money_ny2']; //NULL則填入0
-		$a2_s_p1_current_money_ny2 = ($row['a2_s_p1_current_money_ny2'] == '')?'--':$row['a2_s_p1_current_money_ny2'];
-		$a2_s_p1_capital_money_ny2 = ($row['a2_s_p1_capital_money_ny2'] == '')?'--':$row['a2_s_p1_capital_money_ny2'];
-		$a2_s_p2_money_ny2 = ($row['a2_s_p2_money_ny2'] == '')?'--':$row['a2_s_p2_money_ny2'];
-		$a2_s_p2_current_money_ny2 = ($row['a2_s_p2_current_money_ny2'] == '')?'--':$row['a2_s_p2_current_money_ny2'];
-		$a2_s_p2_capital_money_ny2 = ($row['a2_s_p2_capital_money_ny2'] == '')?'--':$row['a2_s_p2_capital_money_ny2'];
+		$a2_s_p1_money_ny2 = ($row['a2_s_p1_money_ny2'] == '')?0:$row['a2_s_p1_money_ny2']; //NULL則填入0
+		$a2_s_p1_current_money_ny2 = ($row['a2_s_p1_current_money_ny2'] == '')?0:$row['a2_s_p1_current_money_ny2'];
+		$a2_s_p1_capital_money_ny2 = ($row['a2_s_p1_capital_money_ny2'] == '')?0:$row['a2_s_p1_capital_money_ny2'];
+		$a2_s_p2_money_ny2 = ($row['a2_s_p2_money_ny2'] == '')?0:$row['a2_s_p2_money_ny2'];
+		$a2_s_p2_current_money_ny2 = ($row['a2_s_p2_current_money_ny2'] == '')?0:$row['a2_s_p2_current_money_ny2'];
+		$a2_s_p2_capital_money_ny2 = ($row['a2_s_p2_capital_money_ny2'] == '')?0:$row['a2_s_p2_capital_money_ny2'];
 
-		$a2_city_p1_money = ($row['a2_city_p1_money'] == '')?'--':$row['a2_city_p1_money']; //NULL則填入0
-		$a2_city_p1_current_money = ($row['a2_city_p1_current_money'] == '')?'--':$row['a2_city_p1_current_money'];
-		$a2_city_p1_capital_money = ($row['a2_city_p1_capital_money'] == '')?'--':$row['a2_city_p1_capital_money'];
-		$a2_city_p2_money = ($row['a2_city_p2_money'] == '')?'--':$row['a2_city_p2_money'];
-		$a2_city_p2_current_money = ($row['a2_city_p2_current_money'] == '')?'--':$row['a2_city_p2_current_money'];
-		$a2_city_p2_capital_money = ($row['a2_city_p2_capital_money'] == '')?'--':$row['a2_city_p2_capital_money'];
+		$a2_city_p1_money = ($row['a2_city_p1_money'] == '')?0:$row['a2_city_p1_money']; //NULL則填入0
+		$a2_city_p1_current_money = ($row['a2_city_p1_current_money'] == '')?0:$row['a2_city_p1_current_money'];
+		$a2_city_p1_capital_money = ($row['a2_city_p1_capital_money'] == '')?0:$row['a2_city_p1_capital_money'];
+		$a2_city_p2_money = ($row['a2_city_p2_money'] == '')?0:$row['a2_city_p2_money'];
+		$a2_city_p2_current_money = ($row['a2_city_p2_current_money'] == '')?0:$row['a2_city_p2_current_money'];
+		$a2_city_p2_capital_money = ($row['a2_city_p2_capital_money'] == '')?0:$row['a2_city_p2_capital_money'];
 
-		$a2_city_p1_money_ny1 = ($row['a2_city_p1_money_ny1'] == '')?'--':$row['a2_city_p1_money_ny1']; //NULL則填入0
-		$a2_city_p1_current_money_ny1 = ($row['a2_city_p1_current_money_ny1'] == '')?'--':$row['a2_city_p1_current_money_ny1'];
-		$a2_city_p1_capital_money_ny1 = ($row['a2_city_p1_capital_money_ny1'] == '')?'--':$row['a2_city_p1_capital_money_ny1'];
-		$a2_city_p2_money_ny1 = ($row['a2_city_p2_money_ny1'] == '')?'--':$row['a2_city_p2_money_ny1'];
-		$a2_city_p2_current_money_ny1 = ($row['a2_city_p2_current_money_ny1'] == '')?'--':$row['a2_city_p2_current_money_ny1'];
-		$a2_city_p2_capital_money_ny1 = ($row['a2_city_p2_capital_money_ny1'] == '')?'--':$row['a2_city_p2_capital_money_ny1'];
+		$a2_city_p1_money_ny1 = ($row['a2_city_p1_money_ny1'] == '')?0:$row['a2_city_p1_money_ny1']; //NULL則填入0
+		$a2_city_p1_current_money_ny1 = ($row['a2_city_p1_current_money_ny1'] == '')?0:$row['a2_city_p1_current_money_ny1'];
+		$a2_city_p1_capital_money_ny1 = ($row['a2_city_p1_capital_money_ny1'] == '')?0:$row['a2_city_p1_capital_money_ny1'];
+		$a2_city_p2_money_ny1 = ($row['a2_city_p2_money_ny1'] == '')?0:$row['a2_city_p2_money_ny1'];
+		$a2_city_p2_current_money_ny1 = ($row['a2_city_p2_current_money_ny1'] == '')?0:$row['a2_city_p2_current_money_ny1'];
+		$a2_city_p2_capital_money_ny1 = ($row['a2_city_p2_capital_money_ny1'] == '')?0:$row['a2_city_p2_capital_money_ny1'];
 
-		$a2_city_p1_money_ny2 = ($row['a2_city_p1_money_ny2'] == '')?'--':$row['a2_city_p1_money_ny2']; //NULL則填入0
-		$a2_city_p1_current_money_ny2 = ($row['a2_city_p1_current_money_ny2'] == '')?'--':$row['a2_city_p1_current_money_ny2'];
-		$a2_city_p1_capital_money_ny2 = ($row['a2_city_p1_capital_money_ny2'] == '')?'--':$row['a2_city_p1_capital_money_ny2'];
-		$a2_city_p2_money_ny2 = ($row['a2_city_p2_money_ny2'] == '')?'--':$row['a2_city_p2_money_ny2'];
-		$a2_city_p2_current_money_ny2 = ($row['a2_city_p2_current_money_ny2'] == '')?'--':$row['a2_city_p2_current_money_ny2'];
-		$a2_city_p2_capital_money_ny2 = ($row['a2_city_p2_capital_money_ny2'] == '')?'--':$row['a2_city_p2_capital_money_ny2'];
+		$a2_city_p1_money_ny2 = ($row['a2_city_p1_money_ny2'] == '')?0:$row['a2_city_p1_money_ny2']; //NULL則填入0
+		$a2_city_p1_current_money_ny2 = ($row['a2_city_p1_current_money_ny2'] == '')?0:$row['a2_city_p1_current_money_ny2'];
+		$a2_city_p1_capital_money_ny2 = ($row['a2_city_p1_capital_money_ny2'] == '')?0:$row['a2_city_p1_capital_money_ny2'];
+		$a2_city_p2_money_ny2 = ($row['a2_city_p2_money_ny2'] == '')?0:$row['a2_city_p2_money_ny2'];
+		$a2_city_p2_current_money_ny2 = ($row['a2_city_p2_current_money_ny2'] == '')?0:$row['a2_city_p2_current_money_ny2'];
+		$a2_city_p2_capital_money_ny2 = ($row['a2_city_p2_capital_money_ny2'] == '')?0:$row['a2_city_p2_capital_money_ny2'];
 
-		$a2_edu_p1_money = ($row['a2_edu_p1_money'] == '')?'--':$row['a2_edu_p1_money']; //NULL則填入0
-		$a2_edu_p1_current_money = ($row['a2_edu_p1_current_money'] == '')?'--':$row['a2_edu_p1_current_money'];
-		$a2_edu_p1_capital_money = ($row['a2_edu_p1_capital_money'] == '')?'--':$row['a2_edu_p1_capital_money'];
-		$a2_edu_p2_money = ($row['a2_edu_p2_money'] == '')?'--':$row['a2_edu_p2_money'];
-		$a2_edu_p2_current_money = ($row['a2_edu_p2_current_money'] == '')?'--':$row['a2_edu_p2_current_money'];
-		$a2_edu_p2_capital_money = ($row['a2_edu_p2_capital_money'] == '')?'--':$row['a2_edu_p2_capital_money'];
+		$a2_edu_p1_money = ($row['a2_edu_p1_money'] == '')?0:$row['a2_edu_p1_money']; //NULL則填入0
+		$a2_edu_p1_current_money = ($row['a2_edu_p1_current_money'] == '')?0:$row['a2_edu_p1_current_money'];
+		$a2_edu_p1_capital_money = ($row['a2_edu_p1_capital_money'] == '')?0:$row['a2_edu_p1_capital_money'];
+		$a2_edu_p2_money = ($row['a2_edu_p2_money'] == '')?0:$row['a2_edu_p2_money'];
+		$a2_edu_p2_current_money = ($row['a2_edu_p2_current_money'] == '')?0:$row['a2_edu_p2_current_money'];
+		$a2_edu_p2_capital_money = ($row['a2_edu_p2_capital_money'] == '')?0:$row['a2_edu_p2_capital_money'];
 
-		$a2_edu_p1_money_ny1 = ($row['a2_edu_p1_money_ny1'] == '')?'--':$row['a2_edu_p1_money_ny1']; //NULL則填入0
-		$a2_edu_p1_current_money_ny1 = ($row['a2_edu_p1_current_money_ny1'] == '')?'--':$row['a2_edu_p1_current_money_ny1'];
-		$a2_edu_p1_capital_money_ny1 = ($row['a2_edu_p1_capital_money_ny1'] == '')?'--':$row['a2_edu_p1_capital_money_ny1'];
-		$a2_edu_p2_money_ny1 = ($row['a2_edu_p2_money_ny1'] == '')?'--':$row['a2_edu_p2_money_ny1'];
-		$a2_edu_p2_current_money_ny1 = ($row['a2_edu_p2_current_money_ny1'] == '')?'--':$row['a2_edu_p2_current_money_ny1'];
-		$a2_edu_p2_capital_money_ny1 = ($row['a2_edu_p2_capital_money_ny1'] == '')?'--':$row['a2_edu_p2_capital_money_ny1'];
+		$a2_edu_p1_money_ny1 = ($row['a2_edu_p1_money_ny1'] == '')?0:$row['a2_edu_p1_money_ny1']; //NULL則填入0
+		$a2_edu_p1_current_money_ny1 = ($row['a2_edu_p1_current_money_ny1'] == '')?0:$row['a2_edu_p1_current_money_ny1'];
+		$a2_edu_p1_capital_money_ny1 = ($row['a2_edu_p1_capital_money_ny1'] == '')?0:$row['a2_edu_p1_capital_money_ny1'];
+		$a2_edu_p2_money_ny1 = ($row['a2_edu_p2_money_ny1'] == '')?0:$row['a2_edu_p2_money_ny1'];
+		$a2_edu_p2_current_money_ny1 = ($row['a2_edu_p2_current_money_ny1'] == '')?0:$row['a2_edu_p2_current_money_ny1'];
+		$a2_edu_p2_capital_money_ny1 = ($row['a2_edu_p2_capital_money_ny1'] == '')?0:$row['a2_edu_p2_capital_money_ny1'];
 
-		$a2_edu_p1_money_ny2 = ($row['a2_edu_p1_money_ny2'] == '')?'--':$row['a2_edu_p1_money_ny2']; //NULL則填入0
-		$a2_edu_p1_current_money_ny2 = ($row['a2_edu_p1_current_money_ny2'] == '')?'--':$row['a2_edu_p1_current_money_ny2'];
-		$a2_edu_p1_capital_money_ny2 = ($row['a2_edu_p1_capital_money_ny2'] == '')?'--':$row['a2_edu_p1_capital_money_ny2'];
-		$a2_edu_p2_money_ny2 = ($row['a2_edu_p2_money_ny2'] == '')?'--':$row['a2_edu_p2_money_ny2'];
-		$a2_edu_p2_current_money_ny2 = ($row['a2_edu_p2_current_money_ny2'] == '')?'--':$row['a2_edu_p2_current_money_ny2'];
-		$a2_edu_p2_capital_money_ny2 = ($row['a2_edu_p2_capital_money_ny2'] == '')?'--':$row['a2_edu_p2_capital_money_ny2'];
+		$a2_edu_p1_money_ny2 = ($row['a2_edu_p1_money_ny2'] == '')?0:$row['a2_edu_p1_money_ny2']; //NULL則填入0
+		$a2_edu_p1_current_money_ny2 = ($row['a2_edu_p1_current_money_ny2'] == '')?0:$row['a2_edu_p1_current_money_ny2'];
+		$a2_edu_p1_capital_money_ny2 = ($row['a2_edu_p1_capital_money_ny2'] == '')?0:$row['a2_edu_p1_capital_money_ny2'];
+		$a2_edu_p2_money_ny2 = ($row['a2_edu_p2_money_ny2'] == '')?0:$row['a2_edu_p2_money_ny2'];
+		$a2_edu_p2_current_money_ny2 = ($row['a2_edu_p2_current_money_ny2'] == '')?0:$row['a2_edu_p2_current_money_ny2'];
+		$a2_edu_p2_capital_money_ny2 = ($row['a2_edu_p2_capital_money_ny2'] == '')?0:$row['a2_edu_p2_capital_money_ny2'];
 
 		//補三
-		$a3_s_p1_money = ($row['a3_s_p1_money'] == '')?'--':$row['a3_s_p1_money']; //NULL則填入0
-		$a3_s_p1_current_money = ($row['a3_s_p1_current_money'] == '')?'--':$row['a3_s_p1_current_money'];
-		$a3_s_p1_capital_money = ($row['a3_s_p1_capital_money'] == '')?'--':$row['a3_s_p1_capital_money'];
+		$a3_s_p1_money = ($row['a3_s_p1_money'] == '')?0:$row['a3_s_p1_money']; //NULL則填入0
+		$a3_s_p1_current_money = ($row['a3_s_p1_current_money'] == '')?0:$row['a3_s_p1_current_money'];
+		$a3_s_p1_capital_money = ($row['a3_s_p1_capital_money'] == '')?0:$row['a3_s_p1_capital_money'];
 
-		$a3_city_p1_money = ($row['a3_city_p1_money'] == '')?'--':$row['a3_city_p1_money']; //NULL則填入0
-		$a3_city_p1_current_money = ($row['a3_city_p1_current_money'] == '')?'--':$row['a3_city_p1_current_money'];
-		$a3_city_p1_capital_money = ($row['a3_city_p1_capital_money'] == '')?'--':$row['a3_city_p1_capital_money'];
+		$a3_city_p1_money = ($row['a3_city_p1_money'] == '')?0:$row['a3_city_p1_money']; //NULL則填入0
+		$a3_city_p1_current_money = ($row['a3_city_p1_current_money'] == '')?0:$row['a3_city_p1_current_money'];
+		$a3_city_p1_capital_money = ($row['a3_city_p1_capital_money'] == '')?0:$row['a3_city_p1_capital_money'];
 
-		$a3_edu_p1_money = ($row['a3_edu_p1_money'] == '')?'--':$row['a3_edu_p1_money']; //NULL則填入0
-		$a3_edu_p1_current_money = ($row['a3_edu_p1_current_money'] == '')?'--':$row['a3_edu_p1_current_money'];
-		$a3_edu_p1_capital_money = ($row['a3_edu_p1_capital_money'] == '')?'--':$row['a3_edu_p1_capital_money'];
+		$a3_edu_p1_money = ($row['a3_edu_p1_money'] == '')?0:$row['a3_edu_p1_money']; //NULL則填入0
+		$a3_edu_p1_current_money = ($row['a3_edu_p1_current_money'] == '')?0:$row['a3_edu_p1_current_money'];
+		$a3_edu_p1_capital_money = ($row['a3_edu_p1_capital_money'] == '')?0:$row['a3_edu_p1_capital_money'];
 
 		//補四
 		$a4_p1_name = $row['a4_p1_name'];
 		$a4_p2_name = $row['a4_p2_name'];
-		$a4_s_p1_money = ($row['a4_s_p1_money'] == '')?'--':$row['a4_s_p1_money']; //NULL則填入0
-		$a4_s_p1_current_money = ($row['a4_s_p1_current_money'] == '')?'--':$row['a4_s_p1_current_money'];
-		$a4_s_p1_capital_money = ($row['a4_s_p1_capital_money'] == '')?'--':$row['a4_s_p1_capital_money'];
-		$a4_s_p2_money = ($row['a4_s_p2_money'] == '')?'--':$row['a4_s_p2_money'];
-		$a4_s_p2_current_money = ($row['a4_s_p2_current_money'] == '')?'--':$row['a4_s_p2_current_money'];
-		$a4_s_p2_capital_money = ($row['a4_s_p2_capital_money'] == '')?'--':$row['a4_s_p2_capital_money'];
+		$a4_s_p1_money = ($row['a4_s_p1_money'] == '')?0:$row['a4_s_p1_money']; //NULL則填入0
+		$a4_s_p1_current_money = ($row['a4_s_p1_current_money'] == '')?0:$row['a4_s_p1_current_money'];
+		$a4_s_p1_capital_money = ($row['a4_s_p1_capital_money'] == '')?0:$row['a4_s_p1_capital_money'];
+		$a4_s_p2_money = ($row['a4_s_p2_money'] == '')?0:$row['a4_s_p2_money'];
+		$a4_s_p2_current_money = ($row['a4_s_p2_current_money'] == '')?0:$row['a4_s_p2_current_money'];
+		$a4_s_p2_capital_money = ($row['a4_s_p2_capital_money'] == '')?0:$row['a4_s_p2_capital_money'];
 
-		$a4_s_p1_money_ny1 = ($row['a4_s_p1_money_ny1'] == '')?'--':$row['a4_s_p1_money_ny1']; //NULL則填入0
-		$a4_s_p1_current_money_ny1 = ($row['a4_s_p1_current_money_ny1'] == '')?'--':$row['a4_s_p1_current_money_ny1'];
-		$a4_s_p1_capital_money_ny1 = ($row['a4_s_p1_capital_money_ny1'] == '')?'--':$row['a4_s_p1_capital_money_ny1'];
-		$a4_s_p2_money_ny1 = ($row['a4_s_p2_money_ny1'] == '')?'--':$row['a4_s_p2_money_ny1'];
-		$a4_s_p2_current_money_ny1 = ($row['a4_s_p2_current_money_ny1'] == '')?'--':$row['a4_s_p2_current_money_ny1'];
-		$a4_s_p2_capital_money_ny1 = ($row['a4_s_p2_capital_money_ny1'] == '')?'--':$row['a4_s_p2_capital_money_ny1'];
+		$a4_s_p1_money_ny1 = ($row['a4_s_p1_money_ny1'] == '')?0:$row['a4_s_p1_money_ny1']; //NULL則填入0
+		$a4_s_p1_current_money_ny1 = ($row['a4_s_p1_current_money_ny1'] == '')?0:$row['a4_s_p1_current_money_ny1'];
+		$a4_s_p1_capital_money_ny1 = ($row['a4_s_p1_capital_money_ny1'] == '')?0:$row['a4_s_p1_capital_money_ny1'];
+		$a4_s_p2_money_ny1 = ($row['a4_s_p2_money_ny1'] == '')?0:$row['a4_s_p2_money_ny1'];
+		$a4_s_p2_current_money_ny1 = ($row['a4_s_p2_current_money_ny1'] == '')?0:$row['a4_s_p2_current_money_ny1'];
+		$a4_s_p2_capital_money_ny1 = ($row['a4_s_p2_capital_money_ny1'] == '')?0:$row['a4_s_p2_capital_money_ny1'];
 
-		$a4_s_p1_money_ny2 = ($row['a4_s_p1_money_ny2'] == '')?'--':$row['a4_s_p1_money_ny2']; //NULL則填入0
-		$a4_s_p1_current_money_ny2 = ($row['a4_s_p1_current_money_ny2'] == '')?'--':$row['a4_s_p1_current_money_ny2'];
-		$a4_s_p1_capital_money_ny2 = ($row['a4_s_p1_capital_money_ny2'] == '')?'--':$row['a4_s_p1_capital_money_ny2'];
-		$a4_s_p2_money_ny2 = ($row['a4_s_p2_money_ny2'] == '')?'--':$row['a4_s_p2_money_ny2'];
-		$a4_s_p2_current_money_ny2 = ($row['a4_s_p2_current_money_ny2'] == '')?'--':$row['a4_s_p2_current_money_ny2'];
-		$a4_s_p2_capital_money_ny2 = ($row['a4_s_p2_capital_money_ny2'] == '')?'--':$row['a4_s_p2_capital_money_ny2'];
+		$a4_s_p1_money_ny2 = ($row['a4_s_p1_money_ny2'] == '')?0:$row['a4_s_p1_money_ny2']; //NULL則填入0
+		$a4_s_p1_current_money_ny2 = ($row['a4_s_p1_current_money_ny2'] == '')?0:$row['a4_s_p1_current_money_ny2'];
+		$a4_s_p1_capital_money_ny2 = ($row['a4_s_p1_capital_money_ny2'] == '')?0:$row['a4_s_p1_capital_money_ny2'];
+		$a4_s_p2_money_ny2 = ($row['a4_s_p2_money_ny2'] == '')?0:$row['a4_s_p2_money_ny2'];
+		$a4_s_p2_current_money_ny2 = ($row['a4_s_p2_current_money_ny2'] == '')?0:$row['a4_s_p2_current_money_ny2'];
+		$a4_s_p2_capital_money_ny2 = ($row['a4_s_p2_capital_money_ny2'] == '')?0:$row['a4_s_p2_capital_money_ny2'];
 
-		$a4_city_p1_money = ($row['a4_city_p1_money'] == '')?'--':$row['a4_city_p1_money']; //NULL則填入0
-		$a4_city_p1_current_money = ($row['a4_city_p1_current_money'] == '')?'--':$row['a4_city_p1_current_money'];
-		$a4_city_p1_capital_money = ($row['a4_city_p1_capital_money'] == '')?'--':$row['a4_city_p1_capital_money'];
-		$a4_city_p2_money = ($row['a4_city_p2_money'] == '')?'--':$row['a4_city_p2_money'];
-		$a4_city_p2_current_money = ($row['a4_city_p2_current_money'] == '')?'--':$row['a4_city_p2_current_money'];
-		$a4_city_p2_capital_money = ($row['a4_city_p2_capital_money'] == '')?'--':$row['a4_city_p2_capital_money'];
+		$a4_city_p1_money = ($row['a4_city_p1_money'] == '')?0:$row['a4_city_p1_money']; //NULL則填入0
+		$a4_city_p1_current_money = ($row['a4_city_p1_current_money'] == '')?0:$row['a4_city_p1_current_money'];
+		$a4_city_p1_capital_money = ($row['a4_city_p1_capital_money'] == '')?0:$row['a4_city_p1_capital_money'];
+		$a4_city_p2_money = ($row['a4_city_p2_money'] == '')?0:$row['a4_city_p2_money'];
+		$a4_city_p2_current_money = ($row['a4_city_p2_current_money'] == '')?0:$row['a4_city_p2_current_money'];
+		$a4_city_p2_capital_money = ($row['a4_city_p2_capital_money'] == '')?0:$row['a4_city_p2_capital_money'];
 
-		$a4_city_p1_money_ny1 = ($row['a4_city_p1_money_ny1'] == '')?'--':$row['a4_city_p1_money_ny1']; //NULL則填入0
-		$a4_city_p1_current_money_ny1 = ($row['a4_city_p1_current_money_ny1'] == '')?'--':$row['a4_city_p1_current_money_ny1'];
-		$a4_city_p1_capital_money_ny1 = ($row['a4_city_p1_capital_money_ny1'] == '')?'--':$row['a4_city_p1_capital_money_ny1'];
-		$a4_city_p2_money_ny1 = ($row['a4_city_p2_money_ny1'] == '')?'--':$row['a4_city_p2_money_ny1'];
-		$a4_city_p2_current_money_ny1 = ($row['a4_city_p2_current_money_ny1'] == '')?'--':$row['a4_city_p2_current_money_ny1'];
-		$a4_city_p2_capital_money_ny1 = ($row['a4_city_p2_capital_money_ny1'] == '')?'--':$row['a4_city_p2_capital_money_ny1'];
+		$a4_city_p1_money_ny1 = ($row['a4_city_p1_money_ny1'] == '')?0:$row['a4_city_p1_money_ny1']; //NULL則填入0
+		$a4_city_p1_current_money_ny1 = ($row['a4_city_p1_current_money_ny1'] == '')?0:$row['a4_city_p1_current_money_ny1'];
+		$a4_city_p1_capital_money_ny1 = ($row['a4_city_p1_capital_money_ny1'] == '')?0:$row['a4_city_p1_capital_money_ny1'];
+		$a4_city_p2_money_ny1 = ($row['a4_city_p2_money_ny1'] == '')?0:$row['a4_city_p2_money_ny1'];
+		$a4_city_p2_current_money_ny1 = ($row['a4_city_p2_current_money_ny1'] == '')?0:$row['a4_city_p2_current_money_ny1'];
+		$a4_city_p2_capital_money_ny1 = ($row['a4_city_p2_capital_money_ny1'] == '')?0:$row['a4_city_p2_capital_money_ny1'];
 
-		$a4_city_p1_money_ny2 = ($row['a4_city_p1_money_ny2'] == '')?'--':$row['a4_city_p1_money_ny2']; //NULL則填入0
-		$a4_city_p1_current_money_ny2 = ($row['a4_city_p1_current_money_ny2'] == '')?'--':$row['a4_city_p1_current_money_ny2'];
-		$a4_city_p1_capital_money_ny2 = ($row['a4_city_p1_capital_money_ny2'] == '')?'--':$row['a4_city_p1_capital_money_ny2'];
-		$a4_city_p2_money_ny2 = ($row['a4_city_p2_money_ny2'] == '')?'--':$row['a4_city_p2_money_ny2'];
-		$a4_city_p2_current_money_ny2 = ($row['a4_city_p2_current_money_ny2'] == '')?'--':$row['a4_city_p2_current_money_ny2'];
-		$a4_city_p2_capital_money_ny2 = ($row['a4_city_p2_capital_money_ny2'] == '')?'--':$row['a4_city_p2_capital_money_ny2'];
+		$a4_city_p1_money_ny2 = ($row['a4_city_p1_money_ny2'] == '')?0:$row['a4_city_p1_money_ny2']; //NULL則填入0
+		$a4_city_p1_current_money_ny2 = ($row['a4_city_p1_current_money_ny2'] == '')?0:$row['a4_city_p1_current_money_ny2'];
+		$a4_city_p1_capital_money_ny2 = ($row['a4_city_p1_capital_money_ny2'] == '')?0:$row['a4_city_p1_capital_money_ny2'];
+		$a4_city_p2_money_ny2 = ($row['a4_city_p2_money_ny2'] == '')?0:$row['a4_city_p2_money_ny2'];
+		$a4_city_p2_current_money_ny2 = ($row['a4_city_p2_current_money_ny2'] == '')?0:$row['a4_city_p2_current_money_ny2'];
+		$a4_city_p2_capital_money_ny2 = ($row['a4_city_p2_capital_money_ny2'] == '')?0:$row['a4_city_p2_capital_money_ny2'];
 
-		$a4_edu_p1_money = ($row['a4_edu_p1_money'] == '')?'--':$row['a4_edu_p1_money']; //NULL則填入0
-		$a4_edu_p1_current_money = ($row['a4_edu_p1_current_money'] == '')?'--':$row['a4_edu_p1_current_money'];
-		$a4_edu_p1_capital_money = ($row['a4_edu_p1_capital_money'] == '')?'--':$row['a4_edu_p1_capital_money'];
-		$a4_edu_p2_money = ($row['a4_edu_p2_money'] == '')?'--':$row['a4_edu_p2_money'];
-		$a4_edu_p2_current_money = ($row['a4_edu_p2_current_money'] == '')?'--':$row['a4_edu_p2_current_money'];
-		$a4_edu_p2_capital_money = ($row['a4_edu_p2_capital_money'] == '')?'--':$row['a4_edu_p2_capital_money'];
+		$a4_edu_p1_money = ($row['a4_edu_p1_money'] == '')?0:$row['a4_edu_p1_money']; //NULL則填入0
+		$a4_edu_p1_current_money = ($row['a4_edu_p1_current_money'] == '')?0:$row['a4_edu_p1_current_money'];
+		$a4_edu_p1_capital_money = ($row['a4_edu_p1_capital_money'] == '')?0:$row['a4_edu_p1_capital_money'];
+		$a4_edu_p2_money = ($row['a4_edu_p2_money'] == '')?0:$row['a4_edu_p2_money'];
+		$a4_edu_p2_current_money = ($row['a4_edu_p2_current_money'] == '')?0:$row['a4_edu_p2_current_money'];
+		$a4_edu_p2_capital_money = ($row['a4_edu_p2_capital_money'] == '')?0:$row['a4_edu_p2_capital_money'];
 
-		$a4_edu_p1_money_ny1 = ($row['a4_edu_p1_money_ny1'] == '')?'--':$row['a4_edu_p1_money_ny1']; //NULL則填入0
-		$a4_edu_p1_current_money_ny1 = ($row['a4_edu_p1_current_money_ny1'] == '')?'--':$row['a4_edu_p1_current_money_ny1'];
-		$a4_edu_p1_capital_money_ny1 = ($row['a4_edu_p1_capital_money_ny1'] == '')?'--':$row['a4_edu_p1_capital_money_ny1'];
-		$a4_edu_p2_money_ny1 = ($row['a4_edu_p2_money_ny1'] == '')?'--':$row['a4_edu_p2_money_ny1'];
-		$a4_edu_p2_current_money_ny1 = ($row['a4_edu_p2_current_money_ny1'] == '')?'--':$row['a4_edu_p2_current_money_ny1'];
-		$a4_edu_p2_capital_money_ny1 = ($row['a4_edu_p2_capital_money_ny1'] == '')?'--':$row['a4_edu_p2_capital_money_ny1'];
+		$a4_edu_p1_money_ny1 = ($row['a4_edu_p1_money_ny1'] == '')?0:$row['a4_edu_p1_money_ny1']; //NULL則填入0
+		$a4_edu_p1_current_money_ny1 = ($row['a4_edu_p1_current_money_ny1'] == '')?0:$row['a4_edu_p1_current_money_ny1'];
+		$a4_edu_p1_capital_money_ny1 = ($row['a4_edu_p1_capital_money_ny1'] == '')?0:$row['a4_edu_p1_capital_money_ny1'];
+		$a4_edu_p2_money_ny1 = ($row['a4_edu_p2_money_ny1'] == '')?0:$row['a4_edu_p2_money_ny1'];
+		$a4_edu_p2_current_money_ny1 = ($row['a4_edu_p2_current_money_ny1'] == '')?0:$row['a4_edu_p2_current_money_ny1'];
+		$a4_edu_p2_capital_money_ny1 = ($row['a4_edu_p2_capital_money_ny1'] == '')?0:$row['a4_edu_p2_capital_money_ny1'];
 
-		$a4_edu_p1_money_ny2 = ($row['a4_edu_p1_money_ny2'] == '')?'--':$row['a4_edu_p1_money_ny2']; //NULL則填入0
-		$a4_edu_p1_current_money_ny2 = ($row['a4_edu_p1_current_money_ny2'] == '')?'--':$row['a4_edu_p1_current_money_ny2'];
-		$a4_edu_p1_capital_money_ny2 = ($row['a4_edu_p1_capital_money_ny2'] == '')?'--':$row['a4_edu_p1_capital_money_ny2'];
-		$a4_edu_p2_money_ny2 = ($row['a4_edu_p2_money_ny2'] == '')?'--':$row['a4_edu_p2_money_ny2'];
-		$a4_edu_p2_current_money_ny2 = ($row['a4_edu_p2_current_money_ny2'] == '')?'--':$row['a4_edu_p2_current_money_ny2'];
-		$a4_edu_p2_capital_money_ny2 = ($row['a4_edu_p2_capital_money_ny2'] == '')?'--':$row['a4_edu_p2_capital_money_ny2'];
+		$a4_edu_p1_money_ny2 = ($row['a4_edu_p1_money_ny2'] == '')?0:$row['a4_edu_p1_money_ny2']; //NULL則填入0
+		$a4_edu_p1_current_money_ny2 = ($row['a4_edu_p1_current_money_ny2'] == '')?0:$row['a4_edu_p1_current_money_ny2'];
+		$a4_edu_p1_capital_money_ny2 = ($row['a4_edu_p1_capital_money_ny2'] == '')?0:$row['a4_edu_p1_capital_money_ny2'];
+		$a4_edu_p2_money_ny2 = ($row['a4_edu_p2_money_ny2'] == '')?0:$row['a4_edu_p2_money_ny2'];
+		$a4_edu_p2_current_money_ny2 = ($row['a4_edu_p2_current_money_ny2'] == '')?0:$row['a4_edu_p2_current_money_ny2'];
+		$a4_edu_p2_capital_money_ny2 = ($row['a4_edu_p2_capital_money_ny2'] == '')?0:$row['a4_edu_p2_capital_money_ny2'];
 
 		//補五
 		$a5_item = $row['a5_item'];
-		$a5_s_money = ($row['a5_s_money'] == '')?'--':$row['a5_s_money'];
+		$a5_s_money = ($row['a5_s_money'] == '')?0:$row['a5_s_money'];
 
-		$a5_city_money = ($row['a5_city_money'] == '')?'--':$row['a5_city_money'];
+		$a5_city_money = ($row['a5_city_money'] == '')?0:$row['a5_city_money'];
 
-		$a5_edu_money = ($row['a5_edu_money'] == '')?'--':$row['a5_edu_money'];
+		$a5_edu_money = ($row['a5_edu_money'] == '')?0:$row['a5_edu_money'];
 
 		//補六
-		$a6_s_p1_money = ($row['a6_s_p1_money'] == '')?'--':$row['a6_s_p1_money']; //NULL則填入0
-		$a6_s_p1_current_money = ($row['a6_s_p1_current_money'] == '')?'--':$row['a6_s_p1_current_money'];
-		$a6_s_p1_capital_money = ($row['a6_s_p1_capital_money'] == '')?'--':$row['a6_s_p1_capital_money'];
+		$a6_s_p1_money = ($row['a6_s_p1_money'] == '')?0:$row['a6_s_p1_money']; //NULL則填入0
+		$a6_s_p1_current_money = ($row['a6_s_p1_current_money'] == '')?0:$row['a6_s_p1_current_money'];
+		$a6_s_p1_capital_money = ($row['a6_s_p1_capital_money'] == '')?0:$row['a6_s_p1_capital_money'];
 
-		$a6_city_p1_money = ($row['a6_city_p1_money'] == '')?'--':$row['a6_city_p1_money']; //NULL則填入0
-		$a6_city_p1_current_money = ($row['a6_city_p1_current_money'] == '')?'--':$row['a6_city_p1_current_money'];
-		$a6_city_p1_capital_money = ($row['a6_city_p1_capital_money'] == '')?'--':$row['a6_city_p1_capital_money'];
+		$a6_city_p1_money = ($row['a6_city_p1_money'] == '')?0:$row['a6_city_p1_money']; //NULL則填入0
+		$a6_city_p1_current_money = ($row['a6_city_p1_current_money'] == '')?0:$row['a6_city_p1_current_money'];
+		$a6_city_p1_capital_money = ($row['a6_city_p1_capital_money'] == '')?0:$row['a6_city_p1_capital_money'];
 
-		$a6_edu_p1_money = ($row['a6_edu_p1_money'] == '')?'--':$row['a6_edu_p1_money']; //NULL則填入0
-		$a6_edu_p1_current_money = ($row['a6_edu_p1_current_money'] == '')?'--':$row['a6_edu_p1_current_money'];
-		$a6_edu_p1_capital_money = ($row['a6_edu_p1_capital_money'] == '')?'--':$row['a6_edu_p1_capital_money'];
+		$a6_edu_p1_money = ($row['a6_edu_p1_money'] == '')?0:$row['a6_edu_p1_money']; //NULL則填入0
+		$a6_edu_p1_current_money = ($row['a6_edu_p1_current_money'] == '')?0:$row['a6_edu_p1_current_money'];
+		$a6_edu_p1_capital_money = ($row['a6_edu_p1_capital_money'] == '')?0:$row['a6_edu_p1_capital_money'];
 	}
 
 	//學校申請總合
