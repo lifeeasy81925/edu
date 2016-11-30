@@ -1,0 +1,62 @@
+<?php
+include "../../mainfile.php";
+include "../../header.php";
+session_start();
+?>
+<INPUT TYPE="button" VALUE="回前頁" onClick="history.go(-1)">
+<?
+$username = $xoopsUser->getVar('uname');
+  global $xoopsDB;
+  $sql = "select * from " . $xoopsDB->prefix('city') . " where `cityid` = '$username'";
+  $result_city = $xoopsDB -> query($sql) or die($sql);
+  while($row = mysql_fetch_row($result_city)) {
+            $city = $row[1];
+			$cityman = $row[2];
+			$examine = $row[3];
+			$cityno = $row[4];
+			}
+//	$point = $_GET["id"];
+  echo $username;
+  echo $city;
+  echo $cityman;
+//  echo $point;
+?>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
+<br>
+<?      
+    $result_junior= mysql_query('select edu_school.*,100junior_point345.graduate from edu_school INNER JOIN 100junior_point345 ON edu_school.account=100junior_point345.account ;');
+	$total_2 = $xoopsDB -> getRowsNum($result_junior);
+	echo "<br>"."國中學校名冊";   
+?>
+<table width="500" border="1">
+    <td>學校代碼</td>
+    <td>學校名稱</td>
+    <td>指標三檢視</td>
+
+<?	
+//查指標12.345.6
+ while($row = mysql_fetch_row($result_junior))
+        {
+if($row[1] == "$city"){
+		if($row[5] == "0" ){
+		echo "<tr>";
+		echo "<td>";
+			echo "$row[0]";//學校代碼
+		echo "</td>";
+    	echo "<td>";
+      		echo "$row[2]";//學校名稱
+		echo "</td>";
+		echo "<td>";
+		 	echo "<a href="."print_point3.php?id="."$row[0]"." target="."_self".">"."檢視"."</a>";//指標三審核
+		echo "</td>";
+  echo "</tr>";
+  }
+  }
+  }
+?> 
+</table>
+<!--合計校數：<? //echo $total_2; ?>校<p> -->
+
+<?
+include "../../footer.php";
+?>

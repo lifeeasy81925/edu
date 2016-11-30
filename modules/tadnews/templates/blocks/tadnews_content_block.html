@@ -1,0 +1,24 @@
+<link rel='stylesheet' type='text/css' media='screen' href='<{$xoops_url}>/modules/tadnews/module.css' />
+<link rel='stylesheet' type='text/css' media='screen' href='<{$xoops_url}>/modules/tadnews/iconize.css' />
+
+<{$block.syntaxhighlighter_code}>
+<{$block.rating_js}>
+
+<{foreach item=page from=$block.page}>
+<div id='clean_news' style='width:<{$page.width}>;<{$page.display}>;'>
+  <div id='news_head' <{$page.sign_bg}>>
+    <div id='news_title' style='width:99%;height:20px;line-height:20px;overflow:hidden;'><{$page.prefix_tag}><a href='<{$xoops_url}>/modules/tadnews/index.php?nsn=<{$page.nsn}>'><{$page.title}></a><{$page.files}></div>
+    <div id='news_info'>
+      <div style="float:right"><{$page.star}></div>
+      <a href='<{$xoops_url}>/userinfo.php?uid=<{$page.uid}>'><{$page.uid_name}></a> - <a href='<{$xoops_url}>/modules/tadnews/index.php?ncsn=<{$page.ncsn}>'><{$page.cate}></a> | <{$page.start_day}>
+    </div>
+  </div>
+
+  <div id='news_content' style="<{$page.font_style}>"><{$page.news_content}></div>
+  <div style='clear:both;height:10px;'></div>
+  <div id='news_toolbar'><{$page.fun}></div>
+  <div id='news_toolbar'><{$page.fun2}></div>
+</div>
+    
+<{/foreach}>
+<div style='clear:both;'></div>

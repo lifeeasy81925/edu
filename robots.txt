@@ -1,0 +1,14 @@
+User-agent: *
+Disallow: /edu/cgi-bin/
+Disallow: /edu/tmp/
+Disallow: /edu/cache/
+Disallow: /edu/class/
+Disallow: /edu/images/
+Disallow: /edu/include/
+Disallow: /edu/install/
+Disallow: /edu/kernel/
+Disallow: /edu/language/
+Disallow: /edu/templates_c/
+Disallow: /edu/themes/
+Disallow: /edu/uploads/
+Disallow: /edu/modules/

@@ -1,0 +1,209 @@
+<?php
+//  ------------------------------------------------------------------------ //
+// 本模組由 tad 製作
+// 製作日期：2008-06-25
+// $Id: result.php,v 1.1 2008/05/14 01:22:08 tad Exp $
+// ------------------------------------------------------------------------- //
+
+/*-----------引入檔案區--------------*/
+include "../../../include/cp_header.php";
+include "../function.php";
+include_once XOOPS_ROOT_PATH."/Frameworks/art/functions.php";
+include_once XOOPS_ROOT_PATH."/Frameworks/art/functions.admin.php";
+
+/*-----------function區--------------*/
+
+//觀看結果
+function view_result($ofsn=""){
+	global $xoopsDB,$xoopsModule,$xoopsUser;
+
+	$form=get_tad_form_main($ofsn);
+
+	$main="
+	<script>
+	function delete_tad_form_ans(ssn){
+		var sure = window.confirm('"._BP_DEL_CHK."');
+		if (!sure)	return;
+		location.href=\"{$_SERVER['PHP_SELF']}?op=delete_tad_form_ans&ofsn={$ofsn}&ssn=\" + ssn;
+	}
+	</script>
+  <form action='{$_SERVER['PHP_SELF']}' method='post' id='myForm' enctype='multipart/form-data'>
+	<table id='tbl'>
+	<tr><th>"._MA_TADFORM_COL_WHO."</th>
+	";
+	
+	$sql = "select csn,title,kind,func from ".$xoopsDB->prefix("tad_form_col")." where ofsn='{$ofsn}' order by sort";
+	$result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
+  while(list($csn,$title,$kind,$func)=$xoopsDB->fetchRow($result)){
+    $main.="<th>$title</th>";
+    $ff[$csn]=$func;
+    $tt[$csn]=$title;
+    $kk[$csn]=$kind;
+  }
+  
+  //根據不同表單類型，提供不同的功能
+  if($form['kind']=="application"){
+  	$other_fun_th="<th>"._MA_TADFORM_KIND1_TH."</th>";
+  }else{
+    $other_fun_th="";
+	}
+  
+  
+  $main.="<th>"._MA_TADFORM_SIGN_DATE."</th><th>"._BP_FUNCTION."</th>$other_fun_th</tr>";
+  
+  $sql = "select ssn,uid,man_name,email,fill_time,result_col from ".$xoopsDB->prefix("tad_form_fill")." where ofsn='{$ofsn}' order by fill_time desc";
+	$result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
+  while(list($ssn,$uid,$man_name,$email,$fill_time,$result_col)=$xoopsDB->fetchRow($result)){
+   	$main.="<tr><td><a href='mailto:{$email}'>$man_name</a></td>";
+   
+		$sql2 = "select a.csn,a.val from ".$xoopsDB->prefix("tad_form_value")." as a,".$xoopsDB->prefix("tad_form_col")." as b where a.csn=b.csn and a.ssn='{$ssn}'  order by b.sort";
+
+		$result2 = $xoopsDB->query($sql2) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
+		$all="";
+		while(list($csn,$val)=$xoopsDB->fetchRow($result2)){
+		
+		  if($kk[$csn]=='textarea'){
+      	$all.="<td>".nl2br($val)."</td>";
+			}elseif($kk[$csn]=='checkbox'){
+			  $all.="<td><ul><li>".str_replace(";","</li><li>",$val)."</li></ul></td>";
+      }else{
+      	$all.="<td>$val</td>";
+			}
+      
+      
+		  if($ff[$csn]=='sum'){
+				$col[$csn]['sum']+=$val;
+			}elseif($ff[$csn]=='count'){
+			  $val_arr=explode(";",$val);
+			  foreach($val_arr as $val){
+					$col[$csn]['count'][$val]++;
+				}
+   		}else{
+				$col[$csn]['sum']+=$val;
+				$col[$csn]['count']++;
+			}
+
+    }
+    
+    //根據不同表單類型，提供不同的功能
+    if($form['kind']=="application"){
+      $checked=($result_col=='1')?"checked":"";
+    	$other_fun="<td nowrap>
+			<input type='hidden' name='ofsn' value='$ofsn'>
+			<input type='hidden' name='ssn[]' value='$ssn'>
+			<input type='checkbox' name='result_col[$ssn]' value='1' $checked>"._MA_TADFORM_KIND1_OK."</td>";
+    }else{
+      $other_fun="";
+		}
+    
+    $fill_time=date("Y-m-d H:i:s",xoops_getUserTimestamp(strtotime($fill_time)));
+   	$main.="$all
+		 <td>$fill_time</td>
+		 <td><a href=\"javascript:delete_tad_form_ans($ssn);\"><img src='../images/001_05.gif' alt='"._BP_DEL."'></a></td>
+		$other_fun
+		 </tr>";
+	}
+	
+	$submit=($form['kind']=="application")?"
+	<p align='right'><input type='hidden' name='op' value='update_result'>
+	<input type='submit' value='"._MA_TADFORM_UPDATE_RESULT."'></p>":"";
+
+	$main.="</table>
+	
+	$submit
+	
+	
+	</form>";
+	
+	$analysis="<table id='tbl'>
+	<tr>
+	<th>"._MA_TADFORM_COL_TITLE."</th>
+	<th>"._MA_TADFORM_COL_FUNC."</th>
+	<th>"._MA_TADFORM_ANALYSIS_RESULT."</th>
+	</tr>";
+	foreach($ff as $csn=>$func){
+	  if(empty($func))continue;
+	  $analysis.="<tr><td>{$tt[$csn]}</td>";
+	  if($func=='sum'){
+			$analysis.="<td>"._MA_TADFORM_COL_SUM."</td><td>{$col[$csn]['sum']}</td></tr>";
+		}elseif($func=='count'){
+			$analysis.="<td>"._MA_TADFORM_COL_COUNT."</td><td>";
+		  foreach($col[$csn]['count'] as $val=>$count){
+				$analysis.="$val : $count<br>";
+			}
+			$analysis.="</td></tr>";
+		}elseif($func=='avg'){
+		  $avg=round($col[$csn]['sum']/$col[$csn]['count'],2);
+		  $analysis.="<td>"._MA_TADFORM_COL_AVG."</td><td>{$avg}</td></tr>";
+		}else{
+      $analysis.="<td></td><td></td></tr>";
+		}
+	}
+	$analysis.="</table>";
+  
+
+	$main=div_3d($form['title'],$main,"corners");
+	$main.=div_3d(_MA_TADFORM_ANALYSIS,$analysis,"corners");
+
+	return $main;
+}
+
+//刪除某人的填寫資料
+function delete_tad_form_ans($ssn=""){
+	global $xoopsDB;
+	$sql = "delete from ".$xoopsDB->prefix("tad_form_fill")." where ssn='$ssn'";
+	$xoopsDB->queryF($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
+	
+	$sql = "delete from ".$xoopsDB->prefix("tad_form_value")." where ssn='$ssn'";
+	$xoopsDB->queryF($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
+}
+
+//更新結果
+function update_result($ssn_arr=array(),$result_col=array()){
+	global $xoopsDB;
+	foreach($ssn_arr as $ssn){
+		$sql = "update ".$xoopsDB->prefix("tad_form_fill")." set result_col='{$result_col[$ssn]}'  where ssn='$ssn'";
+		$xoopsDB->queryF($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
+	}
+}
+
+/*-----------執行動作判斷區----------*/
+$op = (!isset($_REQUEST['op']))? "main":$_REQUEST['op'];
+
+switch($op){
+
+
+	//更新結果
+	case "update_result";
+	update_result($_POST['ssn'],$_POST['result_col']);
+	header("location: {$_SERVER['PHP_SELF']}?ofsn={$_POST['ofsn']}");
+	break;
+	
+	case "view":
+	$main=view_result($_GET['ofsn']);
+	$main.=view($_GET['ofsn'],$_GET['ssn']);
+	break;
+
+
+	//刪除資料
+	case "delete_tad_form_ans";
+	delete_tad_form_ans($_GET['ssn']);
+	header("location: {$_SERVER['PHP_SELF']}?ofsn={$_GET['ofsn']}");
+	break;
+	
+	
+	//預設動作
+	default:
+	$main=view_result($_GET['ofsn']);
+	break;
+
+}
+
+/*-----------秀出結果區--------------*/
+xoops_cp_header();
+echo "<link rel='stylesheet' type='text/css' media='screen' href='../module.css' />";
+loadModuleAdminMenu(0);
+echo $main;
+xoops_cp_footer();
+
+?>

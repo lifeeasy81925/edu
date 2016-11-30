@@ -1,0 +1,88 @@
+#form_body {
+	font-size: 75%;
+	font-family: Arial, Helvetica, sans-serif;
+	line-height: 1.5;
+	color: #000000;
+	background-color: #FFFFFF;
+	text-align:center;
+
+	
+}
+
+
+
+#inquiry {
+  margin: 0 auto;
+  text-align:left;
+	width: 560px; /* 指定區塊寬度 */
+}
+#inquiry table {
+	border-top: 1px solid #CCCCCC;
+	border-bottom: none;
+	border-left: none;
+	border-right: none;
+	font-size: 100%;
+	width: 100%;
+}
+#inquiry td {
+	border-top: none;
+	border-bottom: 1px solid #CCCCCC;
+	border-left: none;
+	border-right: none;
+	padding: 10px;
+}
+/*background-color: #F3F3F3;*/
+#inquiry th {
+	border-top: none;
+	border-bottom: 1px solid #CCCCCC;
+	border-left: 6px solid #CCCCCC;
+	border-right: none;
+
+	font-weight: normal;
+	padding: 10px;
+	width: 100px;
+	background: #F3F3F3 none;
+	color: #000000;
+}
+
+
+#inquiry th.must {
+	border-left-color: #D90000;
+}
+#inquiry th em {
+	font-style: normal;
+	color: #FF0000;
+	padding-left: 5px;
+}
+.text1,.text2,.text3,{
+	border: 1px solid #CCCCCC;
+	background-color: #F3F3F3;
+	padding: 2px;
+}
+.text1 {
+	width: 240px;
+}
+.text2 {
+	width: 4em;
+}
+.text3 {
+	width: 150px;
+}
+.text4 {
+	width: 120px;
+	color: Red;
+}
+
+#inquiry select {
+	border: 1px solid #CCCCCC;
+	background-color: #F3F3F3;
+}
+#inquiry .submit {
+	text-align: center;
+	margin-top: 30px;
+	font-size: 150%;
+}
+.text1:focus,.text2:focus,.text3:focus,.text4:focus {
+	border-color: #7F9DB9; /* 指定游標移入欄位時的框線顏色 */
+	background-color: #FFFFFF; /* 指定游標移入欄位時的欄位底色 */
+}

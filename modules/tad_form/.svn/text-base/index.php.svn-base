@@ -1,0 +1,367 @@
+<?php
+//  ------------------------------------------------------------------------ //
+// 本模組由 tad 製作
+// 製作日期：2008-06-25
+// $Id: function.php,v 1.1 2008/05/14 01:22:08 tad Exp $
+// ------------------------------------------------------------------------- //
+
+/*-----------引入檔案區--------------*/
+include "header.php";
+$xoopsOption['template_main'] = "index_tpl.html";
+/*-----------function區--------------*/
+
+
+//列出所有tad_form_main資料
+function list_tad_form_main(){
+	global $xoopsDB,$xoopsModule;
+	$MDIR=$xoopsModule->getVar('dirname');
+	$today=date("Y-m-d H:i:s" , xoops_getUserTimestamp(time()));
+	
+	$sql = "select * from ".$xoopsDB->prefix("tad_form_main")." where enable='1' and start_date < '{$today}'  and end_date > '{$today}'";
+	$result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
+
+	$main="";
+	while(list($ofsn,$title,$start_date,$end_date,$content,$uid,$post_date,$enable)=$xoopsDB->fetchRow($result)){
+
+		$sql2 = "select count(*) from ".$xoopsDB->prefix("tad_form_fill")." where ofsn='{$ofsn}'";
+		$result2 = $xoopsDB->query($sql2);
+		list($counter)=$xoopsDB->fetchRow($result2);
+	
+	  $start_date=date("Y-m-d",xoops_getUserTimestamp(strtotime($start_date)));
+	  $end_date=date("Y-m-d",xoops_getUserTimestamp(strtotime($end_date)));
+		$data="$content<div align='center'>
+		<p><input type='button' value='".sprintf(_MD_TADFORM_SIGN_NOW,$title,$counter)."' onClick=\"window.location.href='index.php?op=sign&ofsn={$ofsn}'\" class='button'></p>
+		<div class='date'>".sprintf(_MD_TADFORM_SIGN_DATE,$start_date,$end_date)."</div></div>";
+		$main.=div_3d($title,$data,"corners");
+	}
+	return $main;
+}
+
+//填寫表單
+function sign_form($ofsn=""){
+	global $xoopsDB,$xoopsModule,$xoopsUser;
+
+
+	$today=date("Y-m-d H:i:s" , xoops_getUserTimestamp(time()));
+
+	$form=get_tad_form_main($ofsn);
+
+	$sign_group=(empty($form['sign_group']))?"":explode(",",$form['sign_group']);
+	
+	if ($xoopsUser) {
+    $module_id = $xoopsModule->getVar('mid');
+    $isAdmin=$xoopsUser->isAdmin($module_id);
+    $email=$xoopsUser->getVar('email');
+    
+    $User_Groups=$xoopsUser->getGroups();
+    $ugroup=implode(",",$User_Groups);
+    
+    if(!empty($sign_group) and !in_array(1,$User_Groups)){
+      $ok=false;
+			foreach($sign_group as $group){
+				if(in_array($group,$User_Groups)){
+					$ok=true;
+				}
+			}
+			if(!$ok)return div_3d($form['title'],_MD_TADFORM_ONLY_MEM,"corners");
+		}
+    
+    $uid=$xoopsUser->getVar('uid');
+    $uid_name=$xoopsUser->getVar('name');
+    if(empty($uid_name)) $uid_name=$xoopsUser->getVar('uname');
+    if(empty($uid_name)) $uid_name=$xoopsUser->getVar('loginname');
+    
+    $db_ans=get_somebody_ans($ofsn,$uid);
+  }else{
+    $uid_name="";
+    $email="";
+    $isAdmin=false;
+    $db_ans=array();
+    if(!empty($sign_group)){
+    	return div_3d($form['title'],_MD_TADFORM_ONLY_MEM,"corners");
+    }
+	}
+	
+
+	
+	if(!$isAdmin){
+		if($form['enable']!='1'){
+			return div_3d("",sprintf(_MD_TADFORM_UNABLE,$form['title']),"corners");
+		}
+
+    $form['start_date']=date("Y-m-d",xoops_getUserTimestamp(strtotime($form['start_date'])));
+		if($today < $form['start_date']){
+			return div_3d("",sprintf(_MD_TADFORM_NOT_START,$form['title'],$form['start_date']),"corners");
+		}
+
+    $form['end_date']=date("Y-m-d",xoops_getUserTimestamp(strtotime($form['end_date'])));
+		if($today > $form['end_date']){
+			return div_3d("",sprintf(_MD_TADFORM_OVERDUE,$form['title'],$form['end_date']),"corners");
+		}
+	}
+	
+	
+	
+	//若是用來報名的
+	if($form['kind']=="application"){
+	  $man_name_list="<table>";
+	  $sql = "select email,fill_time from ".$xoopsDB->prefix("tad_form_fill")." where ofsn='{$ofsn}' and result_col='1'";
+		$result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
+		$n=$i=3;
+	  while(list($email,$fill_time)=$xoopsDB->fetchRow($result)){
+	    $fill_time=date("Y-m-d H:i:s",xoops_getUserTimestamp(strtotime($fill_time)));
+			$email_data=explode("@",$email);
+	    $man_name_list.=($n % $i == 0)?"<tr>":"";
+      $man_name_list.="<td>{$email_data[0]}@{$fill_time}</td> ";
+	    $man_name_list.=($n % $i == $i-1)?"</tr>":"";
+      $n++;
+		}
+	  $man_name_list.="</table>";
+  
+		$apply_ok="<tr><td>錄取名單：{$man_name_list}</td></tr>";
+	}else{
+    $apply_ok="";
+	}
+
+	
+	
+
+	$main_form="";
+
+	$sql = "select csn,title,descript,kind,size,val,chk,func,sort from ".$xoopsDB->prefix("tad_form_col")." where ofsn='{$ofsn}' order by sort";
+	$result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
+	$i=1;
+	while(list($csn,$title,$descript,$kind,$size,$val,$chk,$func,$sort)=$xoopsDB->fetchRow($result)){
+
+		//必填欄位
+	  if($chk=='1'){
+      $needfill[$csn]['col']=$title;
+      $needfill[$csn]['type']=$kind;
+      $needfill[$csn]['len']=sizeof(explode(";",$size));
+		}
+		
+		$edit_btn=($isAdmin)?"<div style='float:right;'><a href='admin/add.php?op=edit_opt&ofsn=$ofsn&csn=$csn&mode=update'>"._BP_EDIT."</a></div>":"";
+	
+	  $col_form=col_form($csn,$kind,$size,$val,$db_ans[$csn]);
+		$chk_txt=($chk=='1')?"<img src='images/star.png' alt='"._MD_TADFORM_NEED_SIGN."' hspace=3 align=absmiddle>":"";
+	  $note=(empty($descript))?"":"<span class='note'>({$descript})</span>";
+	  $main_form.="<tr><td><div class='q_col'>
+	  $edit_btn
+		<span class='question'>{$i}. $chk_txt<b>$title</b></span>
+		$note
+		</div></td></tr>
+		<tr><td class='show_col'>$col_form</td></tr>";
+		$i++;
+	}
+	
+	$needfill['man_name']['col']=_MD_TADFORM_MAN_NAME;
+	$needfill['man_name']['type']="text";
+	$needfill['email']['col']=_MD_TADFORM_EMAIL;
+	$needfill['email']['type']="text";
+	
+	$needfill_js=needfill_js_new($needfill,"myForm");
+	$chk_emeil_js=chk_emeil_js("email","myForm");
+	
+	
+	$main.="
+	<script type=\"text/javascript\">
+	function check_data(){
+		$needfill_js
+		$chk_emeil_js
+		return true;
+	}
+	</script>
+
+  <form action='{$_SERVER['PHP_SELF']}' method='post' name='myForm' id='myForm' enctype='multipart/form-data' onSubmit='return check_data()'>
+	<table class='form_tbl' style='width:100%;'>
+	<tr><td class='note'>{$form['content']}</td></tr>
+	$apply_ok
+	$main_form
+	</table>
+	<input type='hidden' name='ssn' value='{$db_ans['ssn']}'>
+	<input type='hidden' name='ofsn' value='{$ofsn}'>
+	<input type='hidden' name='op' value='save_val'>
+	<p align='center'>
+	"._MD_TADFORM_MAN_NAME." : <input type='text' name='man_name' id='tfman_name' size=10 value='$uid_name' style='width:50px;'>
+	"._MD_TADFORM_EMAIL." : <input type='text' name='email' id='tfemail' size=30 value='$email' style='width:130px;'>
+	<input type='submit' value='"._MD_TADFORM_SUBMIT_FORM."'></p>
+	</form>
+	
+	<div style='border-top:1px dotted gray;padding-top:6px;'><img src='images/star.png' alt='"._MD_TADFORM_NEED_SIGN."' hspace=3 align=absmiddle>"._MD_TADFORM_IS_NEED_SIGN."</div>";
+	
+	$main=div_3d($form['title'],$main,"corners");
+
+  if($isAdmin){
+    $tool="<a href='admin/add.php?op=tad_form_main_form&ofsn={$ofsn}'>".sprintf(_MD_TADFORM_EDIT_FORM,$form['title'])."</a> | <a href='admin/result.php?ofsn={$ofsn}'>"._MD_TADFORM_VIEW_FORM."</a>";
+    $main.=div_3d("",$tool,"corners","width:100%;text-align:right;");
+	}
+    
+	return $main;
+}
+
+
+
+//儲存問卷
+function save_val($ans=array()){
+	global $xoopsDB,$xoopsUser;
+	
+	if($xoopsUser){
+		$uid=$xoopsUser->getVar('uid');
+	}else{
+		$uid="";
+	}
+	
+	//$now=date("Y-m-d H:i:s" , xoops_getUserTimestamp(time()));
+	
+	//先存基本資料
+	$sql = "replace into ".$xoopsDB->prefix("tad_form_fill")." (`ssn`,`ofsn`,`uid`,`man_name`,`email`,`fill_time`) values('{$_POST['ssn']}','{$_POST['ofsn']}','{$uid}','{$_POST['man_name']}','{$_POST['email']}',now())";
+	$xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
+	$ssn=$xoopsDB->getInsertId();
+
+	//再存填寫資料
+	foreach($ans as $csn => $val){
+	  $value=(is_array($val))?implode(";",$val):$val;
+		$sql = "replace into ".$xoopsDB->prefix("tad_form_value")." (`ssn`,`csn`,`val`) values('{$ssn}','{$csn}','{$value}')";
+		$xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
+	}
+	return $ssn;
+}
+
+
+//製作表單
+function col_form($csn="",$kind="",$size="",$default_val="",$db_ans=""){
+
+
+	switch($kind){
+		case "text":
+		$default_val=(empty($db_ans))?$default_val:$db_ans;
+		$main="<input type='text' name='ans[$csn]' id='tf{$csn}' size='{$size}' value='{$default_val}'>";
+		break;
+		
+		case "radio":
+		$default_val=(empty($db_ans))?$default_val:$db_ans;
+		$opt=explode(";",$size);
+		$i=0;
+		foreach($opt as $val){
+		  $checked=($default_val==$val)?"checked='checked'":"";
+      $main.="<span><input type='radio' name='ans[$csn]' id='tf{$csn}_{$i}' value='{$val}' $checked>{$val}</span> ";
+      $i++;
+		}
+		break;
+		
+		case "checkbox":
+		$default_val=(empty($db_ans))?$default_val:$db_ans;
+		$db=explode(";",$default_val);
+		
+		$opt=explode(";",$size);
+		$i=0;
+		foreach($opt as $val){
+		  $checked=(in_array($val,$db))?"checked='checked'":"";
+      $main.="<span><input type='checkbox' name='ans[$csn][]' id='tf{$csn}_{$i}' value='{$val}' $checked>{$val}</span> ";
+      $i++;
+		}
+		break;
+		
+		case "select":
+		$default_val=(empty($db_ans))?$default_val:$db_ans;
+		$opt=explode(";",$size);
+		$main="<select name='ans[$csn]' id='tf{$csn}'>";
+		foreach($opt as $val){
+		  $selected=($default_val==$val)?"selected":"";
+      $main.="<option value='{$val}' $selected>{$val}</option>";
+		}
+		$main.="</select>";
+		break;
+		
+		case "textarea":
+		$default_val=(empty($db_ans))?$default_val:$db_ans;
+		if(empty($size))$size=40;
+		$main="<textarea name='ans[$csn]' id='tf{$csn}' style='width:96%;height:{$size}px;'>{$default_val}</textarea>";
+		break;
+		
+		case "fck":
+		$default_val=(empty($db_ans))?$default_val:$db_ans;
+
+		include(XOOPS_ROOT_PATH."/modules/tad_form/class/fckeditor/fckeditor.php") ;
+		$oFCKeditor = new FCKeditor("ans[$csn]") ;
+		$oFCKeditor->BasePath	= XOOPS_URL."/modules/tad_form/class/fckeditor/" ;
+		$oFCKeditor->Config['AutoDetectLanguage']=false;
+		$oFCKeditor->Config['DefaultLanguage']		= 'zh' ;
+		$oFCKeditor->ToolbarSet ='Basic';
+		$oFCKeditor->Width = '100%' ;
+		$oFCKeditor->Height = '150' ;
+		$oFCKeditor->Value =$default_val;
+		$main=$oFCKeditor->CreateHtml() ;
+
+		break;
+	}
+	return $main;
+}
+
+
+
+//取代/新增tad_form_fill現有資料
+function replace_tad_form_fill(){
+	global $xoopsDB;
+	$sql = "replace into ".$xoopsDB->prefix("tad_form_fill")." (`ofsn`,`uid`,`man_name`,`email`,`fill_time`) values('{$_POST['ofsn']}','{$_POST['uid']}','{$_POST['man_name']}','{$_POST['email']}','{$_POST['fill_time']}')";
+	$xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
+	//取得最後新增資料的流水編號
+	$ofsnuid=$xoopsDB->getInsertId();
+	return $ofsnuid;
+}
+
+//立即寄出
+function send_now($ssn=""){
+	global $xoopsConfig,$xoopsDB;
+	$xoopsMailer =& getMailer();
+	$xoopsMailer->multimailer->ContentType="text/html";
+
+  $mail=$xoopsConfig['adminmail'];
+	if(empty($mail))continue;
+
+  $sql = "select a.`ofsn`,a.`man_name`, a.`fill_time`,b.`title` from ".$xoopsDB->prefix("tad_form_fill")." as a left join ".$xoopsDB->prefix("tad_form_main")." as b on a.ofsn=b.ofsn where a.ssn='$ssn'";
+	$result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
+	list($ofsn,$man_name,$fill_time,$title)=$xoopsDB->fetchRow($result);
+
+	$xoopsMailer->addHeaders("MIME-Version: 1.0");
+
+	$all=view($ofsn,$ssn,"mail");
+	$fill_time=date("Y-m-d H:i:s",xoops_getUserTimestamp(strtotime($fill_time)));
+	$content= sprintf(_MD_TADFORM_MAIL_CONTENT , $man_name , $fill_time , $title , $all , XOOPS_URL."/modules/tad_form/admin/result.php?ofsn={$ofsn}");
+	
+	
+	$xoopsMailer->sendMail($mail, sprintf(_MD_TADFORM_MAIL_TITLE,$title,$man_name,$fill_time), $content,$headers);
+
+}
+
+
+/*-----------執行動作判斷區----------*/
+$_REQUEST['op']=(empty($_REQUEST['op']))?"":$_REQUEST['op'];
+switch($_REQUEST['op']){
+	case "sign":
+	$main=sign_form($_GET['ofsn']);
+	break;
+	
+	case "save_val":
+	$ssn=save_val($_POST['ans']);
+	send_now($ssn);
+	header("location:index.php?op=view&ofsn={$_POST['ofsn']}&ssn=$ssn");
+	break;
+	
+	case "view":
+	$main=view($_GET['ofsn'],$_GET['ssn']);
+	break;
+
+	default:
+	$main=list_tad_form_main();
+	break;
+}
+
+/*-----------秀出結果區--------------*/
+include XOOPS_ROOT_PATH."/header.php";
+$xoopsTpl->assign( "css" , "<link rel='stylesheet' type='text/css' media='screen' href='".XOOPS_URL."/modules/tad_form/module.css' />") ;
+$xoopsTpl->assign( "toolbar" , toolbar($interface_menu)) ;
+$xoopsTpl->assign( "content" , $main) ;
+include_once XOOPS_ROOT_PATH.'/footer.php';
+
+?>

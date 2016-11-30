@@ -1,0 +1,77 @@
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svnroot/xoops/!svn/ver/4159/XoopsModules/tad_form/trunk/class/fckeditor/editor/plugins/ImageManager
+END
+20062020_20061221.diff
+K 25
+svn:wc:ra_dav:version-url
+V 123
+/svnroot/xoops/!svn/ver/3508/XoopsModules/tad_form/trunk/class/fckeditor/editor/plugins/ImageManager/20062020_20061221.diff
+END
+manager.php
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/svnroot/xoops/!svn/ver/3508/XoopsModules/tad_form/trunk/class/fckeditor/editor/plugins/ImageManager/manager.php
+END
+config.inc.php
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/svnroot/xoops/!svn/ver/4159/XoopsModules/tad_form/trunk/class/fckeditor/editor/plugins/ImageManager/config.inc.php
+END
+ChangeLog
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svnroot/xoops/!svn/ver/3508/XoopsModules/tad_form/trunk/class/fckeditor/editor/plugins/ImageManager/ChangeLog
+END
+editorFrame.php
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/svnroot/xoops/!svn/ver/3508/XoopsModules/tad_form/trunk/class/fckeditor/editor/plugins/ImageManager/editorFrame.php
+END
+newFolder.html
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/svnroot/xoops/!svn/ver/3508/XoopsModules/tad_form/trunk/class/fckeditor/editor/plugins/ImageManager/newFolder.html
+END
+thumbs.php
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svnroot/xoops/!svn/ver/3508/XoopsModules/tad_form/trunk/class/fckeditor/editor/plugins/ImageManager/thumbs.php
+END
+images.php
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svnroot/xoops/!svn/ver/3508/XoopsModules/tad_form/trunk/class/fckeditor/editor/plugins/ImageManager/images.php
+END
+README.txt
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svnroot/xoops/!svn/ver/3508/XoopsModules/tad_form/trunk/class/fckeditor/editor/plugins/ImageManager/README.txt
+END
+icon.gif
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svnroot/xoops/!svn/ver/3508/XoopsModules/tad_form/trunk/class/fckeditor/editor/plugins/ImageManager/icon.gif
+END
+editor.php
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svnroot/xoops/!svn/ver/3508/XoopsModules/tad_form/trunk/class/fckeditor/editor/plugins/ImageManager/editor.php
+END
+fckplugin.js
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/svnroot/xoops/!svn/ver/3508/XoopsModules/tad_form/trunk/class/fckeditor/editor/plugins/ImageManager/fckplugin.js
+END

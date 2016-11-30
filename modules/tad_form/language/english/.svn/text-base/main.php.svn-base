@@ -1,0 +1,54 @@
+<?php
+//  ------------------------------------------------------------------------ //
+// 本模組由 tad 製作
+// 製作日期：2008-06-25
+// $Id: function.php,v 1.1 2008/05/14 01:22:08 tad Exp $
+// ------------------------------------------------------------------------- //
+
+define("_TO_ADMIN_PAGE","Admin");
+//分頁物件用的語系
+define("_MD_HOMEPAGE","Index");
+define("_BP_BACK_PAGE","Previous");
+define("_BP_NEXT_PAGE","Next");
+define("_BP_FIRST_PAGE","First");
+define("_BP_LAST_PAGE","End");
+define("_BP_GO_BACK_PAGE","Previous %s Page(s)");
+define("_BP_GO_NEXT_PAGE","Next %s Page(s)");
+define("_BP_TOOLBAR","(Total %s) Page %s：");
+define("_BP_DEL_CHK","Delete this data?");
+define("_BP_FUNCTION","Function");
+define("_BP_EDIT","Edit");
+define("_BP_DEL","Delete");
+define("_BP_ADD","Add");
+define("_JS_EMAIL_CHK","Please check the E-mail address you offered again!");
+define("_JS_SIGN_CHK","『%s』 is required!");
+define("_JS_CHK_TOO_SHORT","Length of 「%s」 must be more than %s, please reset 『%s』! Thank you!");
+define("_JS_CHK_NOT_EQUAL","Length of 「%s」 must be %s, please reset 『%s』! Thank you!");
+define("_JS_CHK_TOO_LONG","Length of 「%s」 must be less than %s, please reset 『%s』! Thank you!");
+
+define("_MD_TADFORM_SUBMIT_FORM","Submit");
+define("_MD_TADFORM_TITLE","Subject");
+define("_MD_TADFORM_START_DATE","Start Date");
+define("_MD_TADFORM_END_DATE","End Date");
+define("_MD_TADFORM_EDIT_FORM","Edit 「%s」");
+define("_MD_TADFORM_VIEW_FORM","Analysis");
+
+define("_MD_TADFORM_OFSN","Serial Number");
+define("_MD_TADFORM_UID","UID");
+define("_MD_TADFORM_MAN_NAME","Name");
+define("_MD_TADFORM_EMAIL","E-mail");
+define("_MD_TADFORM_FILL_TIME","Time");
+define("_MD_TADFORM_NEED_SIGN","Required");
+define("_MD_TADFORM_IS_NEED_SIGN"," means Required");
+
+define("_MD_TADFORM_UNABLE","「%s」 is unavailable now!");
+define("_MD_TADFORM_NOT_START","「%s」 will be available until <b>%s</b>!");
+define("_MD_TADFORM_OVERDUE","「%s」 has been closed on <b>%s</b>!");
+define("_MD_TADFORM_SIGN_DATE","Date： <span class='start_date'>%s</span> to <span class='end_date'>%s</span>");
+define("_MD_TADFORM_ONLY_MEM","You do NOT belong to authorized group(s)!!<br>Please login first.<br>If you can't still take this form with login. Just give up!");
+
+
+define("_MD_TADFORM_SIGN_NOW","Click Here for 「%s」（Total: %s ）");
+define("_MD_TADFORM_MAIL_CONTENT","%s (%s) filled out the form 「%s」, check followings：<br>%s<p align='right'><a href='%s'>Click Here for Complete Results</a></p>");
+define("_MD_TADFORM_MAIL_TITLE","「%s」 Form Nitification： %s (%s)");
+?>

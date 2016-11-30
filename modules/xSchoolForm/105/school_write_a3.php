@@ -1,0 +1,656 @@
+<?php
+	include ($_SERVER['DOCUMENT_ROOT']."/edu/mainfile.php");
+	include ($_SERVER['DOCUMENT_ROOT']."/edu/header.php");
+	include "../../function/connect_school.php";
+	include "checkdate.php";
+	
+	include "../../function/config_for_105.php"; //本年度基本設定
+
+	$sql = " select sd.account, sd.schooltype, sd.cityname, sd.district, sd.schoolname, sd.area, sd.getmoney_85to91, sd.traffic_status ".
+		   "      , sy.* ".
+		   //補三資料
+		   "      , a3.apply_last5year ". //過去5年有無申請過 Y=有
+		   "      , a3.apply_reason ".
+		   "      , a3.stay_teacher, a3.stay_student ". //教師 & 學生住宿人數
+		   "      , a3.stay_teacher_last, a3.stay_student_last ". //教師 & 學生住宿人數
+		   "      , a3.stay_teacher_last2, a3.stay_student_last2 ". //教師 & 學生住宿人數
+		   "      , a3.s_total_money ".
+		   "      , a3.s_p1_money, a3.s_p2_money ".
+		   "      , a3.s_p1_current_cnt, a3.s_p1_current_money ".
+		   "      , a3.s_p1_capital_cnt, a3.s_p1_capital_money ".
+		   "      , a3.s_p2_current_cnt, a3.s_p2_current_money ".
+		   "      , a3.s_p2_capital_cnt, a3.s_p2_capital_money ".
+          
+		   "      , a3_ly.edu_p1_money as a3_ly_money ".    //j10407,新增去(104)年複審金額
+		   "      , a3_l2y.edu_p1_money as a3_l2y_money ".    //j10407,新增前(103)年複審金額			   
+		 		   
+		   "      , sf101.a4 ". //101補4 助金額(101的補助4=現在的補助3)
+		   "      , sd102.a168 ". //102補助3 金額
+		   
+		   " from schooldata as sd left join schooldata_year as sy on sd.account = sy.account ".
+		   "                       left join alc_repair_dormitory as a3 on sy.seq_no = a3.sy_seq ".
+           
+		   //j-10407,104年資料
+		   "                       left join schooldata_year as sy_ly on sd.account = sy_ly.account and sy_ly.school_year = '".($school_year - 1)."' ". 		   
+		   "                       left join alc_repair_dormitory as a3_ly on sy_ly.seq_no = a3_ly.sy_seq  and a3_ly.school_year = '".($school_year - 1)."' ".   //j10407,新增104年資料		   
+		   
+		  //j-10407,103年資料
+		   "                       left join schooldata_year as sy_l2y on sd.account = sy_l2y.account and sy_l2y.school_year = '".($school_year - 2)."' ". 		   
+		   "                       left join alc_repair_dormitory as a3_l2y on sy_l2y.seq_no = a3_l2y.sy_seq  and a3_l2y.school_year = '".($school_year - 2)."' ".   //j10407,新增103年資料	
+		   
+		   "                       left join 102schooldata as sd102 on sd.account = sd102.account ".
+		   "                       left join 101school_final as sf101 on sd.account = sf101.account ".  //101school_final
+		   " where sy.school_year = '$school_year' ". 
+		   "   and sd.account = '$username' ";
+	//echo "<br />".$sql."<br />";
+	$result = mysql_query($sql);
+	while($row = mysql_fetch_array($result))
+	{
+		$account = $row['account'];
+		$schooltype = ($row['schooltype'] == 1)?"國小":"國中";
+		$cityname = $row['cityname'];
+		$district = $row['district'];
+		$schoolname = $row['schoolname'];
+		$area = $row['area'];
+		
+		$student = $row['student'];
+		$target_aboriginal = $row['target_aboriginal'];
+		$target_no_aboriginal = $row['target_no_aboriginal'];
+		$class_total = $row['class_total'];
+		
+		$main_seq = $row['seq_no']; //school_year的seq_no
+		$apply_last5year = $row['apply_last5year'];
+		$apply_reason = $row['apply_reason'];
+		
+		$s_total_money = ($row['s_total_money'] == '')?0:$row['s_total_money']; //NULL則填入0
+		$s_p1_money = ($row['s_p1_money'] == '')?0:$row['s_p1_money']; //NULL則填入0
+		$s_p1_current_cnt = ($row['s_p1_current_cnt'] == '')?0:$row['s_p1_current_cnt'];
+		$s_p1_current_money = ($row['s_p1_current_money'] == '')?0:$row['s_p1_current_money'];
+		$s_p1_capital_cnt = ($row['s_p1_capital_cnt'] == '')?0:$row['s_p1_capital_cnt'];
+		$s_p1_capital_money = ($row['s_p1_capital_money'] == '')?0:$row['s_p1_capital_money'];
+		$s_p2_money = ($row['s_p2_money'] == '')?0:$row['s_p2_money'];
+		$s_p2_current_cnt = ($row['s_p2_current_cnt'] == '')?0:$row['s_p2_current_cnt'];
+		$s_p2_current_money = ($row['s_p2_current_money'] == '')?0:$row['s_p2_current_money'];
+		$s_p2_capital_cnt = ($row['s_p2_capital_cnt'] == '')?0:$row['s_p2_capital_cnt'];
+		$s_p2_capital_money = ($row['s_p2_capital_money'] == '')?0:$row['s_p2_capital_money'];
+
+		$stay_teacher = $row['stay_teacher'];
+		$stay_teacher_last = $row['stay_teacher_last'];
+		$stay_teacher_last2 = $row['stay_teacher_last2'];
+		$stay_student = $row['stay_student'];
+		$stay_student_last = $row['stay_student_last'];
+		$stay_student_last2 = $row['stay_student_last2'];
+
+		$applied = $row['applied']; //已申請的補助
+		$applied_ary = explode(",",$applied);
+		//可能會變動，每次進網頁重新判定
+		$apply_name_t = (in_array("a3_1",$applied_ary))?"教師宿舍":"";
+		$apply_name_s = (in_array("a3_2",$applied_ary))?"學生宿舍":"";
+		
+		/*
+		//測試用
+		$mod = $_GET['mod'];
+		if($mod == 't' || $mod == 'ts')
+			$apply_name_t = "教師宿舍";
+		if($mod == 's' || $mod == 'ts')
+			$apply_name_s = "學生宿舍";*/
+			
+		$apply_name = ($apply_name_t != '' && $apply_name_s != '')?"教師及學生宿舍":$apply_name_t.$apply_name_s;
+		
+        $a3_ly_money = ($row['a3_ly_money'] == '')?0:$row['a3_ly_money'];            //去年補助3資料
+		$a3_l2y_money = ($row['a3_l2y_money'] == '')?0:$row['a3_l2y_money'];         //前年補助3資料
+		
+		//前五年補助金額，注意不是申請金額，是複審補助金額
+		$money_last5 = 0; //目前沒資料
+		$money_last4 = ($row['a4'] == '')?0:$row['a4'];
+		$money_last3 = ($row['a168'] == '')?0:$row['a168'];                          //j-10407,搬移為
+		$money_last2 = $a3_l2y_money;                                                //j-10407,新增為103年資料
+		$money_last =  $a3_ly_money;                                                 //j-10407,新增為104年資料
+		
+		//五年內接受補助過補助的不能再申請
+		$disable_radio = "js:show_reason(this);"; 
+		$display = "none";
+		$strmsg = "";
+		//echo "<br />".$money_last5."/".$money_last4."/".$money_last3."/".$money_last2."/".$money_last."<br />";
+		if($money_last > 0 || $money_last2 > 0 || $money_last3 > 0 || $money_last4 > 0 || $money_last5 > 0) 
+		{
+			$apply_last5year = 'Y';
+			$disable_radio = "js:return false;"; //用javascript停用，如果用disabled會無法POST
+			
+			$strmsg = "貴校曾於 "."<br />";
+			$strmsg .= ($money_last > 0)?($school_year - 1)." 年度獲得補助 <font color='red'>".$money_last."</font> 元。"."<br />":"";
+			$strmsg .= ($money_last2 > 0)?($school_year - 2)." 年度獲得補助 <font color='red'>".$money_last2."</font> 元。"."<br />":"";
+			$strmsg .= ($money_last3 > 0)?($school_year - 3)." 年度獲得補助 <font color='red'>".$money_last3."</font> 元。"."<br />":"";
+			$strmsg .= ($money_last4 > 0)?($school_year - 4)." 年度獲得補助 <font color='red'>".$money_last4."</font> 元。"."<br />":"";
+			$strmsg .= ($money_last5 > 0)?($school_year - 5)." 年度獲得補助 <font color='red'>".$money_last5."</font> 元。"."<br />":"";
+			
+		}
+		
+		if($apply_last5year == 'Y')
+			$display = "";
+
+	}
+	
+	//顯示填寫的資料
+	//allowance_table_name => 各補助細項的 table name ex.alc_education_features_item
+	//p => 特色 ex.p1 p2
+	//main_seq => 各補助的 seq_no，ex.alc_education_features 的 seq_no (注意!!不是 _item 的 seq_no)
+	function print_item($allowance_table_name, $p, $main_seq)
+	{
+		$sql = " select * ".
+		   " from $allowance_table_name ".
+		   " where main_seq = '$main_seq' ".
+		   "   and section = '$p' ". //特色1
+		   " order by seq_no asc ";
+		//echo "<br />".$sql."<br />";
+		$result = mysql_query($sql);
+		$num_rows = mysql_num_rows($result); //列數
+	
+		$has_outlay = 0; //有無雜支項目
+		$idx = 0;
+		
+		//順序：顯示已填資料 -> 補滿9項(未滿9時補上空值) -> 顯示雜支
+		//補三沒有雜支選項!!
+		while($row = mysql_fetch_array($result))
+		{
+			$seq_no = $row['seq_no'];
+			$subject = $row['subject'];
+			$category = $row['category'];
+			$item = $row['item'];
+			$unit = $row['unit'];
+			$price = $row['price'];
+			$amount = $row['amount'];
+			$s_money = $row['s_money'];
+			$s_desc = $row['s_desc'];
+
+			$s1 = array("","經常門","資本門");
+			if($p == 'p1') //教師不含學生修繕，反之亦然
+			{
+				$s3 = array(""=>array("")
+						 , "經常門"=>array("","充實設備","其他")
+						 , "資本門"=>array("","充實設備","教師宿舍修繕","其他")
+							);
+			}
+			else
+			{
+				$s3 = array(""=>array("")
+						 , "經常門"=>array("","充實設備","其他")
+						 , "資本門"=>array("","充實設備","學生宿舍修繕","其他")
+							);
+			}
+			
+			$idx++;
+			
+			//name 或 id 最後格式為 p1_xxx_1, p1=特色一(p2為二), xxx=名稱(ex.subject=科目、category=類別), 最後一位數字表示項次，每個特色有1~10
+			echo "<tr>";
+			echo "<td width='10' align='center' nowrap='nowrap'>$idx.<input type='hidden' name='".$p."_seq_no_$idx' value='$seq_no'></td>";
+			echo "<td align='left'>"; //科目
+			echo "<select name='".$p."_subject_$idx' id='".$p."_opt_subject_$idx' size='1' onChange='js:change_subject(this,$idx,1);'>";
+			for($j = 0;$j < count($s1);$j++)
+			{
+				echo "	<option ".($subject == $s1[$j]?"selected":"")." >".$s1[$j]."</option>";
+			}
+			echo "</select></td>";
+			echo "<td align='left'>"; //類別
+			echo "<select name='".$p."_category_$idx' id='".$p."_opt_category_$idx' size='1' onChange='js:Count(this,$idx);' >";
+			for($j = 0;$j < count($s3[$subject]);$j++)
+			{
+				echo "	<option ".($category == $s3[$subject][$j]?"selected":"")." >".$s3[$subject][$j]."</option>";
+			}
+			echo "</select></td>";
+			echo "<td align='left'><input type='text' size='10' name='".$p."_item_$idx' value='$item' onchange='js:Count(this,$idx);' ></td>";
+			echo "<td align='left'><input type='text' size='2' name='".$p."_unit_$idx' value='$unit' onchange='js:Count(this,$idx);' ></td>";
+			echo "<td align='left'><input type='text' size='4' name='".$p."_price_$idx' value='$price' onchange='js:Count(this,$idx);' ></td>";
+			echo "<td align='left'><input type='text' size='2' name='".$p."_amount_$idx' value='$amount' onchange='js:Count(this,$idx);' ></td>";
+			echo "<td align='left'><input type='text' size='4' name='".$p."_s_money_$idx' value='$s_money' style='border:0px; text-align: left;' readonly ></td>";
+			echo "<td align='left'><input type='text' size='6' name='".$p."_s_desc_$idx' value='$s_desc' ></td>";
+			echo "</tr>";
+		
+		}
+		
+		//補滿10項
+		for($i = $num_rows+1;$i <= 10;$i++)
+		{		
+			echo "<tr>";
+			echo "<td width='10' align='center' nowrap='nowrap'>$i.<input type='hidden' name='".$p."_seq_no_$i' value=''></td>";
+			echo "<td align='left'>"; //科目
+			echo "<select name='".$p."_subject_$i' id='".$p."_opt_subject_$i' size='1' onChange='js:change_subject(this,$i,1);'>";
+			echo "	<option selected></option>";
+			echo "	<option>經常門</option>";
+			echo "	<option>資本門</option>";
+			echo "</select></td>";
+			echo "<td align='left'>"; //類別
+			echo "<select name='".$p."_category_$i' id='".$p."_opt_category_$i' size='1' onChange='js:Count(this,$i);' >";
+			echo "	<option selected></option>";
+			echo "</select></td>";
+			echo "<td align='left'><input type='text' size='10' name='".$p."_item_$i' value='' onchange='js:Count(this,$i);' ></td>";
+			echo "<td align='left'><input type='text' size='2' name='".$p."_unit_$i' value='' onchange='js:Count(this,$i);' ></td>";
+			echo "<td align='left'><input type='text' size='4' name='".$p."_price_$i' value='' onchange='js:Count(this,$i);' ></td>";
+			echo "<td align='left'><input type='text' size='2' name='".$p."_amount_$i' value='' onchange='js:Count(this,$i);' ></td>";
+			echo "<td align='left'><input type='text' size='4' name='".$p."_s_money_$i' value='' style='border:0px; text-align: left;' readonly ></td>";
+			echo "<td align='left'><input type='text' size='6' name='".$p."_s_desc_$i' value='' ></td>";
+			echo "</tr>";
+		}
+		
+	}
+
+?>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<body onload="set_default()"> 
+<form name="form" method="post" action="school_write_a3_finish.php"  onSubmit="return toCheck();" onKeyDown="if(event.keyCode == 13) return false;">
+<p><b>補助項目三：修繕離島或偏遠地區師生宿舍</b>　<a href="allowance-03.htm" target="_blank">(補助項目說明)</a>
+<p>
+<font color=blue>※補助師生宿舍-申請補助經費：<input type="text" size="6" name="s_total_money" value="<?=$s_total_money;?>" style="border:0px; text-align: right;" readonly >
+元 (本列自動計算)</font><br />
+說明：本項目最高補助140萬元。
+<p>
+※最近五年是否曾獲本項補助：<br /><font color="blue"><?=$strmsg;?></font><br />
+　<label><input type="radio" name="rdo_last5year" value="Y" id="rdo_last5year_0" onclick="<?=$disable_radio;?>" <?=($apply_last5year == 'Y')?'checked':'';?> />是</label>(100、101、102、103、104年度曾接受本項補助之宿舍，不得再提出申請)<br />
+　<label><input type="radio" name="rdo_last5year" value="N" id="rdo_last5year_1" onclick="<?=$disable_radio;?>" <?=($apply_last5year == 'N')?'checked':'';?> />否</label>
+<span id="span_reason" style="display:<?=$display;?>;"><br />
+　若選是需填寫理由才能申請：<br />
+　<textarea id="reason" name="reason" cols="55" rows="4" ><?=$apply_reason;?></textarea><br />
+</span>
+<p>
+※貴校申請修繕(含設備)：<font color=red><?=$apply_name;?></font><p>
+<? if ($apply_name_t == '') { echo "<!--"; } ?>
+<table border="0">
+	<tr>
+		<td nowrap="nowrap" colspan="2">※預計申請<font color=blue>教師宿舍</font>：<font color=blue>
+		經費共計<input type="text" size="6" name="s_p1_money" value="<?=$s_p1_money;?>" style="border:0px; text-align: right;" readonly >元。</font></td>
+	</tr>
+	<tr>
+		<td nowrap="nowrap" colspan="2">
+			　其中包含經常門經費<input type="text" size="2" name="s_p1_current_cnt" value="<?=$s_p1_current_cnt;?>" style="border:0px; text-align: right;" readonly >項
+			<input type="text" size="6" name="s_p1_current_money" value="<?=$s_p1_current_money;?>" style="border:0px; text-align: right;" readonly >元，
+			資本門經費<input type="text" size="2" name="s_p1_capital_cnt" value="<?=$s_p1_capital_cnt;?>" style="border:0px; text-align: right;" readonly >式
+			<input type="text" size="6" name="s_p1_capital_money" value="<?=$s_p1_capital_money;?>" style="border:0px; text-align: right;" readonly >元。
+		</td>
+	</tr>
+</table>
+<table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#FFFFCC" style="font-size:12px;">
+	<tr>
+		<td colspan="9" align="left" nowrap="nowrap" bgcolor="#99CC66"  style="font-size:14px;">教師宿舍修繕經費概算：</td>
+		</tr>
+	<tr>
+		<td width="10px" align="center" nowrap="nowrap" bgcolor="#99CCCC">項次</td>
+		<td align="center" nowrap="nowrap" bgcolor="#99CCCC">科目</td>
+		<td align="center" nowrap="nowrap" bgcolor="#99CCCC">類別</td>
+		<td align="center" nowrap="nowrap" bgcolor="#99CCCC">項目</td>
+		<td align="center" nowrap="nowrap" bgcolor="#99CCCC">單位</td>
+		<td align="center" nowrap="nowrap" bgcolor="#99CCCC">單價</td>
+		<td align="center" nowrap="nowrap" bgcolor="#99CCCC">數量</td>
+		<td align="center" nowrap="nowrap" bgcolor="#99CCCC">金額</td>
+		<td align="center" nowrap="nowrap" bgcolor="#99CCCC">說明</td>
+	</tr>
+<?
+	//顯示教師宿舍	細項
+	print_item('alc_repair_dormitory_item', 'p1', $main_seq);
+	
+?>
+</table>
+<p>
+<? if ($apply_name_t == '') { echo "-->"; } ?>
+
+<? if ($apply_name_s == '') { echo "<!--"; } ?>
+<table border="0">
+	<tr>
+		<td nowrap="nowrap" colspan="2">※預計申請<font color=blue>學生宿舍</font>：<font color=blue>
+		經費共計<input type="text" size="6" name="s_p2_money" value="<?=$s_p2_money;?>" style="border:0px; text-align: right;" readonly >元。</font></td>
+	</tr>
+	<tr>
+		<td nowrap="nowrap" colspan="2">
+			　其中包含經常門經費<input type="text" size="2" name="s_p2_current_cnt" value="<?=$s_p2_current_cnt;?>" style="border:0px; text-align: right;" readonly >項
+			<input type="text" size="6" name="s_p2_current_money" value="<?=$s_p2_current_money;?>" style="border:0px; text-align: right;" readonly >元，
+			資本門經費<input type="text" size="2" name="s_p2_capital_cnt" value="<?=$s_p2_capital_cnt;?>" style="border:0px; text-align: right;" readonly >式
+			<input type="text" size="6" name="s_p2_capital_money" value="<?=$s_p2_capital_money;?>" style="border:0px; text-align: right;" readonly >元。
+		</td>
+	</tr>
+</table>
+<? //經費表 學生宿舍 ?>
+<table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#FFFFCC" style="font-size:12px;">
+	<tr>
+		<td colspan="9" align="left" nowrap="nowrap" bgcolor="#99CC66"  style="font-size:14px;">學生宿舍修繕經費概算：</td>
+		</tr>
+	<tr>
+		<td width="10px" align="center" nowrap="nowrap" bgcolor="#99CCCC">項次</td>
+		<td align="center" nowrap="nowrap" bgcolor="#99CCCC">科目</td>
+		<td align="center" nowrap="nowrap" bgcolor="#99CCCC">類別</td>
+		<td align="center" nowrap="nowrap" bgcolor="#99CCCC">項目</td>
+		<td align="center" nowrap="nowrap" bgcolor="#99CCCC">單位</td>
+		<td align="center" nowrap="nowrap" bgcolor="#99CCCC">單價</td>
+		<td align="center" nowrap="nowrap" bgcolor="#99CCCC">數量</td>
+		<td align="center" nowrap="nowrap" bgcolor="#99CCCC">金額</td>
+		<td align="center" nowrap="nowrap" bgcolor="#99CCCC">說明</td>
+	</tr>
+<?
+	//顯示教師宿舍	細項
+	print_item('alc_repair_dormitory_item', 'p2', $main_seq);
+	
+?>
+</table>
+<p>
+<? if ($apply_name_s == '') { echo "-->"; } ?>
+※最近三年住宿情形<br />
+<? if ($apply_name_t == '') { echo "<!--"; } ?>
+　<strong>教師宿舍</strong><br />
+　　今(<?=($school_year-1);?>)學年度教師宿舍住宿人數<input type="text" size="6" name="stay_teacher" value="<?=$stay_teacher;?>"/>人<br />
+　　去(<?=($school_year-2);?>)學年度教師宿舍住宿人數<input type="text" size="6" name="stay_teacher_last" value="<?=$stay_teacher_last;?>" />人<br />
+　　前(<?=($school_year-3);?>)學年度教師宿舍住宿人數<input type="text" size="6" name="stay_teacher_last2" value="<?=$stay_teacher_last2;?>" />人<br />
+<? if ($apply_name_t == '') { echo "-->"; } ?>
+<? if ($apply_name_s == '') { echo "<!--"; } ?>
+　<strong>學生宿舍</strong><br />
+　　今(<?=($school_year-1);?>)學年度學生宿舍住宿人數<input type="text" size="6" name="stay_student" value="<?=$stay_student;?>"/>人<br />
+　　去(<?=($school_year-2);?>)學年度學生宿舍住宿人數<input type="text" size="6" name="stay_student_last" value="<?=$stay_student_last;?>" />人<br />
+　　前(<?=($school_year-3);?>)學年度學生宿舍住宿人數<input type="text" size="6" name="stay_student_last2" value="<?=$stay_student_last2;?>" />人<br />
+<? if ($apply_name_s == '') { echo "-->"; } ?>
+<p>
+<a href="/edu/modules/xSchoolForm/download/表(四)_修繕離島或偏遠地區師生宿舍計畫及近三年住宿情形.doc" target="_new">下載：修繕離島或偏遠地區師生宿舍計畫及近三年住宿情形(參考表格)</a><br />
+說明：確認送出後，請於學校入口「上傳檔案專區」上傳「修繕離島或偏遠地區師生宿舍計畫及近三年住宿情形」檔案。
+<p>
+<input type="hidden" name="main_seq" value="<?=$main_seq;?>">
+<input type="hidden" name="school_year" value="<?=$school_year;?>">
+<INPUT TYPE="button" VALUE="上一頁(不儲存)" onClick="history.go(-1)">
+<input type="submit" name="button" value="儲存並回上一頁" />
+
+<!-- 檢查空值 與 資料驗證 -->
+<script language="JavaScript">
+	function toCheck() 
+	{
+		//檢查是否勾選補助	  
+		if ( document.form.rdo_last5year[0].checked == false && document.form.rdo_last5year[1].checked == false ) 
+		{
+			alert("請填寫「5年內是否曾獲本項補助」！");
+			return false;
+		}
+		
+		//5年內拿過補助的須填寫理由才能申請
+		if(document.form.rdo_last5year[0].checked == true && document.getElementById("reason").value == "" )
+		{
+			alert("貴校於5年內曾獲得本項補助，需請填寫理由才能繼續申請！");
+			document.getElementById("reason").focus();
+			return false;
+		}
+		
+		var stay_teacher = document.getElementsByName('stay_teacher')[0];
+		var stay_student = document.getElementsByName('stay_student')[0];
+		if(stay_teacher != null)
+		{
+			if(stay_teacher.value == '')
+			{
+				alert("請填寫「今年教師宿舍住宿人數」！");
+				stay_teacher.focus();
+				return false;
+			}
+		}
+		if(stay_student != null)
+		{
+			if(stay_student.value == '')
+			{
+				alert("請填寫「今年學生宿舍住宿人數」！");
+				stay_student.focus();
+				return false;
+			}
+		}
+
+	/*	//修繕加總檢核，不得大於100萬元
+		if ( ((document.form.afterMon.value*1) + (document.form.TafterMon.value*1)) > 1000000 ) {
+		  alert('修繕金額錯誤！\n修繕補助不得大於100萬元。');
+		  //document.form.TafterEquipMon.focus();
+		  return false;
+		}
+		//設備加總檢核，不得大於40萬元
+		if ( ((document.form.afterEquip.value*1) + (document.form.TafterEquip.value*1)) > 400000 ) {
+		  alert('設備金額錯誤！\n設備補助不得大於40萬元。');
+		  //document.form.TafterEquipMon.focus();
+		  return false;
+		}
+	*/
+		//加總檢核，不得大於140萬元
+		if (document.form.s_total_money.value > 1400000) 
+		{
+			alert('申請總額錯誤！\n申請總額不得大於140萬元。');
+			return false;
+		}
+		
+		return true;
+	}
+
+	//計算單一項目的金額
+	function Count(obj, item_idx) 
+	{
+		//alert(obj.name);
+		//取得控制項
+		var p = left(obj.name, 2);
+		var opt_subject = document.getElementById(p + '_opt_subject_' + item_idx); //科目
+		var opt_category = document.getElementById(p + '_opt_category_' + item_idx); //類別
+		var item = document.getElementsByName(p + '_item_' + item_idx)[0]; //項目
+		var unit = document.getElementsByName(p + '_unit_' + item_idx)[0]; //單位
+		var price = document.getElementsByName(p + '_price_' + item_idx)[0]; //單價
+		var amount = document.getElementsByName(p + '_amount_' + item_idx)[0]; //數量
+		var s_money = document.getElementsByName(p + '_s_money_' + item_idx)[0]; //金額
+			
+		//驗證輸入的資料是否為數字 
+		var regex = /^[0-9]*$/;
+		var flag = 1;
+		
+		//驗證分成兩部分
+		//1.填寫 科目 類別 項目 單位
+		//2.填寫 單價 數量
+		switch (obj.name)
+		{
+			case opt_subject.name: //資本門時才需驗證
+				if(opt_subject.value == '資本門' && regex.test(price.value) && price.value < 10000 && price.value != '')
+				{
+					alert('資本門的「單價」需為一萬元以上。'); 
+					price.value = '';
+					s_money.value = '';
+					flag = 0;
+				}
+			case opt_category.name:
+			case item.name:
+			case unit.name:
+				//6個欄位有一個為空值就不計算
+				if(opt_subject.value == '' || opt_category.value == '' || item.value == '' || unit.value == '' || amount.value == '' || price.value == '')
+				{
+					s_money.value = ''; //清空金額欄位
+					flag = 0;
+				}
+				
+				break;
+				
+			case price.name:
+			case amount.name:
+				if (!(regex.test(price.value)))
+				{
+					alert('「單價」請輸入整數。');
+					price.value = '';
+					s_money.value = '';
+					price.focus();
+					flag = 0;
+				}
+				if(opt_subject.value == '資本門' && regex.test(price.value) && price.value < 10000 && price.value != '')
+				{
+					alert('資本門的「單價」需為一萬元以上。'); 
+					price.value = "";
+					s_money.value = '';
+					flag = 0;
+				}
+			
+				if (!(regex.test(amount.value)))
+				{
+					alert('「數量」請輸入整數。');
+					amount.value = '';
+					s_money.value = '';
+					amount.focus();
+					flag = 0;
+				}				
+				if(amount.value == '' || price.value == '') //空白時不計算 不顯訊息
+				{
+					s_money.value = '';
+					flag = 0;
+				}
+				if(opt_subject.value == '' || opt_category.value == '' || item.value == '' || unit.value == '')
+				{
+					s_money.value = ''; //清空金額欄位
+					flag = 0;
+				
+					if(price.value != '' && amount.value != '') //單價 數量 都有填才顯示警告訊息
+						alert('「科目」、「類別」、「項目」、「單位」不能為空白。');
+				}
+				
+				break;
+		}
+		
+		if(flag == 1)
+			s_money.value = parseInt(price.value) * parseInt(amount.value); //單價 * 數量
+		
+		//計算總金額
+		count_all()
+		
+	}
+	
+	//計算總金額
+	function count_all()
+	{
+		var s_total_money = document.getElementsByName('s_total_money')[0]; //總金額
+		var i;
+		
+		s_total_money.value = 0;
+		
+		for(i = 1;i < 10;i++)
+		{
+			var s_p_money = document.getElementsByName('s_p' + i + '_money')[0]; //ex.s_p1_money ,s_p2_money
+			var s_p_current_cnt = document.getElementsByName('s_p' + i + '_current_cnt')[0]; //ex.s_p1_current_cnt
+			var s_p_current_money = document.getElementsByName('s_p' + i + '_current_money')[0]; //ex.s_p1_current_money 
+			var s_p_capital_cnt = document.getElementsByName('s_p' + i + '_capital_cnt')[0]; //ex.s_p1_capital_cnt
+			var s_p_capital_money = document.getElementsByName('s_p' + i + '_capital_money')[0]; //ex.s_p1_capital_money
+			//alert(s_p_money.name);
+			if(s_p_money != null)
+			{
+				var current_cnt = 0;
+				var current_money = 0;
+				var capital_cnt = 0;
+				var capital_money = 0;
+				
+				for(j = 1;j <= 10;j++) //計算各特色經常 & 資本
+				{
+					var opt_subject = document.getElementById('p' + i + '_opt_subject_' + j); //科目
+					var s_money = document.getElementsByName('p' + i + '_s_money_' + j)[0]; //金額
+					
+					if(s_money.value != '' && opt_subject.value == '經常門')
+					{
+						current_cnt++;
+						current_money += parseInt(s_money.value);
+					}
+					
+					if(s_money.value != '' && opt_subject.value == '資本門')
+					{
+						capital_cnt++;
+						capital_money += parseInt(s_money.value);
+					}
+				}
+				
+				s_p_money.value = parseInt(current_money) + parseInt(capital_money); //各特色的經常 + 資本
+				s_p_current_cnt.value = current_cnt;
+				s_p_current_money.value = current_money; //各特色的經常門金額
+				s_p_capital_cnt.value = capital_cnt;
+				s_p_capital_money.value = capital_money; //各特色的資本門金額
+				
+				s_total_money.value = parseInt(s_total_money.value) + parseInt(s_p_money.value); //所有特色的總和
+			}
+		}
+		
+	}
+	
+	function show_reason(obj,YN)
+	{
+		if(obj.value == 'Y')
+		{
+			document.getElementById("span_reason").style.display = "";
+		}
+		else
+		{
+			document.getElementById("span_reason").style.display = "none";
+			document.getElementById("reason").value = "";
+		}
+		
+	}
+	
+	//設定預設值
+	function set_default() 
+	{
+		//補三沒預設
+	}
+	
+	//設定下拉選單
+	function change_subject(obj, idx, YN)
+	{
+		var selectName=obj.options[obj.selectedIndex].text;
+		NewOpt = new Array;
+		
+		var p = left(obj.id,3); //取得p1_ or p2_
+		
+		if (selectName == ""){
+			NewOpt[0] = new Option("");
+		}
+
+		if (selectName == "經常門")	{
+			NewOpt[0] = new Option("");
+			NewOpt[1] = new Option("充實設備");
+			NewOpt[2] = new Option("其他");
+		}
+
+		if (selectName == "資本門" && p == 'p1_')
+		{
+			NewOpt[0] = new Option("");
+			NewOpt[1] = new Option("充實設備");
+			NewOpt[2] = new Option("教師宿舍修繕");
+			NewOpt[3] = new Option("其他");
+		}
+		
+		if (selectName == "資本門" && p == 'p2_')
+		{
+			NewOpt[0] = new Option("");
+			NewOpt[1] = new Option("充實設備");
+			NewOpt[2] = new Option("學生宿舍修繕");
+			NewOpt[3] = new Option("其他");
+		}
+
+		newnum = NewOpt.length;
+		
+		var opt_category = document.getElementById(p + 'opt_category_' + idx)
+
+		// 清除之前下拉選單中的項目
+		opt_category.options.length = 0;
+		
+		// 加入新選類別的項目
+		for (i = 0; i < newnum; i++) opt_category.options[i] = NewOpt[i];
+
+		opt_category.options[0].selected = true;
+		
+		//page load 時不計算總金額
+		if(YN == '1')
+			Count(obj, idx); //變換項目後計算總金額
+	}
+	
+	//取得左N位
+	function left(mainStr,n) 
+	{ 
+		return mainStr.substring(0,n);
+	} 
+	
+	// 左邊補0
+	function padLeft(str,lenght)
+	{
+		if(str.length >= lenght)
+			return str;
+		else
+			return padLeft("0" + str,lenght);
+	}
+	
+</script>
+
+</form>
+</body>
+<?php include ($_SERVER['DOCUMENT_ROOT']."/edu/footer.php"); ?>

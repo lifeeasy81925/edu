@@ -1,0 +1,7 @@
+<link rel='stylesheet' type='text/css' media='screen' href='<{$xoops_url}>/modules/tadnews/module.css' />
+<{foreach item=topic from=$block.re}>
+<div class="recent_comments_list">
+	<a href='<{$xoops_url}>/userinfo.php?uid=<{$topic.uid}>'><{$topic.uid_name}></a>:
+	<a href='<{$xoops_url}>/modules/tadnews/index.php?nsn=<{$topic.nsn}>#comment<{$topic.com_id}>'><{$topic.txt}></a>
+</div>
+<{/foreach}>
