@@ -245,7 +245,7 @@
 	{
 		for(i = 1; i <= 6; i++)
 		{
-			var = document.getElementById("tb_a" + i);
+			var tb_a = document.getElementById("tb_a" + i);
 
 			if(tb_a != null)
 			{
