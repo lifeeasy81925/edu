@@ -123,7 +123,8 @@
 		{
 			?>
 				<div id="show_a<?=$i;?>" onClick="js:tb_control(<?=$i;?>);" style="display:inline;">
-					　● <a href="allowance_examine.php?a=<?=$i;?>" target="_self"><?=$num_ary[$i];?></a><p>
+					● <a href="allowance_examine.php?a=<?=$i;?>" target="_self"><?=$num_ary[$i];?></a>
+					<p>
 				</div>
 			<?
 		}
