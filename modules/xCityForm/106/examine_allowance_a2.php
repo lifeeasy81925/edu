@@ -6,81 +6,89 @@
 
 	include "../../function/config_for_106.php"; //本年度基本設定
 
-	$account = ($_POST['account'] == '')?$_GET['id']:$_POST['account']; //取回傳遞來的學校編號，get為測試用
+	$account 						= ($_POST['account'] == '')?					$_GET['id']					:	$_POST['account']; //取回傳遞來的學校編號，get為測試用
 
-	$table_name = $a2_table_name;
-	$table_name_item = $table_name.'_item';
-	$a_num = 'a2';
+	$table_name 					= $a2_table_name;
+	$table_name_item 				= $table_name.'_item';
+	$a_num 							= 'a2';
 
-	$keyClasses = '13'; // 設定可申請特色二的最少班級數
+	$keyClasses 					= '13'; // 設定可申請特色二的最少班級數
 
-	$sql = " select sd.account, sd.schooltype, sd.cityname, sd.district, sd.schoolname, sd.area, sd.getmoney_85to91, sd.traffic_status ".
+	$sql = " select sd.account,
+					sd.schooltype,
+					sd.cityname,
+					sd.district, 
+					sd.schoolname, 
+					sd.area, 
+					sd.getmoney_85to91, 
+					sd.traffic_status ".
 		   "      , sy.* ".
 		   //補二資料
 		   "      , $a_num.* ".
 
-		   " from schooldata as sd left join schooldata_year as sy on sd.account = sy.account ".
-		   "                       left join $table_name as $a_num on sy.seq_no = $a_num.sy_seq ".
-		   " where sy.school_year = '$school_year' ".
-		   "   and sd.account = '$account' ";
+		   " from 	schooldata as sd	left join	 schooldata_year 	as	 sy 		on 	sd.account 	=	 sy.account ".
+		   "                      		left join	 $table_name 		as 	 $a_num 	on 	sy.seq_no 	= 	 $a_num.sy_seq ".
+		   " where 	sy.school_year 	= 	'$school_year' ".
+		   "   and  sd.account 		= 	'$account' ";
 
 	$result = mysql_query($sql);
 	while($row = mysql_fetch_array($result))
 	{
-		$account = $row['account'];
-		$schooltype = ($row['schooltype'] == 1)?"國小":"國中";
-		$cityname = $row['cityname'];
-		$district = $row['district'];
-		$schoolname = $row['schoolname'];
-		$area = $row['area'];
+		$account 			 		 =  $row['account'];
+		$schooltype 				 = ($row['schooltype'] == 1)?					"國小"						:	"國中";
+		$cityname 					 =  $row['cityname'];
+		$district 					 =  $row['district'];
+		$schoolname					 =  $row['schoolname'];
+		$area 						 =  $row['area'];
 
-		$student = $row['student'];
-		$target_aboriginal = $row['target_aboriginal'];
-		$target_no_aboriginal = $row['target_no_aboriginal'];
-		$class_total = $row['class_total'];
+		$student 					 =  $row['student'];
+		$target_aboriginal 			 =  $row['target_aboriginal'];
+		$target_no_aboriginal		 =  $row['target_no_aboriginal'];
+		$class_total 				 =  $row['class_total'];
 
-		$main_seq = $row['seq_no']; //school_year的seq_no
-		$p1_name = $row['p1_name'];
-		$p2_name = $row['p2_name'];
-		$p1_IsContinue = $row['p1_IsContinue'];
-		$p2_IsContinue = $row['p2_IsContinue'];
-		$p1_ContinueYear = $row['p1_ContinueYear'];
-		$p2_ContinueYear = $row['p2_ContinueYear'];
-		$s_p1_student = $row['s_p1_student'];
-		$s_p2_student = $row['s_p2_student'];
-		$s_p1_target = $row['s_p1_target'];
-		$s_p2_target = $row['s_p2_target'];
-		$p_num = $row['p_num'];
+		$main_seq					 =  $row['seq_no']; //school_year的seq_no
+		$p1_name					 =  $row['p1_name'];
+		$p2_name 					 =  $row['p2_name'];
+		$p1_IsContinue				 =  $row['p1_IsContinue'];
+		$p2_IsContinue 				 =  $row['p2_IsContinue'];
+		$p1_ContinueYear 			 =  $row['p1_ContinueYear'];
+		$p2_ContinueYear			 =  $row['p2_ContinueYear'];
+		$s_p1_student				 =  $row['s_p1_student'];
+		$s_p2_student				 =  $row['s_p2_student'];
+		$s_p1_target 				 =  $row['s_p1_target'];
+		$s_p2_target 				 =  $row['s_p2_target'];
+		$p_num	  					 =  $row['p_num'];
 
-		//學校今年
-		$s_total_money 				 = ($row['s_total_money'] == '')?0:$row['s_total_money']; //NULL則填入0
-		$s_p1_money					 = ($row['s_p1_money'] == '')?0:$row['s_p1_money']; //NULL則填入0
-		$s_p1_current_money			 = ($row['s_p1_current_money'] == '')?0:$row['s_p1_current_money'];
-		$s_p1_capital_money			 = ($row['s_p1_capital_money'] == '')?0:$row['s_p1_capital_money'];
-		$s_p2_money					 = ($row['s_p2_money'] == '')?0:$row['s_p2_money'];
-		$s_p2_current_money			 = ($row['s_p2_current_money'] == '')?0:$row['s_p2_current_money'];
-		$s_p2_capital_money			 = ($row['s_p2_capital_money'] == '')?0:$row['s_p2_capital_money'];
+		//學校今年經費  			載入到本地變數
+		$s_total_money 				 = ($row['s_total_money'] == '')?				0							:	$row['s_total_money']; 			//NULL則填入0
+		$s_p1_money					 = ($row['s_p1_money'] == '')?					0							:	$row['s_p1_money']; 			//NULL則填入0
+		$s_p1_current_money			 = ($row['s_p1_current_money'] == '')?			0							:	$row['s_p1_current_money'];
+		$s_p1_capital_money			 = ($row['s_p1_capital_money'] == '')?			0							:	$row['s_p1_capital_money'];
+		$s_p2_money					 = ($row['s_p2_money'] == '')?					0							:	$row['s_p2_money'];
+		$s_p2_current_money			 = ($row['s_p2_current_money'] == '')?			0							:	$row['s_p2_current_money'];
+		$s_p2_capital_money			 = ($row['s_p2_capital_money'] == '')?			0							:	$row['s_p2_capital_money'];
 
-		//學校三年計畫下一學年
-		$s_total_money_ny1			 = ($row['s_total_money_ny1'] == '')?0				:	$row['s_total_money_ny1']; //NULL則填入0
-		$s_p1_money_ny1				 = ($row['s_p1_money_ny1'] == '')?0				:	$row['s_p1_money_ny1']; //NULL則填入0
-		$s_p1_current_money_ny1		 = ($row['s_p1_current_money_ny1'] == '')?0				:	$row['s_p1_current_money_ny1'];
-		$s_p1_capital_money_ny1		 = ($row['s_p1_capital_money_ny1'] == '')?0				:	$row['s_p1_capital_money_ny1'];
-		$s_p2_money_ny1				 = ($row['s_p2_money_ny1'] == '')?0				:	$row['s_p2_money_ny1'];
-		$s_p2_current_money_ny1		 = ($row['s_p2_current_money_ny1'] == '')?0				:	$row['s_p2_current_money_ny1'];
-		$s_p2_capital_money_ny1		 = ($row['s_p2_capital_money_ny1'] == '')?0				:	$row['s_p2_capital_money_ny1'];
+		//學校有申請三年計畫，下一、下二年經費才有值
+		//學校下一學年經費			載入到本地變數
+		$s_total_money_ny1			 = ($row['s_total_money_ny1'] == '')?			0							:	$row['s_total_money_ny1']; 		//NULL則填入0
+		$s_p1_money_ny1				 = ($row['s_p1_money_ny1'] == '')?				0							:	$row['s_p1_money_ny1']; 		//NULL則填入0
+		$s_p1_current_money_ny1		 = ($row['s_p1_current_money_ny1'] == '')?		0							:	$row['s_p1_current_money_ny1'];
+		$s_p1_capital_money_ny1		 = ($row['s_p1_capital_money_ny1'] == '')?		0							:	$row['s_p1_capital_money_ny1'];
+		$s_p2_money_ny1				 = ($row['s_p2_money_ny1'] == '')?				0							:	$row['s_p2_money_ny1'];
+		$s_p2_current_money_ny1		 = ($row['s_p2_current_money_ny1'] == '')?		0							:	$row['s_p2_current_money_ny1'];
+		$s_p2_capital_money_ny1		 = ($row['s_p2_capital_money_ny1'] == '')?		0							:	$row['s_p2_capital_money_ny1'];
 
-		//學校三年計畫下二學年
-		$s_total_money_ny2			 = ($row['s_total_money_ny2'] == '')?0				:	$row['s_total_money_ny2']; //NULL則填入0
-		$s_p1_money_ny2				 = ($row['s_p1_money_ny2'] == '')?0				:	$row['s_p1_money_ny2']; //NULL則填入0
-		$s_p1_current_money_ny2		 = ($row['s_p1_current_money_ny2'] == '')?0				:	$row['s_p1_current_money_ny2'];
-		$s_p1_capital_money_ny2		 = ($row['s_p1_capital_money_ny2'] == '')?0				:	$row['s_p1_capital_money_ny2'];
-		$s_p2_money_ny2				 = ($row['s_p2_money_ny2'] == '')?0				:	$row['s_p2_money_ny2'];
-		$s_p2_current_money_ny2		 = ($row['s_p2_current_money_ny2'] == '')?0				:	$row['s_p2_current_money_ny2'];
-		$s_p2_capital_money_ny2		 = ($row['s_p2_capital_money_ny2'] == '')?0				:	$row['s_p2_capital_money_ny2'];
+		//學校下二學年經費			載入到本地變數
+		$s_total_money_ny2			 = ($row['s_total_money_ny2'] == '')?			0							:	$row['s_total_money_ny2']; 		//NULL則填入0
+		$s_p1_money_ny2				 = ($row['s_p1_money_ny2'] == '')?				0							:	$row['s_p1_money_ny2']; 		//NULL則填入0
+		$s_p1_current_money_ny2		 = ($row['s_p1_current_money_ny2'] == '')?		0							:	$row['s_p1_current_money_ny2'];
+		$s_p1_capital_money_ny2		 = ($row['s_p1_capital_money_ny2'] == '')?		0							:	$row['s_p1_capital_money_ny2'];
+		$s_p2_money_ny2				 = ($row['s_p2_money_ny2'] == '')?				0							:	$row['s_p2_money_ny2'];
+		$s_p2_current_money_ny2		 = ($row['s_p2_current_money_ny2'] == '')?		0							:	$row['s_p2_current_money_ny2'];
+		$s_p2_capital_money_ny2		 = ($row['s_p2_capital_money_ny2'] == '')?		0							:	$row['s_p2_capital_money_ny2'];
 
-		//縣市今年
-		$city_total_money 			 = ($row['city_total_money'] == '')?			$s_total_money				:	$row['city_total_money']; //NULL則填入學校資料,原本的
+		//縣市今年經費				載入到本地變數
+		$city_total_money 			 = ($row['city_total_money'] == '')?			$s_total_money				:	$row['city_total_money']; 		//若縣市今年經費待審(NULL)		則預設帶入學校今年經費
 		$city_p1_money 				 = ($row['city_p1_money'] == '')?				$s_p1_money					:	$row['city_p1_money'];
 		$city_p1_current_money 		 = ($row['city_p1_current_money'] == '')?		$s_p1_current_money			:	$row['city_p1_current_money'];
 		$city_p1_capital_money 		 = ($row['city_p1_capital_money'] == '')?		$s_p1_capital_money			:	$row['city_p1_capital_money'];
@@ -88,8 +96,8 @@
 		$city_p2_current_money 		 = ($row['city_p2_current_money'] == '')?		$s_p2_current_money			:	$row['city_p2_current_money'];
 		$city_p2_capital_money		 = ($row['city_p2_capital_money'] == '')?		$s_p2_capital_money			:	$row['city_p2_capital_money'];
 
-		//縣市三年計畫下一學年
-		$city_total_money_ny1		 = ($row['city_total_money_ny1'] == '')?		$s_total_money_ny1			:	$row['city_total_money_ny1']; //若縣市ny1為NULL，則複製學校ny1
+		//縣市下一年經費			載入到本地變數
+		$city_total_money_ny1		 = ($row['city_total_money_ny1'] == '')?		$s_total_money_ny1			:	$row['city_total_money_ny1'];	//若縣市下一年經費待審(NULL)	則預設帶入學校下一年經費
 		$city_p1_money_ny1 			 = ($row['city_p1_money_ny1'] == '')?			$s_p1_money_ny1				:	$row['city_p1_money_ny1'];
 		$city_p1_current_money_ny1   = ($row['city_p1_current_money_ny1'] == '')?	$s_p1_current_money_ny1		:	$row['city_p1_current_money_ny1'];
 		$city_p1_capital_money_ny1   = ($row['city_p1_capital_money_ny1'] == '')?	$s_p1_capital_money_ny1		:	$row['city_p1_capital_money_ny1'];
@@ -97,8 +105,8 @@
 		$city_p2_current_money_ny1   = ($row['city_p2_current_money_ny1'] == '')?	$s_p2_current_money_ny1		:	$row['city_p2_current_money_ny1'];
 		$city_p2_capital_money_ny1   = ($row['city_p2_capital_money_ny1'] == '')?	$s_p2_capital_money_ny1		:	$row['city_p2_capital_money_ny1'];
 
-		//縣市三年計畫下二學年
-		$city_total_money_ny2		 = ($row['city_total_money_ny2'] == '')?		$s_total_money_ny2			:	$row['city_total_money_ny2']; //若縣市ny2為NULL，則複製學校ny2
+		//縣市下二年經費			載入到本地變數
+		$city_total_money_ny2		 = ($row['city_total_money_ny2'] == '')?		$s_total_money_ny2			:	$row['city_total_money_ny2']; 	//若縣市下二年經費待審(NULL)	則預設帶入學校下二年經費
 		$city_p1_money_ny2			 = ($row['city_p1_money_ny2'] == '')?			$s_p1_money_ny2				:	$row['city_p1_money_ny2'];
 		$city_p1_current_money_ny2	 = ($row['city_p1_current_money_ny2'] == '')?	$s_p1_current_money_ny2		:	$row['city_p1_current_money_ny2'];
 		$city_p1_capital_money_ny2	 = ($row['city_p1_capital_money_ny2'] == '')?	$s_p1_capital_money_ny2		:	$row['city_p1_capital_money_ny2'];
@@ -106,24 +114,28 @@
 		$city_p2_current_money_ny2   = ($row['city_p2_current_money_ny2'] == '')?	$s_p2_current_money_ny2		:	$row['city_p2_current_money_ny2'];
 		$city_p2_capital_money_ny2   = ($row['city_p2_capital_money_ny2'] == '')?	$s_p2_capital_money_ny2		:	$row['city_p2_capital_money_ny2'];
 
-		$city_desc = $row['city_desc'];
-		$city_desc_ny1 = $row['city_desc_ny1'];
-		$city_desc_ny2 = $row['city_desc_ny2'];
-		$city_desc_p2 = $row['city_desc_p2'];
-		$city_desc_ny1_p2 = $row['city_desc_ny1_p2'];
-		$city_desc_ny2_p2 = $row['city_desc_ny2_p2'];
-		$city_approved = $row['city_approved'];
+		//縣市今+下+下二年意見		載入到本地變數
+		$city_desc 					 =  $row['city_desc'];
+		$city_desc_ny1 				 =  $row['city_desc_ny1'];
+		$city_desc_ny2 			 	 =  $row['city_desc_ny2'];
+		$city_desc_p2 				 =  $row['city_desc_p2'];
+		$city_desc_ny1_p2 			 =  $row['city_desc_ny1_p2'];
+		$city_desc_ny2_p2 			 =  $row['city_desc_ny2_p2'];
+		$city_approved 				 =  $row['city_approved'];
 
-		$lastyear_leaving = ($row['lastyear_leaving'] == '')?0:$row['lastyear_leaving'];
-		$page1_warning = $row['page1_warning'];
-		$page1_desc = $row['page1_desc'];
-		$page2_warning = $row['page2_warning'];
-		$page2_desc = $row['page2_desc'];
-		$page3_warning = $row['page3_warning'];
-		$page3_desc = $row['page3_desc'];
+		//縣市今+下+下二年意見		載入到本地變數
+		$lastyear_leaving 			 = ($row['lastyear_leaving'] == '')?			0							:	$row['lastyear_leaving'];
+		$page1_warning				 =	$row['page1_warning'];
+		$page1_desc					 =  $row['page1_desc'];
+		$page2_warning 				 =  $row['page2_warning'];
+		$page2_desc 				 =  $row['page2_desc'];
+		$page3_warning 				 =  $row['page3_warning'];
+		$page3_desc 				 =  $row['page3_desc'];
 
-		$accord_point = $row['accord_point']; //符合的指標
-		$accord_point_ary = explode(",",$accord_point);
+		//抓出儲存符合指標欄位		載入到本地變數
+		//儲存符合指標欄位以","分隔
+		$accord_point 				=	$row['accord_point']; 
+		$accord_point_ary 			= 	explode(",",$accord_point);
 
 		//計算目標學生百分比
 		if($s_p1_student != '' && $s_p1_target != '')
@@ -148,28 +160,28 @@
 			   "   and section = '$p' ". //特色1
 			   " order by seq_no asc ";
 
-		$result = mysql_query($sql);
-		$num_rows = mysql_num_rows($result); //列數
+		$result				 = mysql_query($sql);
+		$num_rows 			 = mysql_num_rows($result); //列數
 
-		$has_outlay = 0; //有無雜支項目
-		$idx = 0;
+		$has_outlay 		 = 0; //有無雜支項目
+		$idx 				 = 0;
 
 		//順序：顯示已填資料 -> 補滿9項(未滿9時補上空值) -> 顯示雜支
 		while($row = mysql_fetch_array($result))
 		{
-			$seq_no = $row['seq_no'];
-			$subject = $row['subject'];
-			$category = $row['category'];
-			$item = $row['item'];
-			$unit = $row['unit'];
-			$price = $row['price'];
-			$amount = $row['amount'];
-			$s_money = $row['s_money'];
-			$s_desc = $row['s_desc'];
-			$city_money = ($row['city_money'] == '')?$s_money:$row['city_money'];
+			$seq_no			 =  $row['seq_no'];
+			$subject 	 	 =  $row['subject'];
+			$category 	     =  $row['category'];
+			$item			 =  $row['item'];
+			$unit			 =  $row['unit'];
+			$price			 =  $row['price'];
+			$amount			 =  $row['amount'];
+			$s_money		 =  $row['s_money'];
+			$s_desc 		 =  $row['s_desc'];
+			$city_money 	 = ($row['city_money'] == '')?				$s_money	:	$row['city_money'];
 
 			if($city_money > $s_money)
-				$city_money = $s_money;
+				$city_money  = $s_money;
 			$city_delete = $s_money - $city_money;
 
 			$s1 = array("","經常門","資本門");
@@ -187,19 +199,19 @@
 				echo "<tr height='30px' style='font-size:13px;'>";
 
 					// 序號、類別、項目、單位、單價、數量、金額、說明
-					echo "<td nowrap='nowrap' align='center' bgcolor='aliceblue'>$idx      <input type='hidden' name='".$p."_seq_no_$idx'   value='$seq_no'>  </td>";
-					echo "<td nowrap='nowrap' align='center' bgcolor='aliceblue'>          <input type='text'   name='".$p."_subject_$idx'  value='$subject' size='2' style='border:0px; text-align:right; background-color:aliceblue;' readonly></td>";
-					echo "<td nowrap='nowrap'                bgcolor='aliceblue'>$category <input type='hidden' name='".$p."_category_$idx' value='$category'></td>";
-					echo "<td nowrap='nowrap'                bgcolor='aliceblue'>$item     <input type='hidden' name='".$p."_item_$idx'     value='$item'>    </td>";
-					echo "<td nowrap='nowrap' align='center' bgcolor='aliceblue'>$unit     <input type='hidden' name='".$p."_unit_$idx'     value='$unit'>    </td>";
-					echo "<td nowrap='nowrap' align='right'  bgcolor='aliceblue'>$price    <input type='hidden' name='".$p."_price_$idx'    value='$price'>   </td>";
-					echo "<td nowrap='nowrap' align='right'  bgcolor='aliceblue'>$amount   <input type='hidden' name='".$p."_amount_$idx'   value='$amount'>  </td>";
-					echo "<td nowrap='nowrap' align='right'  bgcolor='aliceblue'>$s_money  <input type='hidden' name='".$p."_s_money_$idx'  value='$s_money'> </td>";
-					echo "<td nowrap='nowrap'                bgcolor='aliceblue'>$s_desc                                                                      </td>";
+					echo "<td nowrap='nowrap' align='center' bgcolor='aliceblue'>$idx      <input type='hidden' 	   		name='".$p."_seq_no_$idx'   	  value='$seq_no'>  </td>";
+					echo "<td nowrap='nowrap' align='center' bgcolor='aliceblue'>          <input type='text'   size='2'    name='".$p."_subject_$idx'  	  value='$subject'  style='border:0px; text-align:right; background-color:aliceblue;' readonly></td>";
+					echo "<td nowrap='nowrap'                bgcolor='aliceblue'>$category <input type='hidden' 	   		name='".$p."_category_$idx' 	  value='$category'></td>";
+					echo "<td nowrap='nowrap'                bgcolor='aliceblue'>$item     <input type='hidden' 			name='".$p."_item_$idx'     	  value='$item'>    </td>";
+					echo "<td nowrap='nowrap' align='center' bgcolor='aliceblue'>$unit     <input type='hidden' 			name='".$p."_unit_$idx'     	  value='$unit'>    </td>";
+					echo "<td nowrap='nowrap' align='right'  bgcolor='aliceblue'>$price    <input type='hidden' 			name='".$p."_price_$idx'    	  value='$price'>   </td>";
+					echo "<td nowrap='nowrap' align='right'  bgcolor='aliceblue'>$amount   <input type='hidden' 			name='".$p."_amount_$idx'		  value='$amount'>  </td>";
+					echo "<td nowrap='nowrap' align='right'  bgcolor='aliceblue'>$s_money  <input type='hidden'				name='".$p."_s_money_$idx' 		  value='$s_money'> </td>";
+					echo "<td nowrap='nowrap'                bgcolor='aliceblue'>$s_desc                                                                  					    </td>";
 
 					// 初審金額、刪減金額
-					echo "<td nowrap='nowrap' align='center' bgcolor='cornsilk'><input type='text' size='3' name='".$p."_city_money_$idx'  value='$city_money'  style='text-align:right;' onkeyup=value=value.replace(/[^\d]/g,'') onChange='js:Count(this,$idx);'></td>";
-					echo "<td nowrap='nowrap' align='center' bgcolor='cornsilk'><input type='text' size='3' name='".$p."_city_delete_$idx' value='$city_delete' style='border:0px; text-align:right; background-color:cornsilk;' readonly></td>";
+					echo "<td nowrap='nowrap' align='center' bgcolor='cornsilk'>".		  "<input type='text' 	size='3'	name='".$p."_city_money_$idx'  value='$city_money'  style='text-align:right;' onkeyup=value=value.replace(/[^\d]/g,'') onChange='js:Count(this,$idx);'></td>";
+					echo "<td nowrap='nowrap' align='center' bgcolor='cornsilk'>". 		  "<input type='text' 	size='3'	name='".$p."_city_delete_$idx' value='$city_delete' style='border:0px; text-align:right; background-color:cornsilk;' readonly></td>";
 				echo "</tr>";
 			}
 			else
@@ -290,7 +302,9 @@
 					<input type="text" size="3" name="city_total_money" value="<?=$city_total_money;?>" style="border:0px; text-align:right; background-color:aliceblue;" readonly> 元
 				</td>
 			</tr>
-			<tr height="40px" style="display:<?=($s_total_money_ny1 == 0 || $s_total_money_ny1 == '')?"none":"";?>;">
+			
+			<?	//如果學校沒有三年計畫 下一年度經費 則此欄位不顯示  ?>
+			<tr height="40px" style="display:<?=($s_total_money_ny1 == 0 || $s_total_money_ny1 == '')?	"none"	:	"";?>;">
 				<td  width="45%" align=right>
 					● <?=$school_year+1;?>年度 學校申請金額：
 					<input type="text" size="3" name="s_total_money_ny1" value="<?=$s_total_money_ny1;?>" style="border:0px; text-align:right; background-color:aliceblue;" readonly> 元
@@ -300,6 +314,8 @@
 					<input type="text" size="3" name="city_total_money_ny1" value="<?=$city_total_money_ny1;?>" style="border:0px; text-align:right; background-color:aliceblue;" readonly> 元
 				</td>
 			</tr>
+			
+			<?	//如果學校沒有三年計畫的下二年度經費 則此欄位不顯示  ?>
 			<tr height="40px" style="display:<?=($s_total_money_ny2 == 0 || $s_total_money_ny2 == '')?"none":"";?>;">
 				<td  width="45%" align=right>
 					● <?=$school_year+2;?>年度 學校申請金額：
@@ -318,28 +334,23 @@
 		<hr>
 		<p>
 
-		<? // 特色一 ================================================================================================ ?>
+		<? // 以下為特色一 ================================================================================================ ?>
 
 		● 特色一<p>
 
 		　特色名稱：<?=$p1_name;?><?=($p1_IsContinue == "Y")?"（本年度為第 ".$p1_ContinueYear." 年辦理）":"";?><p>
+		　參加學生人數<?=$s_p1_student. "人，其中含目標學生" . $s_p1_target . "人，目標學生佔參加學生" . $s_p1_per ."%。<p>" ;?>
 
-		　參加學生人數
-		<?=$s_p1_student;?> 人，其中含目標學生
-		<?=$s_p1_target;?> 人，目標學生佔參加學生
-		<?=$s_p1_per;?>%。<p>
-
-		　<font color="blue"><?=$school_year;?>年度：</font><p>
-
-		　　學校申請：共計
-		<input type="text" size="3" name="s_p1_money"         value="<?=$s_p1_money;?>"         style="border:0px; text-align:right; background-color:aliceblue;" readonly> 元（經常門
-		<input type="text" size="3" name="s_p1_current_money" value="<?=$s_p1_current_money;?>" style="border:0px; text-align:right; background-color:aliceblue;" readonly> 元，資本門
-		<input type="text" size="3" name="s_p1_capital_money" value="<?=$s_p1_capital_money;?>" style="border:0px; text-align:right; background-color:aliceblue;" readonly> 元）。<p>
+		<font color="blue"><?=$school_year;?>年度：</font><p>
+			學校申請：共計
+		<input type="text" size="3" name="s_p1_money"         	 value="<?=$s_p1_money;?>"        	  style="border:0px; text-align:right; background-color:aliceblue;" readonly> 元
+		（經常門<input type="text" size="3" name="s_p1_current_money"    value="<?=$s_p1_current_money;?>" 	  style="border:0px; text-align:right; background-color:aliceblue;" readonly> 元
+		，資本門<input type="text" size="3" name="s_p1_capital_money"    value="<?=$s_p1_capital_money;?>" 	  style="border:0px; text-align:right; background-color:aliceblue;" readonly> 元）。<p>
 
 		　　縣市初審：共計
-		<input type="text" size="3" name="city_p1_money"         value="<?=$city_p1_money;?>"         style="border:0px; text-align:right; background-color:aliceblue;" readonly> 元（經常門
-		<input type="text" size="3" name="city_p1_current_money" value="<?=$city_p1_current_money;?>" style="border:0px; text-align:right; background-color:aliceblue;" readonly> 元，資本門
-		<input type="text" size="3" name="city_p1_capital_money" value="<?=$city_p1_capital_money;?>" style="border:0px; text-align:right; background-color:aliceblue;" readonly> 元）。<p>
+		<input type="text" size="3" name="city_p1_money"         value="<?=$city_p1_money;?>"         style="border:0px; text-align:right; background-color:aliceblue;" readonly> 元
+		（經常門<input type="text" size="3" name="city_p1_current_money" value="<?=$city_p1_current_money;?>" style="border:0px; text-align:right; background-color:aliceblue;" readonly> 元
+		，資本門<input type="text" size="3" name="city_p1_capital_money" value="<?=$city_p1_capital_money;?>" style="border:0px; text-align:right; background-color:aliceblue;" readonly> 元）。<p>
 
 		　　經費概算表：<p>
 		<table border="2" rules="rows" cellspacing="0" cellpadding="5">
@@ -655,10 +666,10 @@
 
 		<script language="JavaScript">
 
+			//系統自動檢查縣市初審 審核不通過或金額異常	攔截送出
 			function toCheck()
 			{
 				/* 逐項檢查 */
-
 				var i, j, k;
 
 				for(i = 1; i <= 2; i++)  // 特色(p1、p2)
@@ -668,14 +679,14 @@
 						for(k = 106; k <= 108; k++)  // 項目
 						{
 							if(document.getElementsByName('p' + i + '_' + k + '_s_money_'    + j)[0] != null && document.getElementsByName('p' + i + '_' + k + '_city_money_' + j)[0] != null) 
-							// 先檢查呼叫物件，有存在才繼續，不然程式會功能失效。
+							// 除錯：檢查物件存在才繼續，不然程式會功能失效。
 							{
 								var s_money    = document.getElementsByName('p' + i + '_' + k + '_s_money_'    + j)[0];  // 學校申請金額
 								var city_money = document.getElementsByName('p' + i + '_' + k + '_city_money_' + j)[0];  // 縣市初審金額
 
 								if(city_money.value != '' && parseInt(city_money.value) > parseInt(s_money.value))
 								{
-									alert('特色 ' + i + '：'+ k + ' 年度經費，第 ' + j + ' 項的初審金額不得超過學校申請金額。');
+									alert('特色 ' +i+ '：' +k+ ' 年度經費，第 ' +j+ ' 項的初審金額不得超過學校申請金額。');
 									return false;
 								}
 							}

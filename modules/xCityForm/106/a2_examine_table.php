@@ -112,16 +112,18 @@
 						}
 					echo "</td>";
 
-					echo "<td align='center'>";  // 審核按鈕
-						// 若沿用，無須再審
-						echo ($inherit_year == '104' || $inherit_year == '105')?"<form action='examine_allowance_a2_ctn.php' method='post' style='margin:0px; display:inline;'>":"<form action='examine_allowance_$a_num.php' method='post' style='margin:0px; display:inline;'>";
-							echo "<input type='hidden' name='account' id='account' value='$account'>";
-							echo "<input type='submit' name='button' id='button' value=' 審核 '>";
-						echo "</form>";
+					echo "<td align='center'>";
+						echo ($inherit_year == '104' || $inherit_year == '105')?
+								"<form action='examine_allowance_a2_ctn.php' method='post' style='margin:0px; display:inline;'>"	//若沿用，無須再審	送往examine_allowance_a2_ctn.php
+								:
+								"<form action='examine_allowance_$a_num.php' method='post' style='margin:0px; display:inline;'>";	//若不沿用			送往examine_allowance_a2_num.php
+								echo "<input type='hidden' name='account'	id='account'	value='$account'>";
+								echo "<input type='submit' name='button'	id='button'		value=' 審核 '>";
+						echo	"</form>";
 					echo "</td>";
 
 					echo "<td align='center'>";  // 備註
-						echo ($inherit_year == '104' || $inherit_year == '105')?"<font color=green>免審</font>":"";
+						echo ($inherit_year == '104' || $inherit_year == '105')?	"<font color=green>免審</font>":"";
 					echo "</td>";
 				echo "</tr>";
 			}
