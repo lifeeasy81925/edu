@@ -52,55 +52,59 @@
 		$s_p2_target = $row['s_p2_target'];
 		$p_num = $row['p_num'];
 
-		$s_total_money = ($row['s_total_money'] == '')?0:$row['s_total_money']; //NULL則填入0
-		$s_p1_money = ($row['s_p1_money'] == '')?0:$row['s_p1_money']; //NULL則填入0
-		$s_p1_current_money = ($row['s_p1_current_money'] == '')?0:$row['s_p1_current_money'];
-		$s_p1_capital_money = ($row['s_p1_capital_money'] == '')?0:$row['s_p1_capital_money'];
-		$s_p2_money = ($row['s_p2_money'] == '')?0:$row['s_p2_money'];
-		$s_p2_current_money = ($row['s_p2_current_money'] == '')?0:$row['s_p2_current_money'];
-		$s_p2_capital_money = ($row['s_p2_capital_money'] == '')?0:$row['s_p2_capital_money'];
+		//學校今年
+		$s_total_money 				 = ($row['s_total_money'] == '')?0:$row['s_total_money']; //NULL則填入0
+		$s_p1_money					 = ($row['s_p1_money'] == '')?0:$row['s_p1_money']; //NULL則填入0
+		$s_p1_current_money			 = ($row['s_p1_current_money'] == '')?0:$row['s_p1_current_money'];
+		$s_p1_capital_money			 = ($row['s_p1_capital_money'] == '')?0:$row['s_p1_capital_money'];
+		$s_p2_money					 = ($row['s_p2_money'] == '')?0:$row['s_p2_money'];
+		$s_p2_current_money			 = ($row['s_p2_current_money'] == '')?0:$row['s_p2_current_money'];
+		$s_p2_capital_money			 = ($row['s_p2_capital_money'] == '')?0:$row['s_p2_capital_money'];
 
-		$s_total_money_ny1 = ($row['s_total_money_ny1'] == '')?0:$row['s_total_money_ny1']; //NULL則填入0
-		$s_p1_money_ny1 = ($row['s_p1_money_ny1'] == '')?0:$row['s_p1_money_ny1']; //NULL則填入0
-		$s_p1_current_money_ny1 = ($row['s_p1_current_money_ny1'] == '')?0:$row['s_p1_current_money_ny1'];
-		$s_p1_capital_money_ny1 = ($row['s_p1_capital_money_ny1'] == '')?0:$row['s_p1_capital_money_ny1'];
-		$s_p2_money_ny1 = ($row['s_p2_money_ny1'] == '')?0:$row['s_p2_money_ny1'];
-		$s_p2_current_money_ny1 = ($row['s_p2_current_money_ny1'] == '')?0:$row['s_p2_current_money_ny1'];
-		$s_p2_capital_money_ny1 = ($row['s_p2_capital_money_ny1'] == '')?0:$row['s_p2_capital_money_ny1'];
+		//學校三年計畫下一學年
+		$s_total_money_ny1			 = ($row['s_total_money_ny1'] == '')?0				:	$row['s_total_money_ny1']; //NULL則填入0
+		$s_p1_money_ny1				 = ($row['s_p1_money_ny1'] == '')?0				:	$row['s_p1_money_ny1']; //NULL則填入0
+		$s_p1_current_money_ny1		 = ($row['s_p1_current_money_ny1'] == '')?0				:	$row['s_p1_current_money_ny1'];
+		$s_p1_capital_money_ny1		 = ($row['s_p1_capital_money_ny1'] == '')?0				:	$row['s_p1_capital_money_ny1'];
+		$s_p2_money_ny1				 = ($row['s_p2_money_ny1'] == '')?0				:	$row['s_p2_money_ny1'];
+		$s_p2_current_money_ny1		 = ($row['s_p2_current_money_ny1'] == '')?0				:	$row['s_p2_current_money_ny1'];
+		$s_p2_capital_money_ny1		 = ($row['s_p2_capital_money_ny1'] == '')?0				:	$row['s_p2_capital_money_ny1'];
 
-		$s_total_money_ny2 = ($row['s_total_money_ny2'] == '')?0:$row['s_total_money_ny2']; //NULL則填入0
-		$s_p1_money_ny2 = ($row['s_p1_money_ny2'] == '')?0:$row['s_p1_money_ny2']; //NULL則填入0
-		$s_p1_current_money_ny2 = ($row['s_p1_current_money_ny2'] == '')?0:$row['s_p1_current_money_ny2'];
-		$s_p1_capital_money_ny2 = ($row['s_p1_capital_money_ny2'] == '')?0:$row['s_p1_capital_money_ny2'];
-		$s_p2_money_ny2 = ($row['s_p2_money_ny2'] == '')?0:$row['s_p2_money_ny2'];
-		$s_p2_current_money_ny2 = ($row['s_p2_current_money_ny2'] == '')?0:$row['s_p2_current_money_ny2'];
-		$s_p2_capital_money_ny2 = ($row['s_p2_capital_money_ny2'] == '')?0:$row['s_p2_capital_money_ny2'];
+		//學校三年計畫下二學年
+		$s_total_money_ny2			 = ($row['s_total_money_ny2'] == '')?0				:	$row['s_total_money_ny2']; //NULL則填入0
+		$s_p1_money_ny2				 = ($row['s_p1_money_ny2'] == '')?0				:	$row['s_p1_money_ny2']; //NULL則填入0
+		$s_p1_current_money_ny2		 = ($row['s_p1_current_money_ny2'] == '')?0				:	$row['s_p1_current_money_ny2'];
+		$s_p1_capital_money_ny2		 = ($row['s_p1_capital_money_ny2'] == '')?0				:	$row['s_p1_capital_money_ny2'];
+		$s_p2_money_ny2				 = ($row['s_p2_money_ny2'] == '')?0				:	$row['s_p2_money_ny2'];
+		$s_p2_current_money_ny2		 = ($row['s_p2_current_money_ny2'] == '')?0				:	$row['s_p2_current_money_ny2'];
+		$s_p2_capital_money_ny2		 = ($row['s_p2_capital_money_ny2'] == '')?0				:	$row['s_p2_capital_money_ny2'];
 
-		$city_total_money = ($row['city_total_money'] == '')?$s_total_money:$row['city_total_money']; //NULL則填入學校資料,原本的
-		$city_p1_money = ($row['city_p1_money'] == '')?$s_p1_money:$row['city_p1_money'];
-		$city_p1_current_money = ($row['city_p1_current_money'] == '')?$s_p1_current_money:$row['city_p1_current_money'];
-		$city_p1_capital_money = ($row['city_p1_capital_money'] == '')?$s_p1_capital_money:$row['city_p1_capital_money'];
-		$city_p2_money = ($row['city_p2_money'] == '')?$s_p2_money:$row['city_p2_money'];
-		$city_p2_current_money = ($row['city_p2_current_money'] == '')?$s_p2_current_money:$row['city_p2_current_money'];
-		$city_p2_capital_money = ($row['city_p2_capital_money'] == '')?$s_p2_capital_money:$row['city_p2_capital_money'];
+		//縣市今年
+		$city_total_money 			 = ($row['city_total_money'] == '')?			$s_total_money				:	$row['city_total_money']; //NULL則填入學校資料,原本的
+		$city_p1_money 				 = ($row['city_p1_money'] == '')?				$s_p1_money					:	$row['city_p1_money'];
+		$city_p1_current_money 		 = ($row['city_p1_current_money'] == '')?		$s_p1_current_money			:	$row['city_p1_current_money'];
+		$city_p1_capital_money 		 = ($row['city_p1_capital_money'] == '')?		$s_p1_capital_money			:	$row['city_p1_capital_money'];
+		$city_p2_money 				 = ($row['city_p2_money'] == '')?				$s_p2_money					:	$row['city_p2_money'];
+		$city_p2_current_money 		 = ($row['city_p2_current_money'] == '')?		$s_p2_current_money			:	$row['city_p2_current_money'];
+		$city_p2_capital_money		 = ($row['city_p2_capital_money'] == '')?		$s_p2_capital_money			:	$row['city_p2_capital_money'];
 
-		$city_total_money_ny1 = ($row['city_total_money_ny1'] == '')?$s_total_money_ny1:$row['city_total_money_ny1']; //NULL則填入學校資料
+		//縣市三年計畫下一學年
+		$city_total_money_ny1		 = ($row['city_total_money_ny1'] == '')?		$s_total_money_ny1			:	$row['city_total_money_ny1']; //若縣市ny1為NULL，則複製學校ny1
+		$city_p1_money_ny1 			 = ($row['city_p1_money_ny1'] == '')?			$s_p1_money_ny1				:	$row['city_p1_money_ny1'];
+		$city_p1_current_money_ny1   = ($row['city_p1_current_money_ny1'] == '')?	$s_p1_current_money_ny1		:	$row['city_p1_current_money_ny1'];
+		$city_p1_capital_money_ny1   = ($row['city_p1_capital_money_ny1'] == '')?	$s_p1_capital_money_ny1		:	$row['city_p1_capital_money_ny1'];
+		$city_p2_money_ny1 			 = ($row['city_p2_money_ny1'] == '')?			$s_p2_money_ny1				:	$row['city_p2_money_ny1'];
+		$city_p2_current_money_ny1   = ($row['city_p2_current_money_ny1'] == '')?	$s_p2_current_money_ny1		:	$row['city_p2_current_money_ny1'];
+		$city_p2_capital_money_ny1   = ($row['city_p2_capital_money_ny1'] == '')?	$s_p2_capital_money_ny1		:	$row['city_p2_capital_money_ny1'];
 
-
-		$city_p1_money_ny1 = ($row['city_p1_money_ny1'] == '')?$s_p1_money_ny1:$row['city_p1_money_ny1'];
-		$city_p1_current_money_ny1 = ($row['city_p1_current_money_ny1'] == '')?$s_p1_current_money_ny1:$row['city_p1_current_money_ny1'];
-		$city_p1_capital_money_ny1 = ($row['city_p1_capital_money_ny1'] == '')?$s_p1_capital_money_ny1:$row['city_p1_capital_money_ny1'];
-		$city_p2_money_ny1 = ($row['city_p2_money_ny1'] == '')?$s_p2_money_ny1:$row['city_p2_money_ny1'];
-		$city_p2_current_money_ny1 = ($row['city_p2_current_money_ny1'] == '')?$s_p2_current_money_ny1:$row['city_p2_current_money_ny1'];
-		$city_p2_capital_money_ny1 = ($row['city_p2_capital_money_ny1'] == '')?$s_p2_capital_money_ny1:$row['city_p2_capital_money_ny1'];
-
-		$city_total_money_ny2 = ($row['city_total_money_ny2'] == '')?$s_total_money_ny2:$row['city_total_money_ny2']; //NULL則填入學校資料
-		$city_p1_money_ny2 = ($row['city_p1_money_ny2'] == '')?$s_p1_money_ny2:$row['city_p1_money_ny2'];
-		$city_p1_current_money_ny2 = ($row['city_p1_current_money_ny2'] == '')?$s_p1_current_money_ny2:$row['city_p1_current_money_ny2'];
-		$city_p1_capital_money_ny2 = ($row['city_p1_capital_money_ny2'] == '')?$s_p1_capital_money_ny2:$row['city_p1_capital_money_ny2'];
-		$city_p2_money_ny2 = ($row['city_p2_money_ny2'] == '')?$s_p2_money_ny2:$row['city_p2_money_ny2'];
-		$city_p2_current_money_ny2 = ($row['city_p2_current_money_ny2'] == '')?$s_p2_current_money_ny2:$row['city_p2_current_money_ny2'];
-		$city_p2_capital_money_ny2 = ($row['city_p2_capital_money_ny2'] == '')?$s_p2_capital_money_ny2:$row['city_p2_capital_money_ny2'];
+		//縣市三年計畫下二學年
+		$city_total_money_ny2		 = ($row['city_total_money_ny2'] == '')?		$s_total_money_ny2			:	$row['city_total_money_ny2']; //若縣市ny2為NULL，則複製學校ny2
+		$city_p1_money_ny2			 = ($row['city_p1_money_ny2'] == '')?			$s_p1_money_ny2				:	$row['city_p1_money_ny2'];
+		$city_p1_current_money_ny2	 = ($row['city_p1_current_money_ny2'] == '')?	$s_p1_current_money_ny2		:	$row['city_p1_current_money_ny2'];
+		$city_p1_capital_money_ny2	 = ($row['city_p1_capital_money_ny2'] == '')?	$s_p1_capital_money_ny2		:	$row['city_p1_capital_money_ny2'];
+		$city_p2_money_ny2 			 = ($row['city_p2_money_ny2'] == '')?			$s_p2_money_ny2				:	$row['city_p2_money_ny2'];
+		$city_p2_current_money_ny2   = ($row['city_p2_current_money_ny2'] == '')?	$s_p2_current_money_ny2		:	$row['city_p2_current_money_ny2'];
+		$city_p2_capital_money_ny2   = ($row['city_p2_capital_money_ny2'] == '')?	$s_p2_capital_money_ny2		:	$row['city_p2_capital_money_ny2'];
 
 		$city_desc = $row['city_desc'];
 		$city_desc_ny1 = $row['city_desc_ny1'];
