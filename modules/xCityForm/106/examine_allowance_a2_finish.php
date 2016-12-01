@@ -52,7 +52,7 @@
 		{			
 			$p = "p".$i."_".$k;
 			
-			for($j = 1;$j <= 10;$j++) //細項填寫資料
+			for($j = 1;$j <= 20;$j++) //細項填寫資料
 			{
 				$seq_no = $_POST[$p.'_seq_no_'.$j];
 				$subject = $_POST[$p.'_subject_'.$j];

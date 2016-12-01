@@ -218,12 +218,12 @@
 			{
 				$has_outlay = 1;
 
-				$outlay_seq_no      = $seq_no;
-				$outlay_subject     = $subject;
-				$outlay_category    = $category;
-				$outlay_item        = $item;
-				$outlay_s_money     = $s_money;
-				$outlay_s_desc      = $s_desc;
+				$outlay_seq_no      =  $seq_no;
+				$outlay_subject     =  $subject;
+				$outlay_category    =  $category;
+				$outlay_item        =  $item;
+				$outlay_s_money     =  $s_money;
+				$outlay_s_desc      =  $s_desc;
 				$outlay_city_money  = ($city_money  == '')? $s_money:$city_money;
 				$outlay_city_delete = ($city_delete == '')?        0:$city_delete;
 			}
@@ -515,7 +515,8 @@
 			　　<?=$school_year;?>年度 縣市初審意見：<p>
 			　　<textarea name="city_desc_p2" cols="55" rows="4"><?=$city_desc_p2;?></textarea><p>
 
-			<? if($s_p2_money_ny1 == 0 || $s_p2_money_ny1 == '') echo "<!-- "; ?>
+			<? //學校沒有下一年度經費表 則上下夾註解掉
+				if($s_p2_money_ny1 == 0 || $s_p2_money_ny1 == '') echo "<!-- "; ?>
 
 				　　<font color="blue"><?=($school_year+1);?>年度：</font><p>
 
@@ -557,7 +558,8 @@
 
 			<? if($s_p2_money_ny1 == 0 || $s_p2_money_ny1 == '') echo " -->"; ?>
 
-			<? if($s_p2_money_ny2 == 0 || $s_p2_money_ny2 == '') echo "<!-- "; ?>
+			<? //學校沒有下一年度經費表 則上下夾註解掉
+				if($s_p2_money_ny2 == 0 || $s_p2_money_ny2 == '') echo "<!-- "; ?>
 
 				　　<font color="blue"><?=($school_year+2);?>年度：</font><p>
 
