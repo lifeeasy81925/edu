@@ -9,6 +9,7 @@
 	$account 						= ($_POST['account'] == '')?					$_GET['id']					:	$_POST['account']; //取回傳遞來的學校編號，get為測試用
 
 	$table_name 					= $a2_table_name;
+
 	$table_name_item 				= $table_name.'_item';
 	$a_num 							= 'a2';
 
@@ -190,14 +191,14 @@
 					 , "資本門"=>array("","器材購置","器材維護","硬體設備","其他")
 						);
 
+			//顯示在雜支前面的項目
 			if($category != '雜支')
 			{
-				$idx++;
-
-				// name 或 id 最後格式為 p1_xxx_1, p1=特色一(p2為二), xxx=名稱(ex.subject=科目、category=類別), 最後一位數字表示項次，每個特色有1~10
-
+				$idx++;		//項目序號
+				// name及id 命名格式為"px_xxx_1"。 px為特色(ex.p1=特色一;p2=特色二)
+				//								  ,xxx為欄位名稱(ex.subject=科目、category=類別),
+				//								  ,最後一位數字表示項次，每個特色有1~10
 				echo "<tr height='30px' style='font-size:13px;'>";
-
 					// 序號、類別、項目、單位、單價、數量、金額、說明
 					echo "<td nowrap='nowrap' align='center' bgcolor='aliceblue'>$idx      <input type='hidden' 	   		name='".$p."_seq_no_$idx'   	  value='$seq_no'>  </td>";
 					echo "<td nowrap='nowrap' align='center' bgcolor='aliceblue'>          <input type='text'   size='2'    name='".$p."_subject_$idx'  	  value='$subject'  style='border:0px; text-align:right; background-color:aliceblue;' readonly></td>";
@@ -208,16 +209,17 @@
 					echo "<td nowrap='nowrap' align='right'  bgcolor='aliceblue'>$amount   <input type='hidden' 			name='".$p."_amount_$idx'		  value='$amount'>  </td>";
 					echo "<td nowrap='nowrap' align='right'  bgcolor='aliceblue'>$s_money  <input type='hidden'				name='".$p."_s_money_$idx' 		  value='$s_money'> </td>";
 					echo "<td nowrap='nowrap'                bgcolor='aliceblue'>$s_desc                                                                  					    </td>";
-
 					// 初審金額、刪減金額
 					echo "<td nowrap='nowrap' align='center' bgcolor='cornsilk'>".		  "<input type='text' 	size='3'	name='".$p."_city_money_$idx'  value='$city_money'  style='text-align:right;' onkeyup=value=value.replace(/[^\d]/g,'') onChange='js:Count(this,$idx);'></td>";
 					echo "<td nowrap='nowrap' align='center' bgcolor='cornsilk'>". 		  "<input type='text' 	size='3'	name='".$p."_city_delete_$idx' value='$city_delete' style='border:0px; text-align:right; background-color:cornsilk;' readonly></td>";
 				echo "</tr>";
 			}
+			//碰到雜支，將"flag"也就是$has_outlay設為1，並且將該雜項值另存在$outlay_XXX本地變數中
+			//這裡並沒有idx++,也沒有要讓雜支顯示，故意把他留在迴圈外獨立顯示
 			else
 			{
 				$has_outlay = 1;
-
+				$outlay_idx = idx++;
 				$outlay_seq_no      =  $seq_no;
 				$outlay_subject     =  $subject;
 				$outlay_category    =  $category;
@@ -229,12 +231,13 @@
 			}
 		}
 
+		//判斷"flag"也就是$has_outlay是否為1(有沒有雜支)
 		if($has_outlay == 1) //有雜支才顯示
 		{
 			$idx++;
 
 			echo "<tr height='30px' style='font-size:13px;'>";
-			echo "<td nowrap='nowrap' align='center' bgcolor='aliceblue'>$idx             <input type='hidden' name='".$p."_seq_no_$idx'   value='$seq_no'></td>";
+			echo "<td nowrap='nowrap' align='center' bgcolor='aliceblue'>$idx             <input type='hidden' name='".$p."_seq_no_$outlay_idx'   value='$seq_no'></td>";
 			echo "<td nowrap='nowrap' align='center' bgcolor='aliceblue'>                 <input type='text'   name='".$p."_subject_$idx'  value='$outlay_subject' size='2' style='border:0px; text-align:right; background-color:aliceblue;' readonly></td>";
 			echo "<td nowrap='nowrap'                bgcolor='aliceblue'>$outlay_category <input type='hidden' name='".$p."_category_$idx' value='$outlay_category'></td>";
 			echo "<td nowrap='nowrap'                bgcolor='aliceblue'></td>";
